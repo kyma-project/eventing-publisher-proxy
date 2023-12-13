@@ -9,7 +9,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics/histogram"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/histogram"
 )
 
 const (

@@ -4,11 +4,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nats-io/nats.go"
+	natsgo "github.com/nats-io/nats.go"
+
 	"github.com/stretchr/testify/assert"
 
-	pkgnats "github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/nats"
-	publishertesting "github.com/kyma-project/kyma/components/event-publisher-proxy/testing"
+	pkgnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
+	publishertesting "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func TestConnect(t *testing.T) {
@@ -54,7 +55,7 @@ func TestConnect(t *testing.T) {
 			defer func() { connection.Close() }()
 
 			// then
-			assert.Equal(t, connection.Status(), nats.CONNECTED)
+			assert.Equal(t, connection.Status(), natsgo.CONNECTED)
 			assert.Equal(t, clientURL, connection.Opts.Servers[0])
 			assert.Equal(t, tc.givenRetryOnFailedConnect, connection.Opts.RetryOnFailedConnect)
 			assert.Equal(t, tc.givenMaxReconnect, connection.Opts.MaxReconnect)

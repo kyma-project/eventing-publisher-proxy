@@ -13,8 +13,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/builder"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender/common"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 
 	cloudevents "github.com/cloudevents/sdk-go/v2"
 	"github.com/cloudevents/sdk-go/v2/client"
@@ -22,17 +22,17 @@ import (
 	eclogger "github.com/kyma-project/kyma/components/eventing-controller/logger"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application/applicationtest"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application/fake"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/eventtype"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/eventtype/eventtypetest"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics/histogram/mocks"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics/metricstest"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/options"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender"
-	testingutils "github.com/kyma-project/kyma/components/event-publisher-proxy/testing"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype/eventtypetest"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/histogram/mocks"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/metricstest"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
+	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func Test_extractCloudEventFromRequest(t *testing.T) {

@@ -15,7 +15,3 @@ func (c CleanerStub) Clean(_ string) (string, error) {
 func (cf CleanerFunc) Clean(eventType string) (string, error) {
 	return cf(eventType)
 }
-
-var DefaultCleaner = func(eventType string) (string, error) {
-	return eventType, nil
-}

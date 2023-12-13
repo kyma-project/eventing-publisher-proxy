@@ -12,9 +12,9 @@ import (
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/internal"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application"
-	apiv1 "github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/legacy/api"
+	"github.com/kyma-project/eventing-publisher-proxy/internal"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
+	apiv1 "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 )
 
 var (
@@ -53,7 +53,7 @@ func (t *Transformer) isApplicationListerEnabled() bool {
 }
 
 // CheckParameters validates the parameters in the request and sends error responses if found invalid.
-func (t *Transformer) checkParameters(parameters *apiv1.PublishEventParametersV1) (response *apiv1.PublishEventResponses) {
+func (t *Transformer) checkParameters(parameters *apiv1.PublishEventParametersV1) *apiv1.PublishEventResponses {
 	if parameters == nil {
 		return ErrorResponseBadRequest(ErrorMessageBadPayload)
 	}
@@ -86,7 +86,8 @@ func (t *Transformer) checkParameters(parameters *apiv1.PublishEventParametersV1
 }
 
 // ExtractPublishRequestData extracts the data for publishing event from the given legacy event request.
-func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*apiv1.PublishRequestData, *apiv1.PublishEventResponses, error) {
+func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*apiv1.PublishRequestData,
+	*apiv1.PublishEventResponses, error) {
 	// parse request body to PublishRequestV1
 	if request.Body == nil || request.ContentLength == 0 {
 		resp := ErrorResponseBadRequest(ErrorMessageBadPayload)
@@ -124,7 +125,8 @@ func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*apiv1.P
 
 // WriteLegacyRequestsToCE transforms the legacy event to cloudevent from the given request.
 // It also returns the original event-type without cleanup as the second return type.
-func (t *Transformer) WriteLegacyRequestsToCE(writer http.ResponseWriter, publishData *apiv1.PublishRequestData) (*cev2.Event, string) {
+func (t *Transformer) WriteLegacyRequestsToCE(writer http.ResponseWriter,
+	publishData *apiv1.PublishRequestData) (*cev2.Event, string) {
 	uncleanedAppName := publishData.ApplicationName
 
 	// clean the application name form non-alphanumeric characters
@@ -153,7 +155,8 @@ func (t *Transformer) WriteLegacyRequestsToCE(writer http.ResponseWriter, publis
 	return event, eventType
 }
 
-func (t *Transformer) WriteCEResponseAsLegacyResponse(writer http.ResponseWriter, statusCode int, event *cev2.Event, msg string) {
+func (t *Transformer) WriteCEResponseAsLegacyResponse(writer http.ResponseWriter, statusCode int,
+	event *cev2.Event, msg string) {
 	response := &apiv1.PublishEventResponses{}
 	// Fail
 	if !is2XXStatusCode(statusCode) {
@@ -171,7 +174,8 @@ func (t *Transformer) WriteCEResponseAsLegacyResponse(writer http.ResponseWriter
 }
 
 // TransformPublishRequestToCloudEvent converts the given publish request to a CloudEvent with raw values.
-func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *apiv1.PublishRequestData) (*cev2.Event, error) {
+func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *apiv1.PublishRequestData) (*cev2.Event,
+	error) {
 	source := publishRequestData.ApplicationName
 	publishRequest := publishRequestData.PublishEventParameters
 
@@ -210,7 +214,8 @@ func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *ap
 }
 
 // convertPublishRequestToCloudEvent converts the given publish request to a CloudEvent.
-func (t *Transformer) convertPublishRequestToCloudEvent(appName string, publishRequest *apiv1.PublishEventParametersV1) (*cev2.Event, error) {
+func (t *Transformer) convertPublishRequestToCloudEvent(appName string,
+	publishRequest *apiv1.PublishEventParametersV1) (*cev2.Event, error) {
 	if !application.IsCleanName(appName) {
 		return nil, errors.New("application name should be cleaned from none-alphanumeric characters")
 	}

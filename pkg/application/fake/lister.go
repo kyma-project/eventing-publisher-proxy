@@ -10,7 +10,7 @@ import (
 
 	applicationv1alpha1 "github.com/kyma-project/kyma/components/application-operator/pkg/apis/applicationconnector/v1alpha1"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 )
 
 func NewApplicationListerOrDie(ctx context.Context, app *applicationv1alpha1.Application) *application.Lister {
