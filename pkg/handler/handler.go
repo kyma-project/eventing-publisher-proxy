@@ -149,6 +149,7 @@ func (h *Handler) handlePublishLegacyEvent(w http.ResponseWriter, r *http.Reques
 	ceEvent, err := h.LegacyTransformer.TransformPublishRequestToCloudEvent(data)
 	if err != nil {
 		legacy.WriteJSONResponse(w, legacy.ErrorResponse(http.StatusInternalServerError, err))
+		//nolint:nilnil // this will be removed once subscription v1alpha1 is removed.
 		return nil, nil
 	}
 
@@ -175,6 +176,7 @@ func (h *Handler) handlePublishLegacyEventV1alpha1(w http.ResponseWriter, r *htt
 	event, _ := h.LegacyTransformer.WriteLegacyRequestsToCE(w, data)
 	if event == nil {
 		h.namedLogger().Error("Failed to transform legacy event to CloudEvent, event is nil")
+		//nolint:nilnil // this will be removed once subscription v1alpha1 is removed.
 		return nil, nil
 	}
 

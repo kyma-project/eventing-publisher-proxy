@@ -1,8 +1,9 @@
 package testing
 
 import (
-	"github.com/nats-io/nats.go"
 	"time"
+
+	"github.com/nats-io/nats.go"
 
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 

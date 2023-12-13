@@ -16,12 +16,13 @@ import (
 // Perform a compile-time check.
 var _ CloudEventBuilder = &GenericBuilder{}
 
-var (
+const (
 	// jsBuilderName used as the logger name.
 	genericBuilderName = "generic-type-builder"
 )
 
-func NewGenericBuilder(typePrefix string, cleaner cleaner.Cleaner, applicationLister *application.Lister, logger *logger.Logger) CloudEventBuilder {
+func NewGenericBuilder(typePrefix string, cleaner cleaner.Cleaner, applicationLister *application.Lister,
+	logger *logger.Logger) CloudEventBuilder {
 	return &GenericBuilder{
 		typePrefix:        typePrefix,
 		applicationLister: applicationLister,
@@ -84,7 +85,8 @@ func (gb *GenericBuilder) GetAppNameOrSource(source string, namedLogger *zap.Sug
 	if gb.isApplicationListerEnabled() {
 		if appObj, err := gb.applicationLister.Get(source); err == nil && appObj != nil {
 			appName = application.GetTypeOrName(appObj)
-			namedLogger.With("application", source).Debug("Using application name: %s as source.", appName)
+			namedLogger.With("application", source).Debug("Using application name: %s as source.",
+				appName)
 		} else {
 			namedLogger.With("application", source).Debug("Cannot find application.")
 		}

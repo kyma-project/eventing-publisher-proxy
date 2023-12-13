@@ -19,18 +19,21 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
 )
 
-var (
-	GVR = schema.GroupVersionResource{
+func SubscriptionGVR() schema.GroupVersionResource {
+	return schema.GroupVersionResource{
 		Version:  eventingv1alpha2.GroupVersion.Version,
 		Group:    eventingv1alpha2.GroupVersion.Group,
 		Resource: "subscriptions",
 	}
-	GVRV1alpha1 = schema.GroupVersionResource{
+}
+
+func SubscriptionV1alpha1GVR() schema.GroupVersionResource {
+	return schema.GroupVersionResource{
 		Version:  eventingv1alpha1.GroupVersion.Version,
 		Group:    eventingv1alpha1.GroupVersion.Group,
 		Resource: "subscriptions",
 	}
-)
+}
 
 // ConvertRuntimeObjToSubscriptionV1alpha1 converts a runtime.Object to a v1alpha1 version of Subscription object
 // by converting to unstructured in between.
@@ -66,7 +69,7 @@ func GenerateSubscriptionInfFactory(k8sConfig *rest.Config) dynamicinformer.Dyna
 		v1.NamespaceAll,
 		nil,
 	)
-	dFilteredSharedInfFactory.ForResource(GVR)
+	dFilteredSharedInfFactory.ForResource(SubscriptionGVR())
 	return dFilteredSharedInfFactory
 }
 
@@ -133,7 +136,8 @@ func buildEvent(eventTypeAndVersion string) Event {
 // 1. if the eventType matches the format: <eventTypePrefix><appName>.<event-name>.<version>
 // E.g. sap.kyma.custom.varkes.order.created.v0
 // 2. if the eventSource matches BEBNamespace name.
-func FilterEventTypeVersionsV1alpha1(eventTypePrefix, bebNs, appName string, filters *eventingv1alpha1.BEBFilters) []Event {
+func FilterEventTypeVersionsV1alpha1(eventTypePrefix, bebNs, appName string,
+	filters *eventingv1alpha1.BEBFilters) []Event {
 	events := make([]Event, 0)
 	if filters == nil {
 		return events

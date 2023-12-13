@@ -1,9 +1,10 @@
 package nats_test
 
 import (
-	natsgo "github.com/nats-io/nats.go"
 	"testing"
 	"time"
+
+	natsgo "github.com/nats-io/nats.go"
 
 	"github.com/stretchr/testify/assert"
 

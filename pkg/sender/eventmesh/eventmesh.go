@@ -21,14 +21,14 @@ import (
 
 var _ sender.GenericSender = &Sender{}
 
-var (
-	// additionalHeaders are the required headers by EMS for publish requests.
-	// Any alteration or removal of those headers might cause publish requests to fail.
-	additionalHeaders = http.Header{
+// additionalHeaders returns the required headers by EMS for publish requests.
+// Any alteration or removal of those headers might cause publish requests to fail.
+func additionalHeaders() http.Header {
+	return http.Header{
 		"qos":    []string{string(eventmesh.QosAtLeastOnce)},
 		"Accept": []string{internal.ContentTypeApplicationJSON},
 	}
-)
+}
 
 const (
 	backend     = "eventmesh"
@@ -61,7 +61,7 @@ func (s *Sender) Send(ctx context.Context, event *cev2event.Event) sender.Publis
 	message := binding.ToMessage(event)
 	defer func() { _ = message.Finish(nil) }()
 
-	err = cloudevents.WriteRequestWithHeaders(ctx, message, request, additionalHeaders)
+	err = cloudevents.WriteRequestWithHeaders(ctx, message, request, additionalHeaders())
 	if err != nil {
 		s.namedLogger().Error("error", err)
 		e := common.ErrInternalBackendError

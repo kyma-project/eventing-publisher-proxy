@@ -26,7 +26,7 @@ func NewClient(ctx context.Context, cfg *env.EventMeshConfig) *http.Client {
 	// configure tracing transport
 	client.Transport = &ochttp.Transport{
 		Base:        client.Transport,
-		Propagation: tracecontextb3.TraceContextEgress,
+		Propagation: tracecontextb3.TraceContextEgress(),
 	}
 
 	return client

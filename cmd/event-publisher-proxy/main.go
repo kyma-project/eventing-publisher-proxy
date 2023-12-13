@@ -1,4 +1,4 @@
-package main
+package main //nolint:cyclop // it is only starting required instances.
 
 import (
 	golog "log"

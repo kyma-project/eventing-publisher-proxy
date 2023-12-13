@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+//nolint:gochecknoglobals // defining channels
 var (
 	// onlyOneSignalHandler to make sure that only one signal handler is registered.
 	onlyOneSignalHandler = make(chan struct{})

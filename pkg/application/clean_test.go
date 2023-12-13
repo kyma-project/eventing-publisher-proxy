@@ -69,12 +69,15 @@ func TestCleanName(t *testing.T) {
 
 	for _, tc := range testCases {
 		if gotName := GetCleanTypeOrName(tc.givenApplication); tc.wantName != gotName {
-			t.Errorf("Clean application name:[%s] failed, want:[%v] but got:[%v]", tc.givenApplication.Name, tc.wantName, gotName)
+			t.Errorf("Clean application name:[%s] failed, want:[%v] but got:[%v]",
+				tc.givenApplication.Name, tc.wantName, gotName)
 		}
 	}
 }
 
 func Test_GetTypeOrName(t *testing.T) {
+	t.Parallel()
+
 	testCases := []struct {
 		name             string
 		givenApplication *applicationv1alpha1.Application
@@ -87,9 +90,10 @@ func Test_GetTypeOrName(t *testing.T) {
 			wantName:         "alphanumeric0123",
 		},
 		{
-			name:             "Should return application name if label with right key does not exists",
-			givenApplication: applicationtest.NewApplication("alphanumeric0123", map[string]string{"ignore-me": "value"}),
-			wantName:         "alphanumeric0123",
+			name: "Should return application name if label with right key does not exists",
+			givenApplication: applicationtest.NewApplication("alphanumeric0123",
+				map[string]string{"ignore-me": "value"}),
+			wantName: "alphanumeric0123",
 		},
 		{
 			name:             "Should return application name as unclean",
@@ -98,14 +102,16 @@ func Test_GetTypeOrName(t *testing.T) {
 		},
 		// application type label is available, then use it instead of the application name
 		{
-			name:             "Should return application label instead of name",
-			givenApplication: applicationtest.NewApplication("alphanumeric0123", map[string]string{TypeLabel: "apptype"}),
-			wantName:         "apptype",
+			name: "Should return application label instead of name",
+			givenApplication: applicationtest.NewApplication("alphanumeric0123",
+				map[string]string{TypeLabel: "apptype"}),
+			wantName: "apptype",
 		},
 		{
-			name:             "Should return application label as unclean",
-			givenApplication: applicationtest.NewApplication("alphanumeric0123", map[string]string{TypeLabel: "apptype=with.!@#none-$%^alphanumeric_&*-characters"}),
-			wantName:         "apptype=with.!@#none-$%^alphanumeric_&*-characters",
+			name: "Should return application label as unclean",
+			givenApplication: applicationtest.NewApplication("alphanumeric0123",
+				map[string]string{TypeLabel: "apptype=with.!@#none-$%^alphanumeric_&*-characters"}),
+			wantName: "apptype=with.!@#none-$%^alphanumeric_&*-characters",
 		},
 	}
 

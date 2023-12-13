@@ -4,9 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	natsgo "github.com/nats-io/nats.go"
 	"testing"
 	"time"
+
+	natsgo "github.com/nats-io/nats.go"
 
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 

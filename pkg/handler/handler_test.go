@@ -1,4 +1,3 @@
-//nolint:lll // output directly from prometheus
 package handler
 
 import (

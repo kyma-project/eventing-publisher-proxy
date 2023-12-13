@@ -108,7 +108,7 @@ func (c *Commander) Start() error {
 
 	// configure Subscription Lister
 	subDynamicSharedInfFactory := subscribed.GenerateSubscriptionInfFactory(k8sConfig)
-	subLister := subDynamicSharedInfFactory.ForResource(subscribed.GVR).Lister()
+	subLister := subDynamicSharedInfFactory.ForResource(subscribed.SubscriptionGVR()).Lister()
 	subscribedProcessor := &subscribed.Processor{
 		SubscriptionLister: &subLister,
 		Prefix:             c.envCfg.ToConfig().EventTypePrefix,

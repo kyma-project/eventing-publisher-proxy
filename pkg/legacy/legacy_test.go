@@ -173,7 +173,8 @@ func TestConvertPublishRequestToCloudEvent(t *testing.T) {
 
 	wantEventMeshNamespace := testingutils.MessagingNamespace
 	wantEventID := givenEventID
-	wantEventType := formatEventType(givenEventTypePrefix, givenApplicationName, eventTypeMultiSegmentCombined, givenLegacyEventVersion)
+	wantEventType := formatEventType(givenEventTypePrefix, givenApplicationName, eventTypeMultiSegmentCombined,
+		givenLegacyEventVersion)
 	wantTimeNowFormatted, _ := time.Parse(time.RFC3339, givenTimeNow)
 	wantDataContentType := internal.ContentTypeApplicationJSON
 
