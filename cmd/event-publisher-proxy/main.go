@@ -7,12 +7,12 @@ import (
 	kymalogger "github.com/kyma-project/kyma/components/eventing-controller/logger"
 	"github.com/prometheus/client_golang/prometheus"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/commander"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/commander/eventmesh"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/commander/nats"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics/latency"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/options"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander/eventmesh"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander/nats"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/latency"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 )
 
 const (

@@ -10,18 +10,18 @@ import (
 
 	"github.com/nats-io/nats.go"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/options"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 	"go.uber.org/zap"
 
 	"github.com/cloudevents/sdk-go/v2/event"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/internal"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/env"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/handler/health"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender/common"
+	"github.com/kyma-project/eventing-publisher-proxy/internal"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 )
 
 const (

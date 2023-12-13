@@ -13,13 +13,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/internal"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application/applicationtest"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application/fake"
-	legacyapi "github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/legacy/api"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/legacy/legacytest"
-	testingutils "github.com/kyma-project/kyma/components/event-publisher-proxy/testing"
+	"github.com/kyma-project/eventing-publisher-proxy/internal"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
+	legacyapi "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/legacytest"
+	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 const (

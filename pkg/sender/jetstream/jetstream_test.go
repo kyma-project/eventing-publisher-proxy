@@ -4,12 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	natsgo "github.com/nats-io/nats.go"
 	"testing"
 	"time"
 
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/options"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 
 	"github.com/stretchr/testify/require"
 
@@ -17,11 +18,10 @@ import (
 
 	cloudevents "github.com/cloudevents/sdk-go/v2"
 	"github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats.go"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/env"
-	testingutils "github.com/kyma-project/kyma/components/event-publisher-proxy/testing"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
+	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func TestJetStreamMessageSender(t *testing.T) {
@@ -102,12 +102,12 @@ func TestJetStreamMessageSender(t *testing.T) {
 // helper functions and structs
 
 type TestEnvironment struct {
-	Connection *nats.Conn
+	Connection *natsgo.Conn
 	Config     *env.NATSConfig
 	Logger     *logger.Logger
 	Sender     *Sender
 	Server     *server.Server
-	JsContext  *nats.JetStreamContext
+	JsContext  *natsgo.JetStreamContext
 }
 
 // setupTestEnvironment sets up the resources and mocks required for testing.
@@ -159,28 +159,28 @@ func createCloudEvent(t *testing.T) *event.Event {
 }
 
 // getStreamConfig inits a testing stream config.
-func getStreamConfig(maxBytes int64) *nats.StreamConfig {
-	return &nats.StreamConfig{
+func getStreamConfig(maxBytes int64) *natsgo.StreamConfig {
+	return &natsgo.StreamConfig{
 		Name:      testingutils.StreamName,
 		Subjects:  []string{fmt.Sprintf("%s.>", env.JetStreamSubjectPrefix)},
-		Storage:   nats.MemoryStorage,
-		Retention: nats.InterestPolicy,
-		Discard:   nats.DiscardNew,
+		Storage:   natsgo.MemoryStorage,
+		Retention: natsgo.InterestPolicy,
+		Discard:   natsgo.DiscardNew,
 		MaxBytes:  maxBytes,
 	}
 }
 
-func getConsumerConfig() *nats.ConsumerConfig {
-	return &nats.ConsumerConfig{
+func getConsumerConfig() *natsgo.ConsumerConfig {
+	return &natsgo.ConsumerConfig{
 		Durable:       "test",
-		DeliverPolicy: nats.DeliverAllPolicy,
-		AckPolicy:     nats.AckExplicitPolicy,
+		DeliverPolicy: natsgo.DeliverAllPolicy,
+		AckPolicy:     natsgo.AckExplicitPolicy,
 		FilterSubject: fmt.Sprintf("%v.%v", env.JetStreamSubjectPrefix, testingutils.CloudEventTypeWithPrefix),
 	}
 }
 
 // addStream creates a stream for the test events.
-func addStream(t *testing.T, connection *nats.Conn, config *nats.StreamConfig) {
+func addStream(t *testing.T, connection *natsgo.Conn, config *natsgo.StreamConfig) {
 	js, err := connection.JetStream()
 	assert.NoError(t, err)
 	info, err := js.AddStream(config)
@@ -188,7 +188,7 @@ func addStream(t *testing.T, connection *nats.Conn, config *nats.StreamConfig) {
 	assert.NoError(t, err)
 }
 
-func addConsumer(t *testing.T, connection *nats.Conn, sc *nats.StreamConfig, config *nats.ConsumerConfig) {
+func addConsumer(t *testing.T, connection *natsgo.Conn, sc *natsgo.StreamConfig, config *natsgo.ConsumerConfig) {
 	js, err := connection.JetStream()
 	assert.NoError(t, err)
 	info, err := js.AddConsumer(sc.Name, config)

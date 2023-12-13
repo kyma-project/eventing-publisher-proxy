@@ -1,15 +1,15 @@
 package testing
 
 import (
+	"github.com/nats-io/nats.go"
 	"time"
 
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 
-	pkgnats "github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/nats"
+	pkgnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
 
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats-server/v2/test"
-	"github.com/nats-io/nats.go"
 )
 
 const (

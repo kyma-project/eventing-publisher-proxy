@@ -11,12 +11,12 @@ import (
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 	"go.uber.org/zap"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/internal"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/eventmesh"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/handler/health"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender/common"
+	"github.com/kyma-project/eventing-publisher-proxy/internal"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/eventmesh"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 )
 
 var _ sender.GenericSender = &Sender{}

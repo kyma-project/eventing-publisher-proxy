@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
 )
 
 // EnsureMetricLatency ensures metric eventing_epp_backend_duration_seconds exists.

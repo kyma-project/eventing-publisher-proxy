@@ -3,7 +3,7 @@ package testing
 import (
 	"time"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/env"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
 )
 
 const (

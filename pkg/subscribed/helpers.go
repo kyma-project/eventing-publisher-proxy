@@ -16,7 +16,7 @@ import (
 
 	eventingv1alpha1 "github.com/kyma-project/kyma/components/eventing-controller/api/v1alpha1"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/informers"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
 )
 
 var (

@@ -1,4 +1,4 @@
-module github.com/kyma-project/kyma/components/event-publisher-proxy
+module github.com/kyma-project/eventing-publisher-proxy
 
 go 1.21
 
