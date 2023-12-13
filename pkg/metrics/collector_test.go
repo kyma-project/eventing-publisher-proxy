@@ -37,7 +37,7 @@ func TestCollector_MetricsMiddleware(t *testing.T) {
 	c := NewCollector(latency.BucketsProvider{})
 	router.Use(c.MetricsMiddleware())
 	router.HandleFunc("/test", func(writer http.ResponseWriter, request *http.Request) {
-		time.Sleep(6 * time.Millisecond)
+		time.Sleep(5 * time.Millisecond)
 		writer.WriteHeader(http.StatusOK)
 	})
 	srv := httptest.NewServer(router)

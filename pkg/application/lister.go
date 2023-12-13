@@ -5,8 +5,8 @@ import (
 	"errors"
 	"time"
 
+	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	applicationv1alpha1 "github.com/kyma-project/kyma/components/application-operator/pkg/apis/applicationconnector/v1alpha1"
-	kymalogger "github.com/kyma-project/kyma/components/eventing-controller/logger"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"

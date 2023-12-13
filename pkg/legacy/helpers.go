@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	kymalogger "github.com/kyma-project/kyma/components/eventing-controller/logger"
+	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
 
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"

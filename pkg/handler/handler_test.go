@@ -17,8 +17,8 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/jetstream"
 
-	eclogger "github.com/kyma-project/kyma/components/eventing-controller/logger"
-	"github.com/kyma-project/kyma/components/eventing-controller/pkg/backend/cleaner"
+	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
+	eclogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"

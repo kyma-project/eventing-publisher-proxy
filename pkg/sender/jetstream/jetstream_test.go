@@ -9,7 +9,7 @@ import (
 
 	natsgo "github.com/nats-io/nats.go"
 
-	"github.com/kyma-project/kyma/components/eventing-controller/logger"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 

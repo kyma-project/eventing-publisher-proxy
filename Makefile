@@ -41,7 +41,7 @@ help: ## Display this help.
 
 .PHONY: lint
 lint: ## Check and fix lint issues using `golangci-lint`
-	golangci-lint run --fix --timeout 5m
+	golangci-lint run --fix --timeout 5m --config=./.golangci.yaml
 
 .PHONY: fmt
 fmt: ## Reformat files using `go fmt`
