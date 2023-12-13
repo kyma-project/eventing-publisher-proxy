@@ -15,7 +15,7 @@ import (
 	"k8s.io/client-go/dynamic/dynamicinformer"
 	"k8s.io/client-go/tools/cache"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/informers"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
 )
 
 type Lister struct {

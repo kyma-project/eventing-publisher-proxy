@@ -10,8 +10,8 @@ import (
 
 	cehttp "github.com/cloudevents/sdk-go/v2/protocol/http"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/internal"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/eventmesh"
+	"github.com/kyma-project/eventing-publisher-proxy/internal"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/eventmesh"
 )
 
 func TestWriteRequestWithHeaders(t *testing.T) {

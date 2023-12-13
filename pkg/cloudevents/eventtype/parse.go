@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/builder"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
 )
 
 // parse splits the event-type using the given prefix and returns the application name, event and version

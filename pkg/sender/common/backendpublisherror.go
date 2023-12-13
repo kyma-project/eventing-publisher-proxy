@@ -3,7 +3,7 @@ package common
 import (
 	"net/http"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
 )
 
 var _ sender.PublishError = &BackendPublishError{}

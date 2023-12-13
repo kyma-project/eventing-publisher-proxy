@@ -7,8 +7,8 @@ import (
 	"go.opencensus.io/plugin/ochttp"
 	"golang.org/x/oauth2"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/env"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/tracing/propagation/tracecontextb3"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/tracing/propagation/tracecontextb3"
 )
 
 // NewClient returns a new HTTP client which have nested transports for handling oauth2 security,
@@ -26,7 +26,7 @@ func NewClient(ctx context.Context, cfg *env.EventMeshConfig) *http.Client {
 	// configure tracing transport
 	client.Transport = &ochttp.Transport{
 		Base:        client.Transport,
-		Propagation: tracecontextb3.TraceContextEgress,
+		Propagation: tracecontextb3.TraceContextEgress(),
 	}
 
 	return client

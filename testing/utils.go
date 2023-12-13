@@ -47,7 +47,7 @@ func GeneratePortOrDie() int {
 			}
 		case <-timeout.C:
 			{
-				log.Fatal("Failed to generate port")
+				log.Fatal("Failed to generate port") //nolint:gocritic // used only in tests.
 			}
 		}
 	}

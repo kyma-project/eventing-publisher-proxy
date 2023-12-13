@@ -9,7 +9,7 @@ import (
 
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 
-	testingutils "github.com/kyma-project/kyma/components/event-publisher-proxy/testing"
+	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 // a mocked http.Handler.
