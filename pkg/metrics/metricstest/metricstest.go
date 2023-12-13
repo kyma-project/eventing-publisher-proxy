@@ -10,7 +10,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
 )
 
 // EnsureMetricLatency ensures metric eventing_epp_backend_duration_seconds exists.
@@ -32,7 +32,8 @@ func ensureMetricCount(t *testing.T, collector metrics.PublishingMetricsCollecto
 // EnsureMetricMatchesTextExpositionFormat ensures that metrics collected by the given collector
 // match the given metric output in TextExpositionFormat.
 // This is useful to compare metrics with their given labels.
-func EnsureMetricMatchesTextExpositionFormat(t *testing.T, collector metrics.PublishingMetricsCollector, tef string, metricNames ...string) {
+func EnsureMetricMatchesTextExpositionFormat(t *testing.T, collector metrics.PublishingMetricsCollector,
+	tef string, metricNames ...string) {
 	if err := testutil.CollectAndCompare(collector, strings.NewReader(tef), metricNames...); err != nil {
 		t.Fatalf("%v", err)
 	}

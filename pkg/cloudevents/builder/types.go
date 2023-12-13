@@ -2,7 +2,7 @@ package builder
 
 import (
 	cev2event "github.com/cloudevents/sdk-go/v2/event"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 	"github.com/kyma-project/kyma/components/eventing-controller/pkg/backend/cleaner"
 )

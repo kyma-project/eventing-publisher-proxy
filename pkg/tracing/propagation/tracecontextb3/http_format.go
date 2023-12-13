@@ -5,17 +5,19 @@ import (
 	"go.opencensus.io/plugin/ochttp/propagation/tracecontext"
 	ocpropagation "go.opencensus.io/trace/propagation"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/tracing/propagation"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/tracing/propagation"
 )
 
-// TraceContextEgress is a propagation.HTTPFormat that reads both TraceContext and B3 tracing
+// TraceContextEgress returns a propagation.HTTPFormat that reads both TraceContext and B3 tracing
 // formats, preferring TraceContext. It always writes TraceContext format exclusively.
-var TraceContextEgress = &propagation.HTTPFormatSequence{
-	Ingress: []ocpropagation.HTTPFormat{
-		&tracecontext.HTTPFormat{},
-		&b3.HTTPFormat{},
-	},
-	Egress: []ocpropagation.HTTPFormat{
-		&tracecontext.HTTPFormat{},
-	},
+func TraceContextEgress() *propagation.HTTPFormatSequence {
+	return &propagation.HTTPFormatSequence{
+		Ingress: []ocpropagation.HTTPFormat{
+			&tracecontext.HTTPFormat{},
+			&b3.HTTPFormat{},
+		},
+		Egress: []ocpropagation.HTTPFormat{
+			&tracecontext.HTTPFormat{},
+		},
+	}
 }

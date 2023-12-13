@@ -8,6 +8,7 @@ import (
 
 type Opt = nats.Option
 
+//nolint:gochecknoglobals // cloning functions as variables.
 var (
 	WithRetryOnFailedConnect = nats.RetryOnFailedConnect
 	WithMaxReconnects        = nats.MaxReconnects

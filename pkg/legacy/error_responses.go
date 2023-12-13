@@ -3,7 +3,7 @@ package legacy
 import (
 	"net/http"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/legacy/api"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 )
 
 // An HTTPErrorResponse represents an error with a status code and an error message.

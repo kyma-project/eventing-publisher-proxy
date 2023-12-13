@@ -7,10 +7,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/env"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/legacy/api"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 
 	"github.com/gorilla/mux"
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
@@ -21,15 +21,15 @@ import (
 	cev2event "github.com/cloudevents/sdk-go/v2/event"
 	cev2http "github.com/cloudevents/sdk-go/v2/protocol/http"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/builder"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/eventtype"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/handler/health"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/legacy"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/options"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/receiver"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/subscribed"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/tracing"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/receiver"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/subscribed"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/tracing"
 )
 
 // EventingHandler is responsible for receiving HTTP requests and dispatching them to the Backend.
@@ -149,6 +149,7 @@ func (h *Handler) handlePublishLegacyEvent(w http.ResponseWriter, r *http.Reques
 	ceEvent, err := h.LegacyTransformer.TransformPublishRequestToCloudEvent(data)
 	if err != nil {
 		legacy.WriteJSONResponse(w, legacy.ErrorResponse(http.StatusInternalServerError, err))
+		//nolint:nilnil // this will be removed once subscription v1alpha1 is removed.
 		return nil, nil
 	}
 
@@ -175,6 +176,7 @@ func (h *Handler) handlePublishLegacyEventV1alpha1(w http.ResponseWriter, r *htt
 	event, _ := h.LegacyTransformer.WriteLegacyRequestsToCE(w, data)
 	if event == nil {
 		h.namedLogger().Error("Failed to transform legacy event to CloudEvent, event is nil")
+		//nolint:nilnil // this will be removed once subscription v1alpha1 is removed.
 		return nil, nil
 	}
 

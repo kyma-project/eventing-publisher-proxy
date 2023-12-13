@@ -9,7 +9,7 @@ import (
 	cev2 "github.com/cloudevents/sdk-go/v2/event"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/internal"
+	"github.com/kyma-project/eventing-publisher-proxy/internal"
 )
 
 const (

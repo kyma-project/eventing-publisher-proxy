@@ -11,8 +11,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/testutil"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics/histogram/mocks"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics/latency"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/histogram/mocks"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/latency"
 )
 
 func TestNewCollector(t *testing.T) {

@@ -4,21 +4,21 @@ import (
 	"context"
 
 	"github.com/kelseyhightower/envconfig"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/application"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/builder"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/cloudevents/eventtype"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/env"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/handler"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/handler/health"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/informers"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/legacy"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/metrics"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/oauth"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/options"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/receiver"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender/eventmesh"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/signals"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/subscribed"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/oauth"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/receiver"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/eventmesh"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/signals"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/subscribed"
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 	"github.com/kyma-project/kyma/components/eventing-controller/pkg/backend/cleaner"
 
@@ -101,7 +101,7 @@ func (c *Commander) Start() error {
 
 	// Configure Subscription Lister
 	subDynamicSharedInfFactory := subscribed.GenerateSubscriptionInfFactory(k8sConfig)
-	subLister := subDynamicSharedInfFactory.ForResource(subscribed.GVR).Lister()
+	subLister := subDynamicSharedInfFactory.ForResource(subscribed.SubscriptionGVR()).Lister()
 	subscribedProcessor := &subscribed.Processor{
 		SubscriptionLister: &subLister,
 		Prefix:             c.envCfg.EventTypePrefix,

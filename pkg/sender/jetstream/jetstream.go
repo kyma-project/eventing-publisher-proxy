@@ -10,18 +10,18 @@ import (
 
 	"github.com/nats-io/nats.go"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/options"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 
 	"github.com/kyma-project/kyma/components/eventing-controller/logger"
 	"go.uber.org/zap"
 
 	"github.com/cloudevents/sdk-go/v2/event"
 
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/internal"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/env"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/handler/health"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender"
-	"github.com/kyma-project/kyma/components/event-publisher-proxy/pkg/sender/common"
+	"github.com/kyma-project/eventing-publisher-proxy/internal"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 )
 
 const (
@@ -35,11 +35,13 @@ const (
 var _ sender.GenericSender = &Sender{}
 var _ health.Checker = &Sender{}
 
-//nolint:lll // reads better this way
 var (
-	ErrNotConnected        = common.BackendPublishError{HTTPCode: http.StatusBadGateway, Info: "no connection to NATS JetStream server"}
-	ErrCannotSendToStream  = common.BackendPublishError{HTTPCode: http.StatusGatewayTimeout, Info: "cannot send to stream"}
-	ErrNoSpaceLeftOnDevice = common.BackendPublishError{HTTPCode: http.StatusInsufficientStorage, Info: "insufficient resources on target stream"}
+	ErrNotConnected = common.BackendPublishError{HTTPCode: http.StatusBadGateway,
+		Info: "no connection to NATS JetStream server"}
+	ErrCannotSendToStream = common.BackendPublishError{HTTPCode: http.StatusGatewayTimeout,
+		Info: "cannot send to stream"}
+	ErrNoSpaceLeftOnDevice = common.BackendPublishError{HTTPCode: http.StatusInsufficientStorage,
+		Info: "insufficient resources on target stream"}
 )
 
 // Sender is responsible for sending messages over HTTP.
@@ -56,7 +58,8 @@ func (s *Sender) URL() string {
 }
 
 // NewSender returns a new NewSender instance with the given NATS connection.
-func NewSender(ctx context.Context, connection *nats.Conn, envCfg *env.NATSConfig, opts *options.Options, logger *logger.Logger) *Sender {
+func NewSender(ctx context.Context, connection *nats.Conn, envCfg *env.NATSConfig, opts *options.Options,
+	logger *logger.Logger) *Sender {
 	return &Sender{ctx: ctx, connection: connection, envCfg: envCfg, opts: opts, logger: logger}
 }
 
