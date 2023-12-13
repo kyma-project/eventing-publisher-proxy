@@ -27,4 +27,4 @@ jobs:
         uses: golangci/golangci-lint-action@v3
         with:
           version: v1.55
-          args: --timeout=5m --config=./.golanci.yaml
+          args: --timeout=5m --config=./.golangci.yaml
