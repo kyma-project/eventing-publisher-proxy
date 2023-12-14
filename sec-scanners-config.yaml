@@ -1,0 +1,10 @@
+module-name: eventing-publisher-proxy
+rc-tag: 0.0.0
+protecode:
+  - europe-docker.pkg.dev/kyma-project/prod/event-publisher-proxy:v20231025-3f5d1600
+whitesource:
+  language: golang-mod
+  subprojects: false
+  exclude:
+    - "**/test/**"
+    - "**/*_test.go"
