@@ -1,46 +1,72 @@
-# Event Publisher Proxy
+# Eventing Publisher Proxy
 
 ## Overview
 
-The Event Publisher Proxy receives legacy and Cloud Event publishing requests from the cluster workloads (microservice or Serverless functions) and redirects them to the Enterprise Messaging Service Cloud Event Gateway. It also fetches a list of subscriptions for a connected application.
+The Eventing Publisher Proxy receives legacy and Cloud Event publishing requests from the cluster workloads (microservice or Serverless functions) and redirects them to the Enterprise Messaging Service Cloud Event Gateway. It also fetches a list of subscriptions for a connected application.
 
 ## Prerequisites
 
-- Go modules
-- [ko](https://github.com/google/ko)
-- lint
-  - Install lint on the local environment:
-```bash
-curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | bash -s -- -b $GOPATH/bin
-```    
+- [Go](https://go.dev/)
+- [Docker](https://www.docker.com/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [kustomize](https://kustomize.io/)
+- Access to a Kubernetes cluster (e.g. [k3d](https://k3d.io/) / k8s)  
 
 ## Development
-- check code quality before a commit:
-```bash
-$ make code-check
-```
 
 ### Build
 
 ```bash
-$ go mod vendor
+make build
 ```
 
-### Test
+### Run Tests
 
-```bash
-$ make test-local
+Run the unit and integration tests:
+
+```sh
+make generate-and-test
 ```
 
-### Deploy inside a cluster
+### Linting
+
+1. Fix common lint issues:
+
+   ```sh
+   make imports
+   make fmt
+   make lint
+   ```
+
+### Build Container Images
+
+Build and push your image to the location specified by `IMG`:
+
+```sh
+make docker-build docker-push IMG=<container-registry>/eventing-publisher-proxy:<tag> # If using docker, <container-registry> is your username.
+```
+
+For MacBook M1 devices, run:
+
+```sh
+make docker-buildx IMG=<container-registry>/eventing-publisher-proxy:<tag>
+```
+
+## Deployment
+
+You need a Kubernetes cluster to run against. You can use [k3d](https://k3d.io/) to get a local cluster for testing, or run against a remote cluster.
+
+### Deploy Inside a Cluster
 
 ```bash
 $ ko apply -f config/event-publisher-proxy/
 ```
 
+## Usage
+
 ### Send Events
 
-This command supports **CloudEvents**: 
+The following command supports **CloudEvents**:
 ```bash
 curl -v -X POST \
     -H "Content-Type: application/cloudevents+json" \
@@ -103,59 +129,3 @@ curl -v -X GET \
 | ----------------------- | ------------- |------------------------------------------------------------------------------------------- |
 | max-request-size        | 65536         | The maximum size of the request.                                                           |
 | metrics-addr            | :9090         | The address the metric endpoint binds to.                                                  |
-=======
-> **NOTE:** This is a general template that you can use for a project README.md. Except for the mandatory sections, use only those sections that suit your use case but keep the proposed section order.
->
-> Mandatory sections: 
-> - `Overview`
-> - `Prerequisites`, if there are any requirements regarding hard- or software
-> - `Installation`
-> - `Contributing` - do not change this!
-> - `Code of Conduct` - do not change this!
-> - `Licensing` - do not change this!
-
-# {Project Title}
-<!--- mandatory --->
-> Modify the title and insert the name of your project. Use Heading 1 (H1).
-
-## Overview
-<!--- mandatory section --->
-
-> Provide a description of the project's functionality.
->
-> If it is an example README.md, describe what the example illustrates.
-
-## Prerequisites
-
-> List the requirements to run the project or example.
-
-## Installation
-
-> Explain the steps to install your project. If there are multiple installation options, mention the recommended one and include others in a separate document. Create an ordered list for each installation task.
->
-> If it is an example README.md, describe how to build, run locally, and deploy the example. Format the example as code blocks and specify the language, highlighting where possible. Explain how you can validate that the example ran successfully. For example, define the expected output or commands to run which check a successful deployment.
->
-> Add subsections (H3) for better readability.
-
-## Usage
-
-> Explain how to use the project. You can create multiple subsections (H3). Include the instructions or provide links to the related documentation.
-
-## Development
-
-> Add instructions on how to develop the project or example. It must be clear what to do and, for example, how to trigger the tests so that other contributors know how to make their pull requests acceptable. Include the instructions or provide links to related documentation.
-
-## Contributing
-<!--- mandatory section - do not change this! --->
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Code of Conduct
-<!--- mandatory section - do not change this! --->
-
-See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
-
-## Licensing
-<!--- mandatory section - do not change this! --->
-
-See the [LICENSE file](./LICENSE).
