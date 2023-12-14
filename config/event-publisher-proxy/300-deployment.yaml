@@ -44,8 +44,8 @@ spec:
               value: "json"
             - name: APP_LOG_LEVEL
               value: "info"
-          image: ko://github.com/kyma-project/kyma/components/event-publisher-proxy/cmd/event-publisher-proxy
-          imagePullPolicy: IfNotPresent
+          image: ko://github.com/kyma-project/eventing-publisher-proxy/cmd/event-publisher-proxy
+          imagePullPolicy: Always
           name: event-publisher-proxy
           ports:
             - containerPort: 8080
