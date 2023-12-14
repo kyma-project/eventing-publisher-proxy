@@ -10,7 +10,7 @@ The Eventing Publisher Proxy receives legacy and Cloud Event publishing requests
 - [Docker](https://www.docker.com/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [kustomize](https://kustomize.io/)
-- Access to Kubernetes cluster ([k3d](https://k3d.io/) / k8s)  
+- Access to a Kubernetes cluster (e.g. [k3d](https://k3d.io/) / k8s)  
 
 ## Development
 
@@ -20,7 +20,7 @@ The Eventing Publisher Proxy receives legacy and Cloud Event publishing requests
 make build
 ```
 
-### Run tests
+### Run Tests
 
 Run the unit and integration tests:
 
@@ -38,7 +38,7 @@ make generate-and-test
    make lint
    ```
 
-### Build container images
+### Build Container Images
 
 Build and push your image to the location specified by `IMG`:
 
@@ -46,7 +46,7 @@ Build and push your image to the location specified by `IMG`:
 make docker-build docker-push IMG=<container-registry>/eventing-publisher-proxy:<tag> # If using docker, <container-registry> is your username.
 ```
 
-> **NOTE**: For MacBook M1 devices, run:
+For MacBook M1 devices, run:
 
 ```sh
 make docker-buildx IMG=<container-registry>/eventing-publisher-proxy:<tag>
@@ -56,7 +56,7 @@ make docker-buildx IMG=<container-registry>/eventing-publisher-proxy:<tag>
 
 You need a Kubernetes cluster to run against. You can use [k3d](https://k3d.io/) to get a local cluster for testing, or run against a remote cluster.
 
-### Deploy inside a cluster
+### Deploy Inside a Cluster
 
 ```bash
 $ ko apply -f config/event-publisher-proxy/
@@ -66,7 +66,7 @@ $ ko apply -f config/event-publisher-proxy/
 
 ### Send Events
 
-This command supports **CloudEvents**:
+The following command supports **CloudEvents**:
 ```bash
 curl -v -X POST \
     -H "Content-Type: application/cloudevents+json" \
