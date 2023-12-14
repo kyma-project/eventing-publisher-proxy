@@ -47,7 +47,7 @@ func (e BackendPublishError) Message() string {
 }
 
 func (e *BackendPublishError) Is(target error) bool {
-	t, ok := target.(*BackendPublishError) //nolint:errorlint //we dont want to check the error chain here
+	t, ok := target.(*BackendPublishError)
 	if !ok {
 		return false
 	}

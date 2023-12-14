@@ -8,7 +8,7 @@ import (
 	"github.com/cloudevents/sdk-go/v2/binding"
 	cev2event "github.com/cloudevents/sdk-go/v2/event"
 
-	"github.com/kyma-project/kyma/components/eventing-controller/logger"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 	"go.uber.org/zap"
 
 	"github.com/kyma-project/eventing-publisher-proxy/internal"

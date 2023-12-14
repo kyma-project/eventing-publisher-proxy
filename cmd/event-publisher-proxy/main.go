@@ -4,7 +4,7 @@ import (
 	golog "log"
 
 	"github.com/kelseyhightower/envconfig"
-	kymalogger "github.com/kyma-project/kyma/components/eventing-controller/logger"
+	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander"
