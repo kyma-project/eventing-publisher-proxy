@@ -13,7 +13,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 
 	"github.com/gorilla/mux"
-	"github.com/kyma-project/kyma/components/eventing-controller/logger"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 	"go.uber.org/zap"
 
 	"github.com/cloudevents/sdk-go/v2/binding"

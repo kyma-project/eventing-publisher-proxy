@@ -9,7 +9,7 @@ import (
 
 	"go.opencensus.io/plugin/ochttp"
 
-	kymalogger "github.com/kyma-project/kyma/components/eventing-controller/logger"
+	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const (
