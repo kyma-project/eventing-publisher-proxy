@@ -82,8 +82,8 @@ github.com/google/pprof v0.0.0-20210720184732-4bb14d4b1be1/go.mod h1:kpwsk12EmLe
 github.com/google/uuid v1.1.2/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/google/uuid v1.4.0 h1:MtMxsa51/r9yyhkyLsVeVt0B+BGQZzpQiTQ4eHZ8bc4=
 github.com/google/uuid v1.4.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
-github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
-github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
+github.com/gorilla/mux v1.8.1 h1:TuBL49tXwgrFYWhqrNgrUNEY92u81SPhu7sTdzQEiWY=
+github.com/gorilla/mux v1.8.1/go.mod h1:AKf9I4AEqPTmMytcMc0KkNouC66V3BtZ4qD5fmWSiMQ=
 github.com/imdario/mergo v0.3.16 h1:wwQJbIsHYGMUyLSPrEq1CT16AhnhNJQ51+4fdHUnCl4=
 github.com/imdario/mergo v0.3.16/go.mod h1:WBLT9ZmE3lPoWsEzCh9LPo3TiwVN+ZKEjmz+hD27ysY=
 github.com/jessevdk/go-flags v1.4.0/go.mod h1:4FA24M0QyGHXBuZZK/XkWh8h0e1EYbRYJSGM75WSRxI=
@@ -110,8 +110,8 @@ github.com/kyma-project/eventing-manager v0.0.0-20231213144127-a77a4fabb2e0 h1:T
 github.com/kyma-project/eventing-manager v0.0.0-20231213144127-a77a4fabb2e0/go.mod h1:60gBtVpgPvjDF7X9Mv8EnT1UQZfWKdV+CjbUPrwoxIk=
 github.com/kyma-project/kyma/common/logging v0.0.0-20231113125307-562a57ab5198 h1:xz4kPj7u51OgP+0f58OeaQlyiGm6AwEHALjbiLeK3Ec=
 github.com/kyma-project/kyma/common/logging v0.0.0-20231113125307-562a57ab5198/go.mod h1:JGb5RBi8Uz+RZ/jf54+qA+RqY6uPQBJ8pO1w3KSwm1Q=
-github.com/kyma-project/kyma/components/application-operator v0.0.0-20230127165033-ec8e43477eca h1:7UpCIk6+sMCOhPfolAlppRugSln5M4T8/dHJm8x0erc=
-github.com/kyma-project/kyma/components/application-operator v0.0.0-20230127165033-ec8e43477eca/go.mod h1:Tog02gZ1VT7yvFmhSqmiuGZpDYt18zTF4kr6E0N9ttk=
+github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20231213062924-40b7754f6246 h1:cQQgnQHLvbroOMHC5fBc80hhaO/HtveSCjhgykjIMbo=
+github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20231213062924-40b7754f6246/go.mod h1:r30ZDuRuvMZIzrarEpjEeQWrND/M5X/XA1iOuMrQfmg=
 github.com/kyma-project/nats-manager v1.0.3-0.20231124103356-1904d89ab2b2 h1:P8SMLPxQMCnPlwGMpqid5ofHPO2dvybu94F8K32GNmw=
 github.com/kyma-project/nats-manager v1.0.3-0.20231124103356-1904d89ab2b2/go.mod h1:asVMhM0flO8aRcllmgABSuoPL+X9kdJ7tp8JPSPzpkk=
 github.com/mailru/easyjson v0.7.7 h1:UGYAvKxe3sBsEDzO8ZeWOSlIQfWFlxbzLZe7hwFURr0=
