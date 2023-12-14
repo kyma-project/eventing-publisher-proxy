@@ -1,0 +1,45 @@
+name: Unit Tests
+
+env:
+  KYMA_STABILITY: "unstable"
+  KYMA: "./hack/kyma"
+
+on:
+  push:
+    branches:
+      - "main"
+      - "release-*"
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - 'sec-scanners-config.yaml'
+  pull_request:
+    branches:
+      - "main"
+      - "release-*"
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+      - 'sec-scanners-config.yaml'
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup go environment
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: false
+
+      - name: Sync go dependencies
+        run: |
+          go mod tidy
+          go mod vendor
+
+      - name: Run tests
+        run: |
+          make test
