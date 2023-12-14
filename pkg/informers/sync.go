@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/kyma-project/kyma/components/eventing-controller/logger"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic/dynamicinformer"

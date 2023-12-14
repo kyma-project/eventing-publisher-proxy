@@ -4,6 +4,8 @@ import (
 	"context"
 
 	"github.com/kelseyhightower/envconfig"
+	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
@@ -19,8 +21,6 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/eventmesh"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/signals"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/subscribed"
-	"github.com/kyma-project/kyma/components/eventing-controller/logger"
-	"github.com/kyma-project/kyma/components/eventing-controller/pkg/backend/cleaner"
 
 	"go.uber.org/zap"
 	"golang.org/x/xerrors"

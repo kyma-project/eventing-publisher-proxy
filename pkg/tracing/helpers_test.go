@@ -6,12 +6,12 @@ import (
 
 	cev2event "github.com/cloudevents/sdk-go/v2/event"
 
-	. "github.com/onsi/gomega"
+	"github.com/onsi/gomega"
 )
 
 func TestAddTracingContextToCEExtensions(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
+	g := gomega.NewGomegaWithT(t)
 	testCases := []struct {
 		name               string
 		headers            http.Header
@@ -64,7 +64,7 @@ func TestAddTracingContextToCEExtensions(t *testing.T) {
 
 			event := cev2event.New()
 			AddTracingContextToCEExtensions(tc.headers, &event)
-			g.Expect(event.Extensions()).To(Equal(tc.expectedExtensions))
+			g.Expect(event.Extensions()).To(gomega.Equal(tc.expectedExtensions))
 		})
 	}
 }

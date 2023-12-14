@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kyma-project/kyma/components/eventing-controller/logger"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 
 	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
