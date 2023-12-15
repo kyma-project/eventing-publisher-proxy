@@ -1,4 +1,4 @@
-APP_NAME = event-publisher-proxy
+APP_NAME = eventing-publisher-proxy
 
 # Image URL to use all building/pushing image targets
 IMG_REGISTRY_PORT ?= 8888
@@ -80,11 +80,11 @@ test: ## Run tests
 
 .PHONY: build
 build: go-gen fmt vet ## Build publisher binary.
-	go build -o bin/publisher cmd/event-publisher-proxy/main.go
+	go build -o bin/publisher cmd/eventing-publisher-proxy/main.go
 
 .PHONY: run
 run: go-gen fmt vet ## Run publisher from your host.
-	go run ./cmd/event-publisher-proxy/main.go
+	go run ./cmd/eventing-publisher-proxy/main.go
 
 .PHONY: release-image
 release-image: docker-build docker-push ## Build the publisher Image and push it to a registry defined in IMG_REGISTRY
