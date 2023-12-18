@@ -4,13 +4,13 @@
 
 The Eventing Publisher Proxy receives legacy and Cloud Event publishing requests from the cluster workloads (microservice or Serverless functions) and redirects them to the Enterprise Messaging Service Cloud Event Gateway. It also fetches a list of subscriptions for a connected application.
 
-## Prerequisites
+## Pre requisites
 
 - [Go](https://go.dev/)
 - [Docker](https://www.docker.com/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [kustomize](https://kustomize.io/)
-- Access to a Kubernetes cluster (e.g. [k3d](https://k3d.io/) / k8s)  
+- Access to a Kubernetes cluster (e.g. [k3d](https://k3d.io/) / k8s)
 
 ## Development
 
