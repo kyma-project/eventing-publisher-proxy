@@ -16,7 +16,7 @@ $(KUSTOMIZE): $(LOCALBIN)
 
 .PHONY: install-eventing-manager
 install-eventing-manager: kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
-	$(KUSTOMIZE) build ./../e2e/config | kubectl apply -f -
+	$(KUSTOMIZE) build ./../e2e/config/crd | kubectl apply -f -
 
 .PHONY: install-k3d-tools
 install-k3d-tools: ## Create k3d with kyma CRDs.
