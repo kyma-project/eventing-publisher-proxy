@@ -1,6 +1,6 @@
 .PHONY: install-eventing-manager
 install-eventing-manager: ## Install CRDs into the K8s cluster specified in ~/.kube/config.
-	kubectl apply -k ./config
+	kubectl apply -k ./../e2e/config/
 
 .PHONY: install-k3d-tools
 install-k3d-tools: ## Create k3d with kyma CRDs.
