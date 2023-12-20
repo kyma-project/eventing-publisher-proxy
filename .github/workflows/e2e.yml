@@ -1,0 +1,79 @@
+name: E2E Test
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "release-*"
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
+      - "sec-scanners-config.yaml"
+
+env:
+  MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/eventing-manager:latest
+  EPP_IMAGE: europe-docker.pkg.dev/kyma-project/dev/eventing-publisher-proxy:PR-${{ github.event.number }}
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup go environment
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: false
+
+      - name: Cache binaries
+        id: cache-binaries
+        uses: actions/cache@v3
+        with:
+          path: bin
+          key: ${{ runner.os }}-bin
+
+      - name: Install k3d tools
+        run: |
+          make -C hack/ci/ install-k3d-tools
+
+      - name: Setup Eventing Manager
+        run: |
+          make -C hack/ci/ install-eventing-manager
+
+      - name: Wait for build job to succeed
+        uses: kyma-project/wait-for-commit-status-action@2b3ffe09af8b6f40e1213d5fb7f91a7bd41ffb20
+        with:
+          context: "pull-eventing-publisher-proxy-build"
+          commit_ref: "${{ github.event.pull_request.head.sha }}" # Note: 'github.event.pull_request.head.sha' is not same as 'github.sha' on pull requests.
+          timeout: 600000 # 10 minutes in milliseconds
+          # The check interval is kept long otherwise it will exhaust the GitHub rate limit (More info: https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
+          check_interval: 60000 # 1 minute in milliseconds
+        env:
+          GITHUB_TOKEN: "${{ inputs.github-token }}"
+          GITHUB_OWNER: "${{ github.repository_owner }}"
+          GITHUB_REPO: "eventing-publisher-proxy"
+
+      - name: Setup Eventing Manager with new EPP image
+        run: |
+          kubectl patch deployment eventing-manager -n kyma-system --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/env/8/value", "value": "${EPP_IMAGE}"}]'
+
+      - name: Create eventing CR and resources and check configuration
+        run: | # -> where do I get these scripts from? Code duplication? Importing?
+          make e2e-setup
+
+      - name: Setup subscriptions for testing
+        run: |
+          make e2e-eventing-setup
+
+      - name: Test eventing
+        run: |
+          make e2e-eventing
+
+      - name: On error get NATS CR
+        if: failure()
+        run: |
+          kubectl get nats -n kyma-system -o yaml
+
+      - name: On error get Eventing CR
+        if: failure()
+        run: |
+          kubectl get eventing -n kyma-system -o yaml
