@@ -42,14 +42,14 @@ jobs:
 
       - name: Install Kyma CLI & setup k3d cluster using kyma CLI
         run: |
-          make kyma
-          make -C hack/ci/ create-k3d
+          make -C eventing-manager kyma
+          make -C eventing-manager/hack/ci/ create-k3d
           kubectl version
           kubectl cluster-info
 
       - name: Setup Eventing Manager
         run: |
-          make -C hack/ci/ install-eventing-manager
+          make -C eventing-manager/hack/ci/ install-eventing-manager
 
       - name: Wait for build job to succeed
         uses: kyma-project/wait-for-commit-status-action@2b3ffe09af8b6f40e1213d5fb7f91a7bd41ffb20
@@ -70,15 +70,15 @@ jobs:
 
       - name: Create eventing CR and resources and check configuration
         run: | # -> where do I get these scripts from? Code duplication? Importing?
-          make e2e-setup
+          make eventing-manager e2e-setup
 
       - name: Setup subscriptions for testing
         run: |
-          make e2e-eventing-setup
+          make eventing-manager e2e-eventing-setup
 
       - name: Test eventing
         run: |
-          make e2e-eventing
+          make eventing-manager e2e-eventing
 
       - name: On error get NATS CR
         if: failure()
