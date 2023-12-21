@@ -117,3 +117,14 @@ docker-buildx: test ## Build and push docker image for the publisher for cross-p
 	- docker buildx build --push --platform=$(PLATFORMS) --tag ${IMG} -f Dockerfile.cross .
 	- docker buildx rm project-v3-builder
 	rm Dockerfile.cross
+
+##@ Kyma CLI
+.PHONY: kyma
+kyma: $(LOCALBIN) $(KYMA) ## Download kyma CLI locally if necessary.
+$(KYMA):
+	#################################################################
+	$(if $(KYMA_FILE_NAME),,$(call os_error, ${OS_TYPE}, ${OS_ARCH}))
+	## Downloading Kyma CLI: https://storage.googleapis.com/kyma-cli-$(KYMA_STABILITY)/$(KYMA_FILE_NAME)
+	test -f $@ || curl -s -Lo $(KYMA) https://storage.googleapis.com/kyma-cli-$(KYMA_STABILITY)/$(KYMA_FILE_NAME)
+	chmod 0100 $(KYMA)
+	${KYMA} version -c

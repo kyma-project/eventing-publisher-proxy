@@ -18,6 +18,9 @@ $(KUSTOMIZE): $(LOCALBIN)
 	fi
 	test -s $(LOCALBIN)/kustomize || { curl -Ss $(KUSTOMIZE_INSTALL_SCRIPT) --output install_kustomize.sh && bash install_kustomize.sh $(subst v,,$(KUSTOMIZE_VERSION)) $(LOCALBIN); rm install_kustomize.sh; }
 
+.PHONY: create-k3d
+create-k3d: ## Create k3d with kyma CRDs.
+	"${KYMA_CLI}" provision k3d -p 8081:80@loadbalancer -p 8443:443@loadbalancer --registry-port ${REGISTRY_PORT} --name ${CLUSTER_NAME} --ci
 
 .PHONY: install-eventing-manager
 install-eventing-manager: kustomize ## Install CRDs into the K8s cluster specified in ~/.kube/config.
