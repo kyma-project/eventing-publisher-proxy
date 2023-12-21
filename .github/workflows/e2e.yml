@@ -18,8 +18,13 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout EPP repository
         uses: actions/checkout@v4
+
+      - name: Checkout EM repository
+        uses: actions/checkout@v4
+        with:
+          repository: kyma-project/eventing-manager
 
       - name: Cache binaries
         id: cache-binaries
@@ -30,7 +35,7 @@ jobs:
 
       - name: Install k3d tools
         run: |
-          make -C hack/ci/ install-k3d-tools
+          make -C kyma-project/eventing-manager/hack/ci/ install-k3d-tools
 
       - name: Install Kyma CLI & setup k3d cluster using kyma CLI
         run: |
