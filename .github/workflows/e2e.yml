@@ -49,7 +49,11 @@ jobs:
 
       - name: Setup Eventing Manager
         run: |
-          make -C eventing-manager/hack/ci/ install-eventing-manager
+          make -C eventing-manager install
+
+      - name: Deploy Eventing Manager
+        run: |
+          make -C eventing-manager deploy IMG=$(MANAGER_IMAGE)
 
       - name: Wait for build job to succeed
         uses: kyma-project/wait-for-commit-status-action@2b3ffe09af8b6f40e1213d5fb7f91a7bd41ffb20
