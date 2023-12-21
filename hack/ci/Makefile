@@ -1,3 +1,8 @@
+## Location to install dependencies to
+LOCALBIN ?= $(shell pwd)/bin
+$(LOCALBIN):
+	mkdir -p $(LOCALBIN)
+
 ## Tool Binary
 KUSTOMIZE ?= $(LOCALBIN)/kustomize
 ## Tool Version
