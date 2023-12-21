@@ -20,6 +20,12 @@ DIRS_TO_CHECK = go list ./... | grep -v "$(VERIFY_IGNORE)"
 # DIRS_TO_IGNORE is a command used to determine which directories should not be verified
 DIRS_TO_IGNORE = go list ./... | grep "$(VERIFY_IGNORE)"
 
+# Operating system architecture
+OS_ARCH ?= $(shell uname -m)
+
+# Operating system type
+OS_TYPE ?= $(shell uname)
+
 ##@ General
 
 # The help target prints out all targets with their descriptions organized
@@ -119,6 +125,10 @@ docker-buildx: test ## Build and push docker image for the publisher for cross-p
 	rm Dockerfile.cross
 
 ##@ Kyma CLI
+KYMA_STABILITY ?= unstable
+KYMA_FILE_NAME ?= $(shell ./hack/get_kyma_file_name.sh ${OS_TYPE} ${OS_ARCH})
+KYMA ?= $(LOCALBIN)/kyma-$(KYMA_STABILITY)
+
 .PHONY: kyma
 kyma: $(LOCALBIN) $(KYMA) ## Download kyma CLI locally if necessary.
 $(KYMA):
