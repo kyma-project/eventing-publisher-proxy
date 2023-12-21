@@ -43,7 +43,7 @@ jobs:
       - name: Install Kyma CLI & setup k3d cluster using kyma CLI
         run: |
           make -C eventing-manager kyma
-          make -C eventing-manager/hack/ci/ create-k3d
+          make -C main/hack/ci/ create-k3d
           kubectl version
           kubectl cluster-info
 
