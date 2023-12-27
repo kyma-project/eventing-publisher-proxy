@@ -47,6 +47,10 @@ jobs:
           kubectl version
           kubectl cluster-info
 
+      - name: Create Namespace
+        run: |
+          kubectl create ns kyma-system
+
       - name: Setup Eventing Manager
         run: |
           make -C eventing-manager install
