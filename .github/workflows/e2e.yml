@@ -51,6 +51,10 @@ jobs:
         run: |
           kubectl create ns kyma-system
 
+      - name: Set Kyma CLI Variable
+        run: |
+          echo "KYMA_CLI=/home/runner/work/eventing-publisher-proxy/eventing-publisher-proxy/eventing-manager/bin/kyma-unstable" >> $GITHUB_ENV
+
       - name: Setup NATS via Lifecycle Manager
         run: |
           make -C eventing-manager/hack/ci/ get-nats-via-lifecycle-manager
