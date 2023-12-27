@@ -66,6 +66,10 @@ jobs:
         run: |
           make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE
 
+      - name: Create NATS CR and resources and check configuration
+        run: |
+          make -C nats-manager e2e-setup
+
       - name: Setup Eventing Manager
         run: |
           make -C eventing-manager install
@@ -92,7 +96,7 @@ jobs:
           kubectl patch deployment eventing-manager -n kyma-system --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/env/8/value", "value": "${EPP_IMAGE}"}]'
 
       - name: Create eventing CR and resources and check configuration
-        run: | # -> where do I get these scripts from? Code duplication? Importing?
+        run: |
           make -C eventing-manager e2e-setup
 
       - name: Setup subscriptions for testing
