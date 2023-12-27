@@ -11,7 +11,8 @@ on:
       - "sec-scanners-config.yaml"
 
 env:
-  MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/eventing-manager:latest
+  NATS_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/nats-manager:latest
+  EVENTING_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/eventing-manager:latest
   EPP_IMAGE: europe-docker.pkg.dev/kyma-project/dev/eventing-publisher-proxy:PR-${{ github.event.number }}
 
 jobs:
@@ -28,6 +29,12 @@ jobs:
         with:
           repository: kyma-project/eventing-manager
           path: eventing-manager
+
+      - name: Checkout NM repository
+        uses: actions/checkout@v4
+        with:
+          repository: kyma-project/nats-manager
+          path: nats-manager
 
       - name: Cache binaries
         id: cache-binaries
@@ -51,13 +58,13 @@ jobs:
         run: |
           kubectl create ns kyma-system
 
-      - name: Set Kyma CLI Variable
+      - name: Setup NATS Manager
         run: |
-          echo "KYMA_CLI=/home/runner/work/eventing-publisher-proxy/eventing-publisher-proxy/eventing-manager/bin/kyma-unstable" >> $GITHUB_ENV
+          make -C nats-manager install
 
-      - name: Setup NATS via Lifecycle Manager
+      - name: Deploy NATS Manager
         run: |
-          make -C eventing-manager/hack/ci/ get-nats-via-lifecycle-manager
+          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE
 
       - name: Setup Eventing Manager
         run: |
@@ -65,7 +72,7 @@ jobs:
 
       - name: Deploy Eventing Manager
         run: |
-          make -C eventing-manager deploy IMG=$MANAGER_IMAGE
+          make -C eventing-manager deploy IMG=$EVENTING_MANAGER_IMAGE
 
       - name: Wait for build job to succeed
         uses: kyma-project/wait-for-commit-status-action@2b3ffe09af8b6f40e1213d5fb7f91a7bd41ffb20
