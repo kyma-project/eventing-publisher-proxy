@@ -78,15 +78,15 @@ jobs:
 
       - name: Create eventing CR and resources and check configuration
         run: | # -> where do I get these scripts from? Code duplication? Importing?
-          make eventing-manager e2e-setup
+          make -C eventing-manager e2e-setup
 
       - name: Setup subscriptions for testing
         run: |
-          make eventing-manager e2e-eventing-setup
+          make -C eventing-manager e2e-eventing-setup
 
       - name: Test eventing
         run: |
-          make eventing-manager e2e-eventing
+          make -C eventing-manager e2e-eventing
 
       - name: On error get NATS CR
         if: failure()
