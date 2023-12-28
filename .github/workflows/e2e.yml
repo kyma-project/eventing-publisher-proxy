@@ -64,7 +64,7 @@ jobs:
 
       - name: Deploy NATS Manager
         run: |
-          version=$(yq 'MODULE_VERSION' /home/runner/work/eventing-publisher-proxy/eventing-publisher-proxy/nats-manager/.version)
+          version=$(grep 'MODULE_VERSION' /home/runner/work/eventing-publisher-proxy/eventing-publisher-proxy/nats-manager/.version | cut -d'=' -f2)
           make -C nats-manager deploy IMG=europe-docker.pkg.dev/kyma-project/prod/nats-manager:$version
           kubectl get -n kyma-system deployment nats-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
