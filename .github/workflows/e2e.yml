@@ -64,8 +64,8 @@ jobs:
 
       - name: Deploy NATS Manager
         run: |
-          echo "Deploy NATS Manager release-$MODULE_VERSION"
           make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:$MODULE_VERSION
+          kubectl get -n kyma-system deployment nats -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
       - name: Create NATS CR and resources and check configuration
         run: |
@@ -77,8 +77,8 @@ jobs:
 
       - name: Deploy Eventing Manager
         run: |
-          echo "Deploy Eventing Manager release-$MODULE_VERSION"
           make -C eventing-manager deploy IMG=EVENTING_MANAGER_IMAGE:$MODULE_VERSION
+          kubectl get -n kyma-system deployment eventing-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
       - name: Wait for build job to succeed
         uses: kyma-project/wait-for-commit-status-action@2b3ffe09af8b6f40e1213d5fb7f91a7bd41ffb20
