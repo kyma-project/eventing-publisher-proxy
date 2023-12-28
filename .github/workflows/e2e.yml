@@ -16,7 +16,7 @@ env:
   EPP_IMAGE: europe-docker.pkg.dev/kyma-project/dev/eventing-publisher-proxy:PR-${{ github.event.number }}
 
 jobs:
-  e2e:
+  e2e-nats:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout EPP repository
@@ -49,8 +49,9 @@ jobs:
 
       - name: Install Kyma CLI & setup k3d cluster using kyma CLI
         run: |
+          echo "PROJECT_ROOT=/home/runner/work/eventing-publisher-proxy/eventing-publisher-proxy/eventing-manager/" >> $GITHUB_ENV
           make -C eventing-manager kyma
-          make -C main/hack/ci/ create-k3d
+          make -C eventing-manager create-k3d
           kubectl version
           kubectl cluster-info
 
