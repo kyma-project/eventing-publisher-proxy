@@ -47,7 +47,7 @@ jobs:
         run: |
           make -C eventing-manager/hack/ci/ install-k3d-tools
 
-      - name: Install Kyma CLI & setup k3d cluster using kyma CLI
+      - name: Install Kyma CLI & setup k3d cluster using Kyma CLI
         run: |
           make -C eventing-manager kyma
           make -C main/hack/ci/ create-k3d
@@ -95,7 +95,7 @@ jobs:
         run: |
           kubectl patch deployment eventing-manager -n kyma-system --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/env/8/value", "value": "'$EPP_IMAGE'"}]'
 
-      - name: Create eventing CR and resources and check configuration
+      - name: Create Eventing CR and resources and check configuration
         run: |
           make -C eventing-manager e2e-setup
 
@@ -103,9 +103,13 @@ jobs:
         run: |
           make -C eventing-manager e2e-eventing-setup
 
-      - name: Test eventing
+      - name: Test Eventing
         run: |
           make -C eventing-manager e2e-eventing
+
+      - name: Cleanup test resources
+        run: |
+          make e2e-cleanup
 
       - name: On error get NATS CR
         if: failure()
