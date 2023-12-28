@@ -1,4 +1,3 @@
-PROJECT_ROOT ?= ../..
 KYMA_CLI ?= "/home/runner/work/eventing-publisher-proxy/eventing-publisher-proxy/eventing-manager/bin/kyma-unstable"
 CLUSTER_NAME ?= kyma
 REGISTRY_PORT ?= 5001
