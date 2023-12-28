@@ -11,8 +11,8 @@ on:
       - "sec-scanners-config.yaml"
 
 env:
-  NATS_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/nats-manager:latest
-  EVENTING_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/eventing-manager:latest
+  NATS_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/nats-manager
+  EVENTING_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/eventing-manager
   EPP_IMAGE: europe-docker.pkg.dev/kyma-project/dev/eventing-publisher-proxy:PR-${{ github.event.number }}
 
 jobs:
@@ -64,7 +64,8 @@ jobs:
 
       - name: Deploy NATS Manager
         run: |
-          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE
+          echo "Deploy NATS Manager release-$MODULE_VERSION"
+          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:$MODULE_VERSION
 
       - name: Create NATS CR and resources and check configuration
         run: |
@@ -76,7 +77,8 @@ jobs:
 
       - name: Deploy Eventing Manager
         run: |
-          make -C eventing-manager deploy IMG=europe-docker.pkg.dev/kyma-project/prod/eventing-manager:$MODULE_VERSION
+          echo "Deploy Eventing Manager release-$MODULE_VERSION"
+          make -C eventing-manager deploy IMG=EVENTING_MANAGER_IMAGE:$MODULE_VERSION
 
       - name: Wait for build job to succeed
         uses: kyma-project/wait-for-commit-status-action@2b3ffe09af8b6f40e1213d5fb7f91a7bd41ffb20
