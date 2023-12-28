@@ -65,7 +65,7 @@ jobs:
       - name: Deploy NATS Manager
         run: |
           make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:$MODULE_VERSION
-          kubectl get -n kyma-system deployment nats -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+          kubectl get -n kyma-system deployment nats-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
       - name: Create NATS CR and resources and check configuration
         run: |
