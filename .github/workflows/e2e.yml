@@ -93,7 +93,10 @@ jobs:
 
       - name: Setup Eventing Manager with new EPP image
         run: |
-          kubectl patch deployment eventing-manager -n kyma-system --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/env/8/value", "value": "'$EPP_IMAGE'"}]'
+          kubectl get deployment eventing-manager -n kyma-system -o=json |
+          jq --arg new_image "$EPP_IMAGE" \
+          '.spec.template.spec.containers[0].env |= map(if .name == "PUBLISHER_IMAGE" then .value = $new_image else . end)' |
+          kubectl apply -f -
 
       - name: Create Eventing CR and resources and check configuration
         run: |
