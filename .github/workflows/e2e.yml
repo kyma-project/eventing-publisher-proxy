@@ -65,7 +65,7 @@ jobs:
       - name: Deploy NATS Manager
         run: |
           version=$(curl -i https://github.com/kyma-project/nats-manager/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
-          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:latest
+          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:v20231013-6091000e
           echo "Using NATS Manager image:"
           kubectl get -n kyma-system deployment nats-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
