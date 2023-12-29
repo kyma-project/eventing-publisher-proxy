@@ -65,7 +65,7 @@ jobs:
       - name: Deploy NATS Manager
         run: |
           version=$(curl -i https://github.com/kyma-project/nats-manager/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
-          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:$version
+          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:latest
           echo "Using NATS Manager image:"
           kubectl get -n kyma-system deployment nats-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
@@ -79,7 +79,7 @@ jobs:
 
       - name: Deploy Eventing Manager
         run: |
-          version=$(grep 'MODULE_VERSION' /home/runner/work/eventing-publisher-proxy/eventing-publisher-proxy/eventing-manager/.version | cut -d'=' -f2)
+          version=$(curl -i https://github.com/kyma-project/eventing-manager/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
           make -C eventing-manager deploy IMG=$EVENTING_MANAGER_IMAGE:$version
           echo "Using Eventing Manager image:"
           kubectl get -n kyma-system deployment eventing-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
