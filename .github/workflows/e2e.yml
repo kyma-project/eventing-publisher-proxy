@@ -85,10 +85,6 @@ jobs:
           '.spec.template.spec.containers[0].env |= map(if .name == "PUBLISHER_IMAGE" then .value = $new_image else . end)' |
           kubectl apply -f -
 
-      - name: Create Eventing CR and resources and check configuration
-        run: |
-          make -C eventing-manager e2e-setup
-
       - name: Setup subscriptions for testing
         run: |
           make -C eventing-manager e2e-eventing-setup
