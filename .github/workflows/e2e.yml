@@ -11,7 +11,6 @@ on:
       - "sec-scanners-config.yaml"
 
 env:
-  NATS_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/nats-manager
   EVENTING_MANAGER_IMAGE: europe-docker.pkg.dev/kyma-project/prod/eventing-manager
   EPP_IMAGE: europe-docker.pkg.dev/kyma-project/dev/eventing-publisher-proxy:PR-${{ github.event.number }}
 
@@ -29,12 +28,6 @@ jobs:
         with:
           repository: kyma-project/eventing-manager
           path: eventing-manager
-
-      - name: Checkout NM repository
-        uses: actions/checkout@v4
-        with:
-          repository: kyma-project/nats-manager
-          path: nats-manager
 
       - name: Cache binaries
         id: cache-binaries
@@ -58,29 +51,17 @@ jobs:
         run: |
           kubectl create ns kyma-system
 
-      - name: Setup NATS Manager
-        run: |
-          make -C nats-manager install
-
       - name: Deploy NATS Manager
         run: |
-          version=$(curl -i https://github.com/kyma-project/nats-manager/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
-          make -C nats-manager deploy IMG=$NATS_MANAGER_IMAGE:v20231013-6091000e
+          kubectl apply -f https://github.com/kyma-project/nats-manager/releases/latest/download/nats-manager.yaml
+          kubectl apply -f https://github.com/kyma-project/nats-manager/releases/latest/download/nats_default_cr.yaml
           echo "Using NATS Manager image:"
           kubectl get -n kyma-system deployment nats-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
-      - name: Create NATS CR and resources and check configuration
-        run: |
-          make -C nats-manager e2e-setup
-
-      - name: Setup Eventing Manager
-        run: |
-          make -C eventing-manager install
-
       - name: Deploy Eventing Manager
         run: |
-          version=$(curl -i https://github.com/kyma-project/eventing-manager/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
-          make -C eventing-manager deploy IMG=$EVENTING_MANAGER_IMAGE:$version
+          kubectl apply -f https://github.com/kyma-project/eventing-manager/releases/latest/download/eventing-manager.yaml
+          kubectl apply -f https://github.com/kyma-project/eventing-manager/releases/latest/download/eventing_default_cr.yaml
           echo "Using Eventing Manager image:"
           kubectl get -n kyma-system deployment eventing-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
