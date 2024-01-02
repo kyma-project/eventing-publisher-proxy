@@ -5,10 +5,7 @@ env:
   IMAGE_REPO: europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy
 
 on:
-  pull_request:
-    branches:
-      - main
-      - "release-*"
+  workflow_dispatch:
 
 jobs:
   verify-release:
