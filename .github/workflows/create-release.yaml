@@ -4,8 +4,7 @@ run-name: Create Release ${{ inputs.name }}
 env:
   IMAGE_REPO: europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy
 
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
   verify-release:
