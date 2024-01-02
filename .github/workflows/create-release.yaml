@@ -5,12 +5,10 @@ env:
   IMAGE_REPO: europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy
 
 on:
-  workflow_dispatch:
-    inputs:
-      name:
-        description: 'Create release'
-        default: ""
-        required: true
+  pull_request:
+    branches:
+      - main
+      - "release-*"
 
 jobs:
   verify-release:
@@ -25,22 +23,23 @@ jobs:
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
           if [[ "$CURRENT_BRANCH" == release-* ]]; then
+            echo "current_branch=$CURRENT_BRANCH" >> $GITHUB_ENV
             echo "Branch name starts with 'release-'."
           else
             echo "Branch name does not start with 'release-'."
             exit 1
           fi
-      - name: Check if release tag already exists
+      - name: Get the next release version
+        id: release-version
         run: |
-          if [ $(git tag -l ${{ inputs.name }}) ]; then
-            echo "::error ::Tag ${{ inputs.name }} already exists"
-            exit 1
-          fi
-      - name: Check for existing artifacts from previous release runs
+          RELEASE_VERSION=$(./scripts/check_artifacts_existence.sh "$current_branch")
+          echo "release_version=$RELEASE_VERSION" >> $GITHUB_OUTPUT
+      - name: Check image tag
         env:
-          EPP_REPO: ${{ env.IMAGE_REPO }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: "./scripts/check_artifacts_existence.sh ${{ inputs.name }} ${{ inputs.name }}"
+          RELEASE_VERSION: ${{ steps.release-version.outputs.RELEASE_VERSION }}
+        run: ./scripts/check_tag_info.sh $RELEASE_VERSION
+    outputs:
+      release_version: ${{ steps.release-version.outputs.release_version }}
 
   create-draft:
     name: Create the draft release
@@ -54,18 +53,18 @@ jobs:
       - name: Create changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./scripts/create_changelog.sh ${{ github.event.inputs.name }}
+        run: ./scripts/create_changelog.sh ${{ needs.release-version.outputs.release_version }}
       - name: Create the draft release
         id: create-draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          RELEASE_ID=$(./scripts/create_draft_release.sh ${{ github.event.inputs.name }})
+          RELEASE_ID=$(./scripts/create_draft_release.sh ${{ needs.release-version.outputs.release_version }})
           echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
       - name: Add lightweight tag
         run: |
-          git tag ${{ github.event.inputs.name }}
-          git push origin ${{ github.event.inputs.name }}
+          git tag ${{ needs.release-version.outputs.release_version }}
+          git push origin ${{ needs.release-version.outputs.release_version }}
       - name: Verify job status
         run: ./scripts/verify_status.sh ${{ github.ref_name }} 600 10 30
 
