@@ -43,7 +43,7 @@ jobs:
 
   create-draft:
     name: Create the draft release
-    needs: verify-head-status
+    needs: verify-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout EPP repository
