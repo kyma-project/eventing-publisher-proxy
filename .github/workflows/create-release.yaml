@@ -10,6 +10,8 @@ jobs:
   verify-release:
     name: Verify image version
     runs-on: ubuntu-latest
+    outputs:
+      release_version: ${{ steps.release-version.outputs.release_version }}
     steps:
       - name: Checkout EPP repository
         uses: actions/checkout@v4
@@ -35,16 +37,17 @@ jobs:
 
       - name: Check image tag
         env:
-          RELEASE_VERSION: ${{ steps.release-version.outputs.RELEASE_VERSION }}
+          RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
         run: ./scripts/check_tag_info.sh $RELEASE_VERSION
-
-    outputs:
-      release_version: ${{ steps.release-version.outputs.release_version }}
 
   create-draft:
     name: Create the draft release
     needs: verify-release
     runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: ${{ needs.release-version.outputs.release_version }}
+    outputs:
+      release_id: ${{ steps.create-draft.outputs.release_id }}
     steps:
       - name: Checkout EPP repository
         uses: actions/checkout@v4
@@ -54,26 +57,23 @@ jobs:
       - name: Create changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./scripts/create_changelog.sh ${{ needs.release-version.outputs.release_version }}
+        run: ./scripts/create_changelog.sh $RELEASE_VERSION
 
       - name: Create the draft release
         id: create-draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          RELEASE_ID=$(./scripts/create_draft_release.sh ${{ needs.release-version.outputs.release_version }})
+          RELEASE_ID=$(./scripts/create_draft_release.sh $RELEASE_VERSION)
           echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
 
       - name: Add lightweight tag
         run: |
-          git tag ${{ needs.release-version.outputs.release_version }}
-          git push origin ${{ needs.release-version.outputs.release_version }}
+          git tag $RELEASE_VERSION
+          git push origin $RELEASE_VERSION
 
       - name: Verify job status
         run: ./scripts/verify_status.sh ${{ github.ref_name }} 600 10 30
-
-    outputs:
-      release_id: ${{ steps.create-draft.outputs.release_id }}
 
   publish-release:
     name: Publish release
