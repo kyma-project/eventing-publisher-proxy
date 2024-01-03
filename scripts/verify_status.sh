@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Checking status of POST Jobs for Eventing-Manager"
+echo "Checking status of POST Jobs for Eventing-Publisher-Proxy"
 
 REF_NAME="${1:-"main"}"
 TIMEOUT_TIME="${2:-600}"
@@ -8,7 +8,7 @@ INTERVAL_TIME="${3:-3}"
 INITIAL_WAIT_TIME="${4:-30}"
 
 # Generate job Status URL
-STATUS_URL="https://api.github.com/repos/kyma-project/eventing-manager/commits/${REF_NAME}/status"
+STATUS_URL="https://api.github.com/repos/kyma-project/eventing-publisher-proxy/commits/${REF_NAME}/status"
 
 # Dates
 START_TIME=$(date +%s)
