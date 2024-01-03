@@ -88,7 +88,7 @@ jobs:
         run: |
           TIMEOUT=60
           END=$((SECONDS+TIMEOUT))
-          while [ $SECONDS -lt END ]; do
+          while [ $SECONDS -lt $END ]; do
             OLD_EM=$(kubectl get pods -n kyma-system -o=jsonpath='{.items[?(@.metadata.name =~ /^eventing-manager-/ && @.status.phase != "Running")].metadata.name}')
               if [ -z "$OLD_EM" ]; then
                 echo "Rollout completed successfully."
