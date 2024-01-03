@@ -1,0 +1,121 @@
+name: E2E Test
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "release-*"
+    paths-ignore:
+      - "docs/**"
+      - "**.md"
+      - "sec-scanners-config.yaml"
+
+env:
+  EPP_IMAGE: europe-docker.pkg.dev/kyma-project/dev/eventing-publisher-proxy:PR-${{ github.event.number }}
+
+jobs:
+  e2e-nats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout EPP repository
+        uses: actions/checkout@v4
+        with:
+          path: main
+
+      - name: Checkout EM repository
+        uses: actions/checkout@v4
+        with:
+          repository: kyma-project/eventing-manager
+          path: eventing-manager
+
+      - name: Cache binaries
+        id: cache-binaries
+        uses: actions/cache@v3
+        with:
+          path: bin
+          key: ${{ runner.os }}-bin
+
+      - name: Install k3d tools
+        run: |
+          make -C eventing-manager/hack/ci/ install-k3d-tools
+
+      - name: Install Kyma CLI & setup k3d cluster using Kyma CLI
+        run: |
+          make -C eventing-manager kyma
+          make -C main/hack/ci/ create-k3d
+          kubectl version
+          kubectl cluster-info
+
+      - name: Create Namespace
+        run: |
+          kubectl create ns kyma-system
+
+      - name: Deploy NATS Manager
+        run: |
+          kubectl apply -f https://github.com/kyma-project/nats-manager/releases/latest/download/nats-manager.yaml
+          kubectl apply -f https://github.com/kyma-project/nats-manager/releases/latest/download/nats_default_cr.yaml
+          echo "Using NATS Manager image:"
+          kubectl get -n kyma-system deployment nats-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+
+      - name: Deploy Eventing Manager
+        run: |
+          kubectl apply -f https://github.com/kyma-project/eventing-manager/releases/latest/download/eventing-manager.yaml
+          kubectl apply -f https://github.com/kyma-project/eventing-manager/releases/latest/download/eventing_default_cr.yaml
+          echo "Using Eventing Manager image:"
+          kubectl get -n kyma-system deployment eventing-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+
+      - name: Wait for build job to succeed
+        uses: kyma-project/wait-for-commit-status-action@2b3ffe09af8b6f40e1213d5fb7f91a7bd41ffb20
+        with:
+          context: "pull-eventing-publisher-proxy-build"
+          commit_ref: "${{ github.event.pull_request.head.sha }}" # Note: 'github.event.pull_request.head.sha' is not same as 'github.sha' on pull requests.
+          timeout: 600000 # 10 minutes in milliseconds
+          # The check interval is kept long otherwise it will exhaust the GitHub rate limit (More info: https://docs.github.com/en/rest/overview/resources-in-the-rest-api?apiVersion=2022-11-28#rate-limiting)
+          check_interval: 60000 # 1 minute in milliseconds
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_OWNER: "${{ github.repository_owner }}"
+          GITHUB_REPO: "eventing-publisher-proxy"
+
+      - name: Setup Eventing Manager with new EPP image
+        run: |
+          kubectl get deployment eventing-manager -n kyma-system -o=json |
+          jq --arg new_image "$EPP_IMAGE" \
+          '.spec.template.spec.containers[0].env |= map(if .name == "PUBLISHER_IMAGE" then .value = $new_image else . end)' |
+          kubectl apply -f -
+          kubectl rollout status deployment/eventing-manager -n kyma-system --timeout=120s
+          kubectl rollout status deployment/eventing-publisher-proxy -n kyma-system --timeout=120s
+
+      - name: Check if EPP image successfully applied
+        run: |
+          DEPLOYMENT_IMAGE=$(kubectl get deployment -n kyma-system eventing-publisher-proxy -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
+          if [ "$DEPLOYMENT_IMAGE" != "$EPP_IMAGE" ]; then
+            echo "EPP images do not match."
+            echo "Desired EPP image: $EPP_IMAGE. Image in EPP deployment: $DEPLOYMENT_IMAGE"
+            echo "Updating Eventing Manager with new image failed."
+            exit 1
+          else
+            echo "EPP image update successful."
+          fi
+
+      - name: Setup subscriptions for testing
+        run: |
+          make -C eventing-manager e2e-eventing-setup
+
+      - name: Test Eventing
+        run: |
+          make -C eventing-manager e2e-eventing
+
+      - name: Cleanup test resources
+        run: |
+          make -C eventing-manager e2e-cleanup
+
+      - name: On error get NATS CR
+        if: failure()
+        run: |
+          kubectl get nats -n kyma-system -o yaml
+
+      - name: On error get Eventing CR
+        if: failure()
+        run: |
+          kubectl get eventing -n kyma-system -o yaml
