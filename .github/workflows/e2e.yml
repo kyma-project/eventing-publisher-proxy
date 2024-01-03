@@ -83,23 +83,7 @@ jobs:
           jq --arg new_image "$EPP_IMAGE" \
           '.spec.template.spec.containers[0].env |= map(if .name == "PUBLISHER_IMAGE" then .value = $new_image else . end)' |
           kubectl apply -f -
-
-      - name: Wait for rollout to complete
-        run: |
-          TIMEOUT=60
-          END=$((SECONDS+TIMEOUT))
-          while [ $SECONDS -lt $END ]; do
-            OLD_EM=$(kubectl get pods -n kyma-system -o=jsonpath='{.items[?(@.metadata.name =~ /^eventing-manager-/ && @.status.phase != "Running")].metadata.name}')
-              if [ -z "$OLD_EM" ]; then
-                echo "Rollout completed successfully."
-                exit 0
-              else
-                echo "Waiting for old EM pod to terminate: $OLD_EM"
-                sleep 10
-              fi
-          done
-          echo "Rollout of new EPP image to EM did not complete within the timeout period."
-          exit 1
+          kubectl rollout status deployment/eventing-manager -n kyma-system --timeout=120s
 
       - name: Setup subscriptions for testing
         run: |
