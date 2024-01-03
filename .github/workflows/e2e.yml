@@ -84,6 +84,19 @@ jobs:
           '.spec.template.spec.containers[0].env |= map(if .name == "PUBLISHER_IMAGE" then .value = $new_image else . end)' |
           kubectl apply -f -
           kubectl rollout status deployment/eventing-manager -n kyma-system --timeout=120s
+          kubectl rollout status deployment/eventing-publisher-proxy -n kyma-system --timeout=120s
+
+      - name: Check if EPP image successfully applied
+        run: |
+          DEPLOYMENT_IMAGE=$(k get deployment -n kyma-system eventing-publisher-proxy -o=jsonpath='{$.spec.template.spec.containers[:1].image}')
+          if [ "$DEPLOYMENT_IMAGE" != "$EPP_IMAGE" ]; then
+            echo "EPP images do not match."
+            echo "Desired EPP image: $EPP_IMAGE. Image in EPP deployment: $DEPLOYMENT_IMAGE"
+            echo "Updating Eventing Manager with new image failed."
+            exit 1
+          else
+            echo "EPP image update successful."
+          fi
 
       - name: Setup subscriptions for testing
         run: |
