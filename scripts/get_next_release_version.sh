@@ -28,4 +28,4 @@ NEXT_PATCH_VERSION=$(echo "$LATEST_PATCH_VERSION" | awk -F'.' '{print ($3 == "" 
 
 # Print the next release version
 NEXT_RELEASE_VERSION="$MAJOR_MINOR_VERSION.$NEXT_PATCH_VERSION"
-echo "Next release version: $NEXT_RELEASE_VERSION"
+echo $NEXT_RELEASE_VERSION
