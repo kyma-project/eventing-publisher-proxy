@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ##############################
-# Check tags in sec-scan-config.yaml
+# Check tags in sec-scanners-config.yaml
 # Image Tag, rc-tag
 ##############################
 

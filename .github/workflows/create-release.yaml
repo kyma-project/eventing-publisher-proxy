@@ -35,10 +35,10 @@ jobs:
           RELEASE_VERSION=$(./scripts/get_next_release_version.sh "$current_branch")
           echo "release_version=$RELEASE_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Check image tag
+      - name: Check if tags in sec_scanners_config.yaml match the release version
         env:
           RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
-        run: ./scripts/check_tag_info.sh $RELEASE_VERSION
+        run: ./scripts/check_tags_in_sec_scanners_config.sh $RELEASE_VERSION
 
   create-draft:
     name: Create the draft release
@@ -67,13 +67,13 @@ jobs:
           RELEASE_ID=$(./scripts/create_draft_release.sh $RELEASE_VERSION)
           echo "release_id=$RELEASE_ID" >> $GITHUB_OUTPUT
 
-      - name: Add lightweight tag
+      - name: Add lightweight tag to trigger release EPP build job
         run: |
           git tag $RELEASE_VERSION
           git push origin $RELEASE_VERSION
 
-      - name: Verify job status
-        run: ./scripts/verify_status.sh ${{ github.ref_name }} 600 10 30
+      - name: Verify build job status
+        run: ./scripts/verify_prow_post_job_status.sh ${{ github.ref_name }} 600 10 30
 
   publish-release:
     name: Publish release
