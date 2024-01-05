@@ -45,7 +45,7 @@ jobs:
     needs: verify-release
     runs-on: ubuntu-latest
     env:
-      RELEASE_VERSION: ${{ needs.release-version.outputs.release_version }}
+      RELEASE_VERSION: ${{ needs.verify-release.outputs.release_version }}
     outputs:
       release_id: ${{ steps.create-draft.outputs.release_id }}
     steps:
