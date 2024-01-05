@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ##############################
-# Check tags in security-scan-config.yaml
+# Check tags in sec-scanners-config.yaml
 # Image Tag, rc-tag
 ##############################
 
@@ -22,7 +22,7 @@ if [[ "$IMAGE_TAG" != "$DESIRED_TAG" ]] || [[ "$RC_TAG" != "$DESIRED_TAG" ]]; th
   # ERROR: Tag issue
   echo "Tags are not correct:
   - wanted: $DESIRED_TAG
-  - security-scanner image tag: $IMAGE_TAG
+  - sec-scanner image tag: $IMAGE_TAG
   - rc-tag: $RC_TAG"
   exit 1
 fi
