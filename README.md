@@ -28,7 +28,7 @@ Run the unit and integration tests:
 make generate-and-test
 ```
 
-To run the E2E tests, refer to [Testing](docs/contributor/01-00-testing.md)
+To run the E2E tests, refer to [Testing](docs/contributor/01-00-testing.md).
 
 ### Linting
 

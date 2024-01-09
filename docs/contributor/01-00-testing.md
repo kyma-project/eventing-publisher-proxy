@@ -2,7 +2,7 @@
 
 The Eventing Publisher Proxy uses the following testing activities:
 
-## Unit Tests and Env-Tests
+## Unit Tests and Integration Tests
 
 To run the unit and integration tests, you must run the following command:
 
@@ -17,7 +17,7 @@ Because E2E tests need a Kubernetes cluster to run on, they are separate from th
 The E2E tests are executed on any PR using [GithubActions](https://github.com/kyma-project/eventing-publisher-proxy/actions/workflows/e2e.yml).
 For local execution, follow the steps in the [action](../../.github/workflows/e2e.yml).
 
-As Prerequisites, you need:
+As prerequisites, you need:
 
 - [Docker](https://www.docker.com/) to build the EPP image.
   ```sh
