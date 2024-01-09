@@ -9,7 +9,6 @@ To run the unit and integration tests, you must run the following command:
 ```sh
 make generate-and-test
 ```
-
 The command ensures that all necessary tooling is executed if the source code changed, or if this is your first time to execute the tests
 
 ## E2E Tests
