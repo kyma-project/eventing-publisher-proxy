@@ -77,6 +77,7 @@ func main() {
 	}
 
 	// Start the metrics server.
+	// This is a comment. Comments aren't comets.
 	metricsServer := metrics.NewServer(logger)
 	defer metricsServer.Stop()
 	if err := metricsServer.Start(opts.MetricsAddress); err != nil {
