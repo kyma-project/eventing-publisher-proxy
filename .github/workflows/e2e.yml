@@ -84,6 +84,8 @@ jobs:
           '.spec.template.spec.containers[0].env |= map(if .name == "PUBLISHER_IMAGE" then .value = $new_image else . end)' |
           kubectl apply -f -
           kubectl rollout status deployment/eventing-manager -n kyma-system --timeout=120s
+          echo "Waiting for 60 seconds to give the eventing-manager time to provision EPP"
+          sleep 60
           kubectl rollout status deployment/eventing-publisher-proxy -n kyma-system --timeout=120s
 
       - name: Check if EPP image successfully applied
