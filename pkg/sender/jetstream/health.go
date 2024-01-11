@@ -1,8 +1,9 @@
 package jetstream
 
 import (
-	"github.com/nats-io/nats.go"
 	"net/http"
+
+	"github.com/nats-io/nats.go"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
 )
