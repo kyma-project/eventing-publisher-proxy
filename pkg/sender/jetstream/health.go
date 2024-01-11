@@ -1,6 +1,7 @@
 package jetstream
 
 import (
+	"github.com/nats-io/nats.go"
 	"net/http"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
@@ -10,6 +11,11 @@ import (
 // It checks the NATS server connection status and reports 2XX if connected, otherwise reports 5XX.
 // It panics if the given NATS Handler is nil.
 func (s *Sender) ReadinessCheck(w http.ResponseWriter, _ *http.Request) {
+	if status := s.ConnectionStatus(); status != nats.CONNECTED {
+		s.namedLogger().Error("Readiness check failed: not connected to nats server")
+		w.WriteHeader(health.StatusCodeNotHealthy)
+		return
+	}
 	w.WriteHeader(health.StatusCodeHealthy)
 }
 
