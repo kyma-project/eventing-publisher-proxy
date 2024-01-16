@@ -41,3 +41,7 @@ vendor/
 
 **/.env
 **/.env.dev
+
+
+# Lint files
+lint-report.json

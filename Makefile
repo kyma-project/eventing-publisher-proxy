@@ -5,6 +5,9 @@ IMG_REGISTRY_PORT ?= 8888
 IMG_REGISTRY ?= op-skr-registry.localhost:$(IMG_REGISTRY_PORT)/unsigned/eventing-images
 IMG ?= $(IMG_REGISTRY)/$(APP_NAME):$(APP_VERSION)
 
+# Lint issue category
+CATEGORY = "default"
+
 # Setting SHELL to bash allows bash commands to be executed by recipes.
 # Options are set to exit when a recipe line exits non-zero or a piped command fails.
 SHELL = /usr/bin/env bash -o pipefail
@@ -50,8 +53,20 @@ lint-fix: ## Check and fix lint issues using `golangci-lint`
 .PHONY: lint-report
 lint-report: ## Check lint issues using `golangci-lint` then export them to a file, then print the list of linters used
 	golangci-lint run --timeout 5m --config=./.golangci.yaml --issues-exit-code 0 --out-format json > ./lint-report.json
+
+.PHONY: lint-report-issue-category
+lint-report-issue-category: ## Get lint issues categories
+	make lint-report-clean
+	make lint-report
 	cat ./lint-report.json | jq '.Issues[].FromLinter' | jq -s 'map({(.):1})|add|keys_unsorted'
-	rm -f ./lint-report.json 
+
+.PHONY: lint-report-get-category
+lint-report-get-category: ## Get lint issues by category
+	cat ./lint-report.json | jq --arg CATEGORY $$CATEGORY '.Issues[] | select(.FromLinter==$$CATEGORY)'
+
+.PHONY: lint-report-clean
+lint-report-clean: ## Clean lint report
+	rm -f ./lint-report.json
 
 .PHONY: fmt
 fmt: ## Reformat files using `go fmt`
