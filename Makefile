@@ -40,8 +40,18 @@ help: ## Display this help.
 ##@ Development
 
 .PHONY: lint
-lint: ## Check and fix lint issues using `golangci-lint`
+lint: ## Check lint issues using `golangci-lint`
+	golangci-lint run --timeout 5m --config=./.golangci.yaml
+
+.PHONY: lint-fix
+lint-fix: ## Check and fix lint issues using `golangci-lint`
 	golangci-lint run --fix --timeout 5m --config=./.golangci.yaml
+
+.PHONY: lint-report
+lint-report: ## Check lint issues using `golangci-lint` then export them to a file, then print the list of linters used
+	golangci-lint run --timeout 5m --config=./.golangci.yaml --issues-exit-code 0 --out-format json > ./lint-report.json
+	cat ./lint-report.json | jq '.Issues[].FromLinter' | jq -s 'map({(.):1})|add|keys_unsorted'
+	rm -f ./lint-report.json 
 
 .PHONY: fmt
 fmt: ## Reformat files using `go fmt`
