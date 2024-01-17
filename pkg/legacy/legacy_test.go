@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	ceevent "github.com/cloudevents/sdk-go/v2/event"
+	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -19,7 +19,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
 	legacyapi "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/legacytest"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 const (
@@ -156,22 +156,22 @@ func applicationTypeLabel(label string) map[string]string {
 }
 
 func TestConvertPublishRequestToCloudEvent(t *testing.T) {
-	givenEventID := testingutils.EventID
-	givenApplicationName := testingutils.ApplicationName
-	givenEventTypePrefix := testingutils.Prefix
+	givenEventID := epptestingutils.EventID
+	givenApplicationName := epptestingutils.ApplicationName
+	givenEventTypePrefix := epptestingutils.Prefix
 	givenTimeNow := time.Now().Format(time.RFC3339)
-	givenLegacyEventVersion := testingutils.EventVersion
+	givenLegacyEventVersion := epptestingutils.EventVersion
 	givenPublishReqParams := &legacyapi.PublishEventParametersV1{
 		PublishrequestV1: legacyapi.PublishRequestV1{
 			EventID:          givenEventID,
 			EventType:        eventTypeMultiSegment,
 			EventTime:        givenTimeNow,
 			EventTypeVersion: givenLegacyEventVersion,
-			Data:             testingutils.EventData,
+			Data:             epptestingutils.EventData,
 		},
 	}
 
-	wantEventMeshNamespace := testingutils.MessagingNamespace
+	wantEventMeshNamespace := epptestingutils.MessagingNamespace
 	wantEventID := givenEventID
 	wantEventType := formatEventType(givenEventTypePrefix, givenApplicationName, eventTypeMultiSegmentCombined,
 		givenLegacyEventVersion)
@@ -202,8 +202,8 @@ func TestCombineEventTypeSegments(t *testing.T) {
 	}{
 		{
 			name:           "event-type with two segments",
-			givenEventType: testingutils.EventName,
-			wantEventType:  testingutils.EventName,
+			givenEventType: epptestingutils.EventName,
+			wantEventType:  epptestingutils.EventName,
 		},
 		{
 			name:           "event-type with more than two segments",
@@ -369,7 +369,7 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 	testCases := []struct {
 		name                        string
 		givenPublishEventParameters legacyapi.PublishEventParametersV1
-		wantCloudEventFunc          func() (ceevent.Event, error)
+		wantCloudEventFunc          func() (ceeventv2.Event, error)
 		wantErrorResponse           legacyapi.PublishEventResponses
 		wantError                   bool
 		wantEventType               string
@@ -381,7 +381,7 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 			name: "should succeed if publish data is valid",
 			givenPublishEventParameters: legacyapi.PublishEventParametersV1{
 				PublishrequestV1: legacyapi.PublishRequestV1{
-					EventID:          testingutils.EventID,
+					EventID:          epptestingutils.EventID,
 					EventType:        givenEventName,
 					EventTypeVersion: givenVersion,
 					EventTime:        "2020-04-02T21:37:00Z",
@@ -389,7 +389,7 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 				},
 			},
 			wantError:     false,
-			wantEventID:   testingutils.EventID,
+			wantEventID:   epptestingutils.EventID,
 			wantEventType: "object.do.v1",
 			wantSource:    givenApplication,
 			wantData:      `{"key":"value"}`,

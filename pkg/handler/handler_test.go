@@ -32,7 +32,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/metricstest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func TestHandler_publishCloudEvents(t *testing.T) {
@@ -200,7 +200,7 @@ func TestHandler_publishCloudEvents(t *testing.T) {
 				eventTypeCleaner:   tt.fields.eventTypeCleaner,
 				ceBuilder:          ceBuilder,
 				Options:            &options.Options{},
-				OldEventTypePrefix: testingutils.OldEventTypePrefix,
+				OldEventTypePrefix: epptestingutils.OldEventTypePrefix,
 			}
 			writer := httptest.NewRecorder()
 

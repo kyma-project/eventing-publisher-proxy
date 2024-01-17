@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	pkgnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
-	publishertesting "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func TestConnect(t *testing.T) {
@@ -37,7 +37,7 @@ func TestConnect(t *testing.T) {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
 			// given
-			natsServer := publishertesting.StartNATSServer()
+			natsServer := epptestingutils.StartNATSServer()
 			assert.NotNil(t, natsServer)
 			defer natsServer.Shutdown()
 

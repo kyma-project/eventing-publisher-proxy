@@ -9,7 +9,7 @@ import (
 
 	"github.com/kyma-project/eventing-manager/pkg/logger"
 
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 // a mocked http.Handler.
@@ -20,7 +20,7 @@ func (h *testHandler) ServeHTTP(http.ResponseWriter, *http.Request) {}
 var _ http.Handler = (*testHandler)(nil)
 
 func TestNewHttpMessageReceiver(t *testing.T) {
-	port := testingutils.GeneratePortOrDie()
+	port := epptestingutils.GeneratePortOrDie()
 	r := NewHTTPMessageReceiver(port)
 	if r.Port != port {
 		t.Errorf("Port should be: %d is: %d", port, r.Port)

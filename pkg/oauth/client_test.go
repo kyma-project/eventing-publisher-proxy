@@ -11,7 +11,7 @@ import (
 	"golang.org/x/oauth2"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func TestNewClient(t *testing.T) {
@@ -88,13 +88,13 @@ func TestGetToken(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			t.Parallel()
 
-			mockServer := testingutils.NewMockServer(testingutils.WithExpiresIn(test.givenExpiresInSec))
+			mockServer := epptestingutils.NewMockServer(epptestingutils.WithExpiresIn(test.givenExpiresInSec))
 			mockServer.Start(t, tokenEndpoint, eventsEndpoint, eventsHTTP400Endpoint)
 			defer mockServer.Close()
 
 			emsCEURL := fmt.Sprintf("%s%s", mockServer.URL(), eventsEndpoint)
 			authURL := fmt.Sprintf("%s%s", mockServer.URL(), tokenEndpoint)
-			cfg := testingutils.NewEnvConfig(emsCEURL, authURL)
+			cfg := epptestingutils.NewEnvConfig(emsCEURL, authURL)
 			client := NewClient(context.Background(), cfg)
 			defer client.CloseIdleConnections()
 

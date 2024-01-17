@@ -6,7 +6,7 @@ import (
 	golog "log"
 	"testing"
 
-	cloudevents "github.com/cloudevents/sdk-go/v2"
+	cev2 "github.com/cloudevents/sdk-go/v2"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
@@ -102,7 +102,7 @@ func Test_Build(t *testing.T) {
 			// build cloud event
 			builder := epptestingutils.NewCloudEventBuilder()
 			payload, _ := builder.BuildStructured()
-			newEvent := cloudevents.NewEvent()
+			newEvent := cev2.NewEvent()
 			err = json.Unmarshal([]byte(payload), &newEvent)
 			require.NoError(t, err)
 			newEvent.SetType(tc.givenType)

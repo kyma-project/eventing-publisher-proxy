@@ -92,18 +92,26 @@ linters-settings:
     ## kubernetes APIs get the prefix `k`. As an example check `kcorev1`
 
     alias:
+      - pkg: "log"
+        alias: golog
       - pkg: k8s.io/api/core/v1
         alias: kcorev1
+      - pkg: k8s.io/apimachinery/pkg/apis/meta/v1
+        alias: kmetav1
+      - pkg: k8s.io/client-go/dynamic/fake
+        alias: kdynamicfake
       - pkg: github.com/kyma-project/eventing-publisher-proxy/testing
         alias: epptestingutils
       - pkg : "github.com/kyma-project/eventing-manager/pkg/logger"
         alias: emlogger
+      - pkg : "github.com/cloudevents/sdk-go/v2"
+        alias: cev2
       - pkg : "github.com/cloudevents/sdk-go/v2/protocol/http"
-        alias: cehttp
+        alias: cehttpv2
       - pkg : "github.com/cloudevents/sdk-go/v2/event"
-        alias: ceevent
+        alias: ceeventv2
       - pkg : "github.com/cloudevents/sdk-go/v2/client"
-        alias: ceclient
+        alias: ceclientv2
       - pkg : "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
         alias: applicationv1alpha1
 

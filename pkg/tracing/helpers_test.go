@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"testing"
 
-	ceevent "github.com/cloudevents/sdk-go/v2/event"
+	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
 
 	"github.com/onsi/gomega"
 )
@@ -62,7 +62,7 @@ func TestAddTracingContextToCEExtensions(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			event := ceevent.New()
+			event := ceeventv2.New()
 			AddTracingContextToCEExtensions(tc.headers, &event)
 			g.Expect(event.Extensions()).To(gomega.Equal(tc.expectedExtensions))
 		})

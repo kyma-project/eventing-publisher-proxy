@@ -7,7 +7,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/cloudevents/sdk-go/v2/binding"
-	cehttp "github.com/cloudevents/sdk-go/v2/protocol/http"
+	cehttpv2 "github.com/cloudevents/sdk-go/v2/protocol/http"
 )
 
 // WriteRequestWithHeaders writes a CloudEvent HTTP request with the given message and adds the given headers to it.
@@ -17,7 +17,7 @@ func WriteRequestWithHeaders(
 	req *http.Request,
 	headers http.Header,
 	transformers ...binding.Transformer) error {
-	err := cehttp.WriteRequest(ctx, message, req, transformers...)
+	err := cehttpv2.WriteRequest(ctx, message, req, transformers...)
 	if err != nil {
 		return errors.Wrap(err, "failed to write Request")
 	}

@@ -6,7 +6,7 @@ import (
 
 	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	dynamicfake "k8s.io/client-go/dynamic/fake"
+	kdynamicfake "k8s.io/client-go/dynamic/fake"
 
 	applicationv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
 
@@ -15,7 +15,7 @@ import (
 
 func NewApplicationListerOrDie(ctx context.Context, app *applicationv1alpha1.Application) *application.Lister {
 	scheme := setupSchemeOrDie()
-	dynamicClient := dynamicfake.NewSimpleDynamicClient(scheme, app)
+	dynamicClient := kdynamicfake.NewSimpleDynamicClient(scheme, app)
 	return application.NewLister(ctx, dynamicClient)
 }
 

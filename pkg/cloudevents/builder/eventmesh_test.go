@@ -7,14 +7,13 @@ import (
 	golog "log"
 	"testing"
 
-	cloudevents "github.com/cloudevents/sdk-go/v2"
-
+	cev2 "github.com/cloudevents/sdk-go/v2"
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 	"github.com/stretchr/testify/require"
 )
 
@@ -97,9 +96,9 @@ func Test_EventMesh_Build(t *testing.T) {
 
 			// given
 			// build cloud event
-			builder := testingutils.NewCloudEventBuilder()
+			builder := epptestingutils.NewCloudEventBuilder()
 			payload, _ := builder.BuildStructured()
-			newEvent := cloudevents.NewEvent()
+			newEvent := cev2.NewEvent()
 			err = json.Unmarshal([]byte(payload), &newEvent)
 			require.NoError(t, err)
 			newEvent.SetType(tc.givenType)

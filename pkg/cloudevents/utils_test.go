@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"testing"
 
-	cehttp "github.com/cloudevents/sdk-go/v2/protocol/http"
+	cehttpv2 "github.com/cloudevents/sdk-go/v2/protocol/http"
 
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/eventmesh"
@@ -20,7 +20,7 @@ func TestWriteRequestWithHeaders(t *testing.T) {
 	req := httptest.NewRequest(http.MethodPost, "/", nil)
 	req.Header.Add(internal.HeaderContentType, internal.ContentTypeApplicationCloudEventsJSON)
 
-	message := cehttp.NewMessageFromHttpRequest(req)
+	message := cehttpv2.NewMessageFromHttpRequest(req)
 	defer func() { _ = message.Finish(nil) }()
 
 	additionalHeaders := http.Header{
