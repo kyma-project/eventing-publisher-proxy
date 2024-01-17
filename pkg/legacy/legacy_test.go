@@ -17,7 +17,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
-	legacyapi "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
+	eppapi "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/legacytest"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
@@ -161,8 +161,8 @@ func TestConvertPublishRequestToCloudEvent(t *testing.T) {
 	givenEventTypePrefix := epptestingutils.Prefix
 	givenTimeNow := time.Now().Format(time.RFC3339)
 	givenLegacyEventVersion := epptestingutils.EventVersion
-	givenPublishReqParams := &legacyapi.PublishEventParametersV1{
-		PublishrequestV1: legacyapi.PublishRequestV1{
+	givenPublishReqParams := &eppapi.PublishEventParametersV1{
+		PublishrequestV1: eppapi.PublishRequestV1{
 			EventID:          givenEventID,
 			EventType:        eventTypeMultiSegment,
 			EventTime:        givenTimeNow,
@@ -273,8 +273,8 @@ func TestExtractPublishRequestData(t *testing.T) {
 	testCases := []struct {
 		name                   string
 		givenLegacyRequestFunc func() (*http.Request, error)
-		wantPublishRequestData *legacyapi.PublishRequestData
-		wantErrorResponse      *legacyapi.PublishEventResponses
+		wantPublishRequestData *eppapi.PublishRequestData
+		wantErrorResponse      *eppapi.PublishEventResponses
 	}{
 		{
 			name: "should fail if request body is empty",
@@ -295,9 +295,9 @@ func TestExtractPublishRequestData(t *testing.T) {
 			givenLegacyRequestFunc: func() (*http.Request, error) {
 				return legacytest.ValidLegacyRequest(givenVersion, givenApplication, givenEventName)
 			},
-			wantPublishRequestData: &legacyapi.PublishRequestData{
-				PublishEventParameters: &legacyapi.PublishEventParametersV1{
-					PublishrequestV1: legacyapi.PublishRequestV1{
+			wantPublishRequestData: &eppapi.PublishRequestData{
+				PublishEventParameters: &eppapi.PublishEventParametersV1{
+					PublishrequestV1: eppapi.PublishRequestV1{
 						EventType:        "object.do",
 						EventTypeVersion: "v1",
 						EventTime:        "2020-04-02T21:37:00Z",
@@ -313,9 +313,9 @@ func TestExtractPublishRequestData(t *testing.T) {
 			givenLegacyRequestFunc: func() (*http.Request, error) {
 				return legacytest.ValidLegacyRequest(givenVersion, "no-app", givenEventName)
 			},
-			wantPublishRequestData: &legacyapi.PublishRequestData{
-				PublishEventParameters: &legacyapi.PublishEventParametersV1{
-					PublishrequestV1: legacyapi.PublishRequestV1{
+			wantPublishRequestData: &eppapi.PublishRequestData{
+				PublishEventParameters: &eppapi.PublishEventParametersV1{
+					PublishrequestV1: eppapi.PublishRequestV1{
 						EventType:        "object.do",
 						EventTypeVersion: "v1",
 						EventTime:        "2020-04-02T21:37:00Z",
@@ -368,9 +368,9 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 
 	testCases := []struct {
 		name                        string
-		givenPublishEventParameters legacyapi.PublishEventParametersV1
+		givenPublishEventParameters eppapi.PublishEventParametersV1
 		wantCloudEventFunc          func() (ceeventv2.Event, error)
-		wantErrorResponse           legacyapi.PublishEventResponses
+		wantErrorResponse           eppapi.PublishEventResponses
 		wantError                   bool
 		wantEventType               string
 		wantSource                  string
@@ -379,8 +379,8 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 	}{
 		{
 			name: "should succeed if publish data is valid",
-			givenPublishEventParameters: legacyapi.PublishEventParametersV1{
-				PublishrequestV1: legacyapi.PublishRequestV1{
+			givenPublishEventParameters: eppapi.PublishEventParametersV1{
+				PublishrequestV1: eppapi.PublishRequestV1{
 					EventID:          epptestingutils.EventID,
 					EventType:        givenEventName,
 					EventTypeVersion: givenVersion,
@@ -396,8 +396,8 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 		},
 		{
 			name: "should set new event ID when not provided",
-			givenPublishEventParameters: legacyapi.PublishEventParametersV1{
-				PublishrequestV1: legacyapi.PublishRequestV1{
+			givenPublishEventParameters: eppapi.PublishEventParametersV1{
+				PublishrequestV1: eppapi.PublishRequestV1{
 					EventType:        givenEventName,
 					EventTypeVersion: givenVersion,
 					EventTime:        "2020-04-02T21:37:00Z",
@@ -411,8 +411,8 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 		},
 		{
 			name: "should fail if event time is invalid",
-			givenPublishEventParameters: legacyapi.PublishEventParametersV1{
-				PublishrequestV1: legacyapi.PublishRequestV1{
+			givenPublishEventParameters: eppapi.PublishEventParametersV1{
+				PublishrequestV1: eppapi.PublishRequestV1{
 					EventType:        givenEventName,
 					EventTypeVersion: givenVersion,
 					EventTime:        "20dsadsa20-04-02T21:37:00Z",
@@ -423,8 +423,8 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 		},
 		{
 			name: "should fail if event data is not json",
-			givenPublishEventParameters: legacyapi.PublishEventParametersV1{
-				PublishrequestV1: legacyapi.PublishRequestV1{
+			givenPublishEventParameters: eppapi.PublishEventParametersV1{
+				PublishrequestV1: eppapi.PublishRequestV1{
 					EventType:        givenEventName,
 					EventTypeVersion: givenVersion,
 					EventTime:        "20dsadsa20-04-02T21:37:00Z",
@@ -441,7 +441,7 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 			t.Parallel()
 
 			// given
-			givenPublishRequestData := legacyapi.PublishRequestData{
+			givenPublishRequestData := eppapi.PublishRequestData{
 				PublishEventParameters: &tc.givenPublishEventParameters,
 				ApplicationName:        givenApplication,
 			}

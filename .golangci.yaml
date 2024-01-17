@@ -102,6 +102,8 @@ linters-settings:
         alias: kdynamicfake
       - pkg: github.com/kyma-project/eventing-publisher-proxy/testing
         alias: epptestingutils
+      - pkg: github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api
+        alias: eppapi
       - pkg : github.com/kyma-project/eventing-manager/pkg/logger
         alias: emlogger
       - pkg : github.com/cloudevents/sdk-go/v2
