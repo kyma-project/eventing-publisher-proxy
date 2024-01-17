@@ -19,7 +19,7 @@ import (
 	cev2 "github.com/cloudevents/sdk-go/v2"
 	"github.com/cloudevents/sdk-go/v2/client"
 	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
-	eclogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
@@ -298,7 +298,7 @@ func TestHandler_publishCloudEvents_v1alpha1(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// given
-			logger, err := eclogger.New("text", "debug")
+			logger, err := emlogger.New("text", "debug")
 			assert.NoError(t, err)
 
 			h := &Handler{
@@ -523,7 +523,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// given
-			logger, _ := eclogger.New("text", "debug")
+			logger, _ := emlogger.New("text", "debug")
 			h := &Handler{
 				Sender:    tt.fields.Sender,
 				Defaulter: tt.fields.Defaulter,
@@ -557,7 +557,7 @@ func TestHandler_sendEventAndRecordMetrics_TracingAndDefaults(t *testing.T) {
 	latency := new(mocks.BucketsProvider)
 	latency.On(bucketsFunc).Return(nil)
 	latency.Test(t)
-	logger, _ := eclogger.New("text", "debug")
+	logger, _ := emlogger.New("text", "debug")
 	h := &Handler{
 		Sender:    stub,
 		Defaulter: nil,
