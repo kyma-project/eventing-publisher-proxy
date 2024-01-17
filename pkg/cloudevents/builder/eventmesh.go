@@ -1,7 +1,7 @@
 package builder
 
 import (
-	cev2event "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
 	"github.com/kyma-project/eventing-manager/pkg/logger"
@@ -27,7 +27,7 @@ func NewEventMeshBuilder(prefix string, eventMeshNamespace string, cleaner clean
 	}
 }
 
-func (emb *EventMeshBuilder) Build(event cev2event.Event) (*cev2event.Event, error) {
+func (emb *EventMeshBuilder) Build(event ceevent.Event) (*ceevent.Event, error) {
 	ceEvent, err := emb.genericBuilder.Build(event)
 	if err != nil {
 		return nil, err

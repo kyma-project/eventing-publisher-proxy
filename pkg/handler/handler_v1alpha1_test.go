@@ -18,7 +18,7 @@ import (
 
 	cloudevents "github.com/cloudevents/sdk-go/v2"
 	"github.com/cloudevents/sdk-go/v2/client"
-	cev2event "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 	eclogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/stretchr/testify/assert"
 
@@ -40,7 +40,7 @@ func Test_extractCloudEventFromRequest(t *testing.T) {
 		request *http.Request
 	}
 	type wants struct {
-		event              *cev2event.Event
+		event              *ceevent.Event
 		errorAssertionFunc assert.ErrorAssertionFunc
 	}
 	tests := []struct {
@@ -389,7 +389,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 	type args struct {
 		ctx    context.Context
 		host   string
-		event  *cev2event.Event
+		event  *ceevent.Event
 		header http.Header
 	}
 	type wants struct {
@@ -507,7 +507,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 			args: args{
 				ctx:   context.Background(),
 				host:  "foo",
-				event: &cev2event.Event{},
+				event: &ceevent.Event{},
 			},
 			wants: wants{
 				result:           nil,
@@ -586,7 +586,7 @@ func TestHandler_sendEventAndRecordMetrics_TracingAndDefaults(t *testing.T) {
 	assert.Equal(t, expectedExtensions, stub.ReceivedEvent.Context.GetExtensions())
 }
 
-func CreateCloudEvent(t *testing.T) *cev2event.Event {
+func CreateCloudEvent(t *testing.T) *ceevent.Event {
 	builder := testingutils.NewCloudEventBuilder(
 		testingutils.WithCloudEventType(testingutils.CloudEventTypeWithPrefix),
 	)
@@ -669,11 +669,11 @@ func CreateInvalidBinaryRequestV1Alpha1(t *testing.T) *http.Request {
 type GenericSenderStub struct {
 	SleepDuration time.Duration
 	Err           sender.PublishError
-	ReceivedEvent *cev2event.Event
+	ReceivedEvent *ceevent.Event
 	BackendURL    string
 }
 
-func (g *GenericSenderStub) Send(_ context.Context, event *cev2event.Event) sender.PublishError {
+func (g *GenericSenderStub) Send(_ context.Context, event *ceevent.Event) sender.PublishError {
 	g.ReceivedEvent = event
 	time.Sleep(g.SleepDuration)
 	return g.Err

@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	eventingv1alpha2 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
-	v1 "k8s.io/api/core/v1"
+	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -65,7 +65,7 @@ func GenerateSubscriptionInfFactory(k8sConfig *rest.Config) dynamicinformer.Dyna
 	subDynamicClient := dynamic.NewForConfigOrDie(k8sConfig)
 	dFilteredSharedInfFactory := dynamicinformer.NewFilteredDynamicSharedInformerFactory(subDynamicClient,
 		informers.DefaultResyncPeriod,
-		v1.NamespaceAll,
+		kcorev1.NamespaceAll,
 		nil,
 	)
 	dFilteredSharedInfFactory.ForResource(SubscriptionGVR())

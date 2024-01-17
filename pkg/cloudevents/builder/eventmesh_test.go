@@ -10,7 +10,7 @@ import (
 	cloudevents "github.com/cloudevents/sdk-go/v2"
 
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
-	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
@@ -25,7 +25,7 @@ func Test_EventMesh_Build(t *testing.T) {
 	const eventMeshPrefix = "one.two.three"
 
 	// init the logger
-	logger, err := kymalogger.New("json", "debug")
+	logger, err := emlogger.New("json", "debug")
 	if err != nil {
 		golog.Fatalf("Failed to initialize logger, error: %v", err)
 	}

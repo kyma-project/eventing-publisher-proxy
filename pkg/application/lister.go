@@ -5,9 +5,9 @@ import (
 	"errors"
 	"time"
 
-	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	applicationv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
-	v1 "k8s.io/api/core/v1"
+	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -25,10 +25,10 @@ type Lister struct {
 func NewLister(ctx context.Context, client dynamic.Interface) *Lister {
 	const defaultResync = 10 * time.Second
 	gvr := GroupVersionResource()
-	factory := dynamicinformer.NewFilteredDynamicSharedInformerFactory(client, defaultResync, v1.NamespaceAll, nil)
+	factory := dynamicinformer.NewFilteredDynamicSharedInformerFactory(client, defaultResync, kcorev1.NamespaceAll, nil)
 	factory.ForResource(gvr)
 	lister := factory.ForResource(gvr).Lister()
-	logger, _ := kymalogger.New("json", "error")
+	logger, _ := emlogger.New("json", "error")
 	informers.WaitForCacheSyncOrDie(ctx, factory, logger)
 	return &Lister{lister: lister}
 }

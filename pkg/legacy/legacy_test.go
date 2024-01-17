@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	cev2event "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -369,7 +369,7 @@ func TestTransformPublishRequestToCloudEvent(t *testing.T) {
 	testCases := []struct {
 		name                        string
 		givenPublishEventParameters legacyapi.PublishEventParametersV1
-		wantCloudEventFunc          func() (cev2event.Event, error)
+		wantCloudEventFunc          func() (ceevent.Event, error)
 		wantErrorResponse           legacyapi.PublishEventResponses
 		wantError                   bool
 		wantEventType               string

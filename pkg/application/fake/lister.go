@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	corev1 "k8s.io/api/core/v1"
+	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	dynamicfake "k8s.io/client-go/dynamic/fake"
 
@@ -21,7 +21,7 @@ func NewApplicationListerOrDie(ctx context.Context, app *applicationv1alpha1.App
 
 func setupSchemeOrDie() *runtime.Scheme {
 	scheme := runtime.NewScheme()
-	if err := corev1.AddToScheme(scheme); err != nil {
+	if err := kcorev1.AddToScheme(scheme); err != nil {
 		log.Fatalf("Failed to setup scheme with error: %v", err)
 	}
 	if err := applicationv1alpha1.AddToScheme(scheme); err != nil {
