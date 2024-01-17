@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	pkgnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
+	eppnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
@@ -45,10 +45,10 @@ func TestConnect(t *testing.T) {
 			assert.NotEmpty(t, clientURL)
 
 			// when
-			connection, err := pkgnats.Connect(clientURL,
-				pkgnats.WithRetryOnFailedConnect(tc.givenRetryOnFailedConnect),
-				pkgnats.WithMaxReconnects(tc.givenMaxReconnect),
-				pkgnats.WithReconnectWait(tc.givenReconnectWait),
+			connection, err := eppnats.Connect(clientURL,
+				eppnats.WithRetryOnFailedConnect(tc.givenRetryOnFailedConnect),
+				eppnats.WithMaxReconnects(tc.givenMaxReconnect),
+				eppnats.WithReconnectWait(tc.givenReconnectWait),
 			)
 			assert.Nil(t, err)
 			assert.NotNil(t, connection)

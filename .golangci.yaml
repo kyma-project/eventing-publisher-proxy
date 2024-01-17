@@ -102,18 +102,20 @@ linters-settings:
         alias: kdynamicfake
       - pkg: github.com/kyma-project/eventing-publisher-proxy/testing
         alias: epptestingutils
-      - pkg : "github.com/kyma-project/eventing-manager/pkg/logger"
+      - pkg : github.com/kyma-project/eventing-manager/pkg/logger
         alias: emlogger
-      - pkg : "github.com/cloudevents/sdk-go/v2"
+      - pkg : github.com/cloudevents/sdk-go/v2
         alias: cev2
-      - pkg : "github.com/cloudevents/sdk-go/v2/protocol/http"
+      - pkg : github.com/cloudevents/sdk-go/v2/protocol/http
         alias: cehttpv2
-      - pkg : "github.com/cloudevents/sdk-go/v2/event"
+      - pkg : github.com/cloudevents/sdk-go/v2/event
         alias: ceeventv2
-      - pkg : "github.com/cloudevents/sdk-go/v2/client"
+      - pkg : github.com/cloudevents/sdk-go/v2/client
         alias: ceclientv2
-      - pkg : "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
+      - pkg : github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1
         alias: applicationv1alpha1
+      - pkg: github.com/kyma-project/eventing-publisher-proxy/pkg/nats
+        alias: eppnats
 
 
   ireturn:
