@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	cev2 "github.com/cloudevents/sdk-go/v2/event"
+	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
@@ -129,8 +129,8 @@ func (b *CloudEventBuilder) BuildStructured() (string, http.Header) {
 	return payload, headers
 }
 
-func (b *CloudEventBuilder) Build(t *testing.T) *cev2.Event {
-	e := cev2.New(b.specVersion)
+func (b *CloudEventBuilder) Build(t *testing.T) *ceeventv2.Event {
+	e := ceeventv2.New(b.specVersion)
 	assert.NoError(t, e.Context.SetID(b.id))
 	assert.NoError(t, e.Context.SetType(b.eventType))
 	assert.NoError(t, e.Context.SetSource(b.eventSource))

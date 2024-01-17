@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	cev2 "github.com/cloudevents/sdk-go/v2/event"
+	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
@@ -29,9 +29,9 @@ const (
 
 type RequestToCETransformer interface {
 	ExtractPublishRequestData(*http.Request) (*apiv1.PublishRequestData, *apiv1.PublishEventResponses, error)
-	TransformPublishRequestToCloudEvent(*apiv1.PublishRequestData) (*cev2.Event, error)
-	WriteLegacyRequestsToCE(http.ResponseWriter, *apiv1.PublishRequestData) (*cev2.Event, string)
-	WriteCEResponseAsLegacyResponse(http.ResponseWriter, int, *cev2.Event, string)
+	TransformPublishRequestToCloudEvent(*apiv1.PublishRequestData) (*ceeventv2.Event, error)
+	WriteLegacyRequestsToCE(http.ResponseWriter, *apiv1.PublishRequestData) (*ceeventv2.Event, string)
+	WriteCEResponseAsLegacyResponse(http.ResponseWriter, int, *ceeventv2.Event, string)
 }
 
 type Transformer struct {
@@ -126,7 +126,7 @@ func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*apiv1.P
 // WriteLegacyRequestsToCE transforms the legacy event to cloudevent from the given request.
 // It also returns the original event-type without cleanup as the second return type.
 func (t *Transformer) WriteLegacyRequestsToCE(writer http.ResponseWriter,
-	publishData *apiv1.PublishRequestData) (*cev2.Event, string) {
+	publishData *apiv1.PublishRequestData) (*ceeventv2.Event, string) {
 	uncleanedAppName := publishData.ApplicationName
 
 	// clean the application name form non-alphanumeric characters
@@ -156,7 +156,7 @@ func (t *Transformer) WriteLegacyRequestsToCE(writer http.ResponseWriter,
 }
 
 func (t *Transformer) WriteCEResponseAsLegacyResponse(writer http.ResponseWriter, statusCode int,
-	event *cev2.Event, msg string) {
+	event *ceeventv2.Event, msg string) {
 	response := &apiv1.PublishEventResponses{}
 	// Fail
 	if !is2XXStatusCode(statusCode) {
@@ -174,13 +174,13 @@ func (t *Transformer) WriteCEResponseAsLegacyResponse(writer http.ResponseWriter
 }
 
 // TransformPublishRequestToCloudEvent converts the given publish request to a CloudEvent with raw values.
-func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *apiv1.PublishRequestData) (*cev2.Event,
+func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *apiv1.PublishRequestData) (*ceeventv2.Event,
 	error) {
 	source := publishRequestData.ApplicationName
 	publishRequest := publishRequestData.PublishEventParameters
 
 	// instantiate a new cloudEvent object
-	event := cev2.New(cev2.CloudEventsVersionV1)
+	event := ceeventv2.New(ceeventv2.CloudEventsVersionV1)
 	eventName := publishRequest.PublishrequestV1.EventType
 	eventTypeVersion := publishRequest.PublishrequestV1.EventTypeVersion
 
@@ -215,12 +215,12 @@ func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *ap
 
 // convertPublishRequestToCloudEvent converts the given publish request to a CloudEvent.
 func (t *Transformer) convertPublishRequestToCloudEvent(appName string,
-	publishRequest *apiv1.PublishEventParametersV1) (*cev2.Event, error) {
+	publishRequest *apiv1.PublishEventParametersV1) (*ceeventv2.Event, error) {
 	if !application.IsCleanName(appName) {
 		return nil, errors.New("application name should be cleaned from none-alphanumeric characters")
 	}
 
-	event := cev2.New(cev2.CloudEventsVersionV1)
+	event := ceeventv2.New(ceeventv2.CloudEventsVersionV1)
 
 	evTime, err := time.Parse(time.RFC3339, publishRequest.PublishrequestV1.EventTime)
 	if err != nil {

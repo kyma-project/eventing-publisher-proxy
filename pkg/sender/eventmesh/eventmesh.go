@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/cloudevents/sdk-go/v2/binding"
-	ceevent "github.com/cloudevents/sdk-go/v2/event"
+	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
 
 	"github.com/kyma-project/eventing-manager/pkg/logger"
 	"go.uber.org/zap"
@@ -50,7 +50,7 @@ func (s *Sender) Checker() *health.ConfigurableChecker {
 	return &health.ConfigurableChecker{}
 }
 
-func (s *Sender) Send(ctx context.Context, event *ceevent.Event) sender.PublishError {
+func (s *Sender) Send(ctx context.Context, event *ceeventv2.Event) sender.PublishError {
 	request, err := s.NewRequestWithTarget(ctx, s.Target)
 	if err != nil {
 		e := common.ErrInternalBackendError
