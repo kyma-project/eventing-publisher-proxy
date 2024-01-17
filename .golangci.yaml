@@ -33,8 +33,7 @@ linters:
     - unconvert
     - varnamelen
     - wrapcheck
-    ### EPP disable for linting one by one
-    - importas
+    ### Disable linters one by one
     - gci
     - tagalign
     - dupword
@@ -111,12 +110,6 @@ linters-settings:
         alias: kunstructured
       - pkg: k8s.io/apimachinery/pkg/apis/meta/v1
         alias: kmetav1
-      - pkg: github.com/kyma-project/eventing-manager/api/eventing/v1alpha1
-        alias: eventingv1alpha1
-      - pkg: github.com/kyma-project/eventing-manager/api/eventing/v1alpha2
-        alias: eventingv1alpha2
-      - pkg: github.com/kyma-project/eventing-manager/api/operator/v1alpha1
-        alias: operatorv1alpha1
       - pkg: github.com/kyma-project/api-gateway/apis/gateway/v1beta1
         alias: apigatewayv1beta1
       - pkg: k8s.io/client-go/dynamic/fake
@@ -129,8 +122,6 @@ linters-settings:
         alias: kerrors
       - pkg: k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1
         alias: kapiextensionsv1
-      - pkg: github.com/kyma-project/eventing-manager/testing
-        alias: eventingtesting
       - pkg: sigs.k8s.io/controller-runtime
         alias: kctrl
       - pkg: sigs.k8s.io/controller-runtime/pkg/log
@@ -157,62 +148,30 @@ linters-settings:
         alias: ceprotocol
       - pkg: github.com/cloudevents/sdk-go/v2/protocol/http
         alias: cehttp
-      - pkg: github.com/kyma-project/eventing-manager/pkg/backend/(\w+)$
-        alias: backend$1
-      - pkg: github.com/kyma-project/eventing-manager/pkg/backend/(\w+)/(\w+)$
-        alias: backend$1$2
-      - pkg: github.com/kyma-project/eventing-manager/test/(\w+)$
-        alias: test$1
-      - pkg: github.com/kyma-project/eventing-manager/test/(\w+)/(\w+)$
-        alias: test$1$2
       - pkg: istio.io/client-go/pkg/apis/security/v1beta1
         alias: istiopkgsecurityv1beta1
       - pkg: istio.io/api/(\w+)/(v\d+\w*\d*)$
         alias: istio$1$2
       - pkg: github.com/nats-io/nats-server/v2/(\w+)$
         alias: natsio$1
-      - pkg: github.com/kyma-project/eventing-manager/internal/controller/(\w+)$
-        alias: controller$1
       - pkg: github.com/kyma-project/kyma/common/logging/logger
         alias: kymalogger
       - pkg: github.com/kyma-project/nats-manager/api/v1alpha1
         alias: natsv1alpha1
       - pkg: github.com/kyma-project/nats-manager/testutils
         alias: natstestutils
-      - pkg: github.com/kyma-project/eventing-manager/internal/controller/eventing/subscription/(\w+)$
-        alias: subscriptioncontroller$1
-      - pkg: github.com/kyma-project/eventing-manager/internal/controller/operator/eventing
-        alias: eventingcontroller
-      - pkg: github.com/kyma-project/eventing-manager/internal/controller/operator/eventing/mocks
-        alias: eventingcontrollermocks
-      - pkg: github.com/kyma-project/eventing-manager/pkg/ems/api/events/client/mocks
-        alias: emsclientmocks
-      - pkg: github.com/kyma-project/eventing-manager/pkg/ems/api/events/types
-        alias: emstypes
       - pkg: github.com/onsi/gomega/types
         alias: gomegatypes
       - pkg: k8s.io/apimachinery/pkg/util/runtime
         alias: kutilruntime
       - pkg: k8s.io/client-go/kubernetes/scheme
         alias: kkubernetesscheme
-      - pkg: github.com/kyma-project/eventing-manager/pkg/subscriptionmanager/manager
-        alias: submgrmanager
-      - pkg: github.com/kyma-project/eventing-manager/pkg/subscriptionmanager/manager/mocks
-        alias: submgrmanagermocks
-      - pkg: github.com/kyma-project/eventing-manager/pkg/subscriptionmanager/mocks
-        alias: submgrmocks
-      - pkg: github.com/kyma-project/eventing-manager/pkg/watcher/mocks
-        alias: watchermocks
-      - pkg: github.com/kyma-project/eventing-manager/pkg/k8s/mocks
-        alias: k8smocks
-      - pkg: github.com/kyma-project/eventing-manager/pkg/eventing/mocks
-        alias: eventingmocks
-      - pkg: github.com/kyma-project/eventing-manager/pkg/errors
-        alias: emerrors
       - pkg: github.com/pkg/errors
         alias: pkgerrors
-      - pkg: github.com/kyma-project/eventing-manager/testing/eventmeshsub
-        alias: eventmeshsubmatchers
+      - pkg: github.com/kyma-project/eventing-publisher-proxy/testing
+        alias: epptestingutils
+      - pkg : "github.com/kyma-project/eventing-manager/pkg/logger"
+        alias: "emlogger"
 
   ireturn:
     allow:

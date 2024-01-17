@@ -4,7 +4,7 @@ import (
 	golog "log"
 
 	"github.com/kelseyhightower/envconfig"
-	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/prometheus/client_golang/prometheus"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander"
@@ -44,7 +44,7 @@ func main() {
 	}
 
 	// init the logger
-	logger, err := kymalogger.New(cfg.AppLogFormat, cfg.AppLogLevel)
+	logger, err := emlogger.New(cfg.AppLogFormat, cfg.AppLogLevel)
 	if err != nil {
 		golog.Fatalf("Failed to initialize logger, error: %v", err)
 	}

@@ -46,6 +46,10 @@ help: ## Display this help.
 lint: ## Check lint issues using `golangci-lint`
 	golangci-lint run --timeout 5m --config=./.golangci.yaml
 
+.PHONY: lint-compact
+lint-compact: ## Check lint issues using `golangci-lint` in compact result format
+	golangci-lint run --timeout 5m --config=./.golangci.yaml --print-issued-lines=false
+
 .PHONY: lint-fix
 lint-fix: ## Check and fix lint issues using `golangci-lint`
 	golangci-lint run --fix --timeout 5m --config=./.golangci.yaml
