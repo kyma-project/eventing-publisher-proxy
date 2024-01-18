@@ -102,6 +102,8 @@ linters-settings:
         alias: kdynamicfake
       - pkg: github.com/nats-io/nats.go
         alias: natsgo
+      - pkg: go.opencensus.io/trace/propagation
+        alias: ocpropagation
       - pkg: github.com/kyma-project/eventing-publisher-proxy/testing
         alias: epptestingutils
       - pkg: github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api
