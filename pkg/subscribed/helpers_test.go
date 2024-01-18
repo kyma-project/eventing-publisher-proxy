@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	eventingv1alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
-	eventingv1alpha2 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
+	emeventingalpha1v1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
+	emeventingalpha2v1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
 )
 
 func TestFilterEventTypeVersions(t *testing.T) {
@@ -13,19 +13,19 @@ func TestFilterEventTypeVersions(t *testing.T) {
 	testCases := []struct {
 		name           string
 		appName        string
-		subscription   *eventingv1alpha2.Subscription
+		subscription   *emeventingalpha2v1.Subscription
 		expectedEvents []Event
 	}{
 		{
 			name:           "should return no events when there is no subscription",
 			appName:        "fooapp",
-			subscription:   &eventingv1alpha2.Subscription{},
+			subscription:   &emeventingalpha2v1.Subscription{},
 			expectedEvents: make([]Event, 0),
 		}, {
 			name:    "should return a slice of events when eventTypes are provided",
 			appName: "foovarkes",
-			subscription: &eventingv1alpha2.Subscription{
-				Spec: eventingv1alpha2.SubscriptionSpec{
+			subscription: &emeventingalpha2v1.Subscription{
+				Spec: emeventingalpha2v1.SubscriptionSpec{
 					Source: "foovarkes",
 					Types: []string{
 						"order.created.v1",
@@ -40,8 +40,8 @@ func TestFilterEventTypeVersions(t *testing.T) {
 		}, {
 			name:    "should return no event if app name is different than subscription source",
 			appName: "foovarkes",
-			subscription: &eventingv1alpha2.Subscription{
-				Spec: eventingv1alpha2.SubscriptionSpec{
+			subscription: &emeventingalpha2v1.Subscription{
+				Spec: emeventingalpha2v1.SubscriptionSpec{
 					Source: "diff-source",
 					Types: []string{
 						"order.created.v1",
@@ -53,10 +53,10 @@ func TestFilterEventTypeVersions(t *testing.T) {
 		}, {
 			name:    "should return event types if event type consists of eventType and appName for typeMaching exact",
 			appName: "foovarkes",
-			subscription: &eventingv1alpha2.Subscription{
-				Spec: eventingv1alpha2.SubscriptionSpec{
+			subscription: &emeventingalpha2v1.Subscription{
+				Spec: emeventingalpha2v1.SubscriptionSpec{
 					Source:       "/default/sap.kyma/tunas-develop",
-					TypeMatching: eventingv1alpha2.TypeMatchingExact,
+					TypeMatching: emeventingalpha2v1.TypeMatchingExact,
 					Types: []string{
 						"sap.kyma.custom.foovarkes.order.created.v1",
 						"sap.kyma.custom.foovarkes.order.created.v2",
@@ -70,10 +70,10 @@ func TestFilterEventTypeVersions(t *testing.T) {
 		}, {
 			name:    "should return no event if app name is not part of external event types",
 			appName: "foovarkes",
-			subscription: &eventingv1alpha2.Subscription{
-				Spec: eventingv1alpha2.SubscriptionSpec{
+			subscription: &emeventingalpha2v1.Subscription{
+				Spec: emeventingalpha2v1.SubscriptionSpec{
 					Source:       "/default/sap.kyma/tunas-develop",
-					TypeMatching: eventingv1alpha2.TypeMatchingExact,
+					TypeMatching: emeventingalpha2v1.TypeMatchingExact,
 					Types: []string{
 						"sap.kyma.custom.difffoovarkes.order.created.v1",
 						"sap.kyma.custom.difffoovarkes.order.created.v2",
@@ -84,10 +84,10 @@ func TestFilterEventTypeVersions(t *testing.T) {
 		}, {
 			name:    "should return event type only with 'sap.kyma.custom' prefix and appname",
 			appName: "foovarkes",
-			subscription: &eventingv1alpha2.Subscription{
-				Spec: eventingv1alpha2.SubscriptionSpec{
+			subscription: &emeventingalpha2v1.Subscription{
+				Spec: emeventingalpha2v1.SubscriptionSpec{
 					Source:       "/default/sap.kyma/tunas-develop",
-					TypeMatching: eventingv1alpha2.TypeMatchingExact,
+					TypeMatching: emeventingalpha2v1.TypeMatchingExact,
 					Types: []string{
 						"foo.prefix.custom.foovarkes.order.created.v1",
 						"sap.kyma.custom.foovarkes.order.created.v2",
@@ -158,7 +158,7 @@ func TestFilterEventTypeVersionsV1alpha1(t *testing.T) {
 		appName         string
 		eventTypePrefix string
 		bebNs           string
-		filters         *eventingv1alpha1.BEBFilters
+		filters         *emeventingalpha1v1.BEBFilters
 		expectedEvents  []Event
 	}{
 		{
@@ -340,10 +340,10 @@ func TestAddUniqueEventsToResult(t *testing.T) {
 	}
 }
 
-type EventMeshFilterOption func(filter *eventingv1alpha1.BEBFilters)
+type EventMeshFilterOption func(filter *emeventingalpha1v1.BEBFilters)
 
-func NewEventMeshFilters(opts ...EventMeshFilterOption) *eventingv1alpha1.BEBFilters {
-	newFilters := &eventingv1alpha1.BEBFilters{}
+func NewEventMeshFilters(opts ...EventMeshFilterOption) *emeventingalpha1v1.BEBFilters {
+	newFilters := &emeventingalpha1v1.BEBFilters{}
 	for _, opt := range opts {
 		opt(newFilters)
 	}
@@ -351,31 +351,31 @@ func NewEventMeshFilters(opts ...EventMeshFilterOption) *eventingv1alpha1.BEBFil
 	return newFilters
 }
 
-func WithOneEventMeshFilter(filters *eventingv1alpha1.BEBFilters) {
+func WithOneEventMeshFilter(filters *emeventingalpha1v1.BEBFilters) {
 	evSource := "/default/foo.kyma/kt1"
 	evType := "foo.prefix.custom.foovarkes.order.created.v1"
-	filters.Filters = []*eventingv1alpha1.EventMeshFilter{
+	filters.Filters = []*emeventingalpha1v1.EventMeshFilter{
 		NewEventMeshFilter(evSource, evType),
 	}
 }
 
-func WithMultipleEventMeshFiltersFromSameSource(filters *eventingv1alpha1.BEBFilters) {
+func WithMultipleEventMeshFiltersFromSameSource(filters *emeventingalpha1v1.BEBFilters) {
 	evSource := "/default/foo.kyma/kt1"
 	evType := "foo.prefix.custom.foovarkes.order.created.v1"
-	filters.Filters = []*eventingv1alpha1.EventMeshFilter{
+	filters.Filters = []*emeventingalpha1v1.EventMeshFilter{
 		NewEventMeshFilter(evSource, evType),
 		NewEventMeshFilter(evSource, evType),
 		NewEventMeshFilter(evSource, evType),
 	}
 }
 
-func WithMultipleEventMeshFiltersFromDiffSource(filters *eventingv1alpha1.BEBFilters) {
+func WithMultipleEventMeshFiltersFromDiffSource(filters *emeventingalpha1v1.BEBFilters) {
 	evSource1 := "foo-match"
 	evSource2 := "/default/foo.different/kt1"
 	evSource3 := "/default/foo.different2/kt1"
 	evSource4 := ""
 	evType := "foo.prefix.custom.foovarkes.order.created.v1"
-	filters.Filters = []*eventingv1alpha1.EventMeshFilter{
+	filters.Filters = []*emeventingalpha1v1.EventMeshFilter{
 		NewEventMeshFilter(evSource1, evType),
 		NewEventMeshFilter(evSource2, evType),
 		NewEventMeshFilter(evSource3, evType),
@@ -383,24 +383,24 @@ func WithMultipleEventMeshFiltersFromDiffSource(filters *eventingv1alpha1.BEBFil
 	}
 }
 
-func WithMultipleEventMeshFiltersFromDiffEventTypePrefix(filters *eventingv1alpha1.BEBFilters) {
+func WithMultipleEventMeshFiltersFromDiffEventTypePrefix(filters *emeventingalpha1v1.BEBFilters) {
 	evSource := "/default/foo.kyma/kt1"
 	evType1 := "foo.prefix.custom.foovarkes.order.created.v1"
 	evType2 := "foo.prefixdifferent.custom.foovarkes.order.created.v1"
-	filters.Filters = []*eventingv1alpha1.EventMeshFilter{
+	filters.Filters = []*emeventingalpha1v1.EventMeshFilter{
 		NewEventMeshFilter(evSource, evType1),
 		NewEventMeshFilter(evSource, evType2),
 		NewEventMeshFilter(evSource, evType1),
 	}
 }
 
-func NewEventMeshFilter(evSource, evType string) *eventingv1alpha1.EventMeshFilter {
-	return &eventingv1alpha1.EventMeshFilter{
-		EventSource: &eventingv1alpha1.Filter{
+func NewEventMeshFilter(evSource, evType string) *emeventingalpha1v1.EventMeshFilter {
+	return &emeventingalpha1v1.EventMeshFilter{
+		EventSource: &emeventingalpha1v1.Filter{
 			Property: "source",
 			Value:    evSource,
 		},
-		EventType: &eventingv1alpha1.Filter{
+		EventType: &emeventingalpha1v1.Filter{
 			Property: "type",
 			Value:    evType,
 		},

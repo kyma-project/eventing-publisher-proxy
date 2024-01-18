@@ -108,6 +108,10 @@ linters-settings:
         alias: eppapi
       - pkg : github.com/kyma-project/eventing-manager/pkg/logger
         alias: emlogger
+      - pkg: github.com/kyma-project/eventing-manager/api/eventing/v1alpha1
+        alias: emeventingalpha1v1
+      - pkg: github.com/kyma-project/eventing-manager/api/eventing/v1alpha2
+        alias: emeventingalpha2v1
       - pkg : github.com/cloudevents/sdk-go/v2
         alias: cev2
       - pkg : github.com/cloudevents/sdk-go/v2/protocol/http

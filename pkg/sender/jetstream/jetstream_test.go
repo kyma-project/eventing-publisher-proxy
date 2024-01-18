@@ -22,7 +22,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func TestJetStreamMessageSender(t *testing.T) {
@@ -113,10 +113,10 @@ type TestEnvironment struct {
 
 // setupTestEnvironment sets up the resources and mocks required for testing.
 func setupTestEnvironment(t *testing.T) *TestEnvironment {
-	natsServer := testingutils.StartNATSServer()
+	natsServer := epptestingutils.StartNATSServer()
 	require.NotNil(t, natsServer)
 
-	connection, err := testingutils.ConnectToNATSServer(natsServer.ClientURL())
+	connection, err := epptestingutils.ConnectToNATSServer(natsServer.ClientURL())
 	require.NotNil(t, connection)
 	require.NoError(t, err)
 
@@ -146,9 +146,9 @@ func setupTestEnvironment(t *testing.T) *TestEnvironment {
 
 // createCloudEvent build a cloud event.
 func createCloudEvent(t *testing.T) *event.Event {
-	jsType := fmt.Sprintf("%s.%s", testingutils.StreamName, testingutils.CloudEventTypeWithPrefix)
-	builder := testingutils.NewCloudEventBuilder(
-		testingutils.WithCloudEventType(jsType),
+	jsType := fmt.Sprintf("%s.%s", epptestingutils.StreamName, epptestingutils.CloudEventTypeWithPrefix)
+	builder := epptestingutils.NewCloudEventBuilder(
+		epptestingutils.WithCloudEventType(jsType),
 	)
 	payload, _ := builder.BuildStructured()
 	newEvent := cev2.NewEvent()
@@ -162,7 +162,7 @@ func createCloudEvent(t *testing.T) *event.Event {
 // getStreamConfig inits a testing stream config.
 func getStreamConfig(maxBytes int64) *natsgo.StreamConfig {
 	return &natsgo.StreamConfig{
-		Name:      testingutils.StreamName,
+		Name:      epptestingutils.StreamName,
 		Subjects:  []string{fmt.Sprintf("%s.>", env.JetStreamSubjectPrefix)},
 		Storage:   natsgo.MemoryStorage,
 		Retention: natsgo.InterestPolicy,
@@ -176,7 +176,7 @@ func getConsumerConfig() *natsgo.ConsumerConfig {
 		Durable:       "test",
 		DeliverPolicy: natsgo.DeliverAllPolicy,
 		AckPolicy:     natsgo.AckExplicitPolicy,
-		FilterSubject: fmt.Sprintf("%v.%v", env.JetStreamSubjectPrefix, testingutils.CloudEventTypeWithPrefix),
+		FilterSubject: fmt.Sprintf("%v.%v", env.JetStreamSubjectPrefix, epptestingutils.CloudEventTypeWithPrefix),
 	}
 }
 
@@ -199,10 +199,10 @@ func addConsumer(t *testing.T, connection *natsgo.Conn, sc *natsgo.StreamConfig,
 
 func CreateNATSJsConfig(url string) *env.NATSConfig {
 	return &env.NATSConfig{
-		JSStreamName:    testingutils.StreamName,
+		JSStreamName:    epptestingutils.StreamName,
 		URL:             url,
 		ReconnectWait:   time.Second,
-		EventTypePrefix: testingutils.OldEventTypePrefix,
+		EventTypePrefix: epptestingutils.OldEventTypePrefix,
 	}
 }
 
