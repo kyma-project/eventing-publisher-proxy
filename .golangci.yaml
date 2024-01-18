@@ -89,7 +89,14 @@ linters-settings:
   importas:
     no-unaliased: false
     no-extra-aliases: true
+    ## Version number must be added as suffix to the package name. As an example check `k8s.io/api/core/v1`
     ## kubernetes APIs get the prefix `k`. As an example check `kcorev1`
+    ## Eventing Manager APIs get the prefix `em`. As an example check `emeventingalpha1v1`
+    ## Eventing Publisher Proxy APIs get the prefix `epp`. As an example check `eppapi`
+    ## Cloud Events APIs get the prefix `ce`. As an example check `cev2`
+    ## Eventing Auth Manager APIs get the prefix `eam`.
+    ## Kyma Metrics Collector APIs get the prefix `kmc`.
+    ## NATS Manager APIs get the prefix `nm`.
 
     alias:
       - pkg: "log"
