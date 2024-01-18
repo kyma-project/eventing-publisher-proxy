@@ -100,6 +100,8 @@ linters-settings:
         alias: kmetav1
       - pkg: k8s.io/client-go/dynamic/fake
         alias: kdynamicfake
+      - pkg: github.com/nats-io/nats.go
+        alias: natsgo
       - pkg: github.com/kyma-project/eventing-publisher-proxy/testing
         alias: epptestingutils
       - pkg: github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api
