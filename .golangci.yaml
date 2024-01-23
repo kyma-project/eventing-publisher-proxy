@@ -100,7 +100,7 @@ linters-settings:
 
     alias:
       - pkg: "log"
-        alias: golog
+        alias: log
       - pkg: k8s.io/api/core/v1
         alias: kcorev1
       - pkg: k8s.io/apimachinery/pkg/apis/meta/v1

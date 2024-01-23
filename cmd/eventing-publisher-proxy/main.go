@@ -1,7 +1,7 @@
 package main //nolint:cyclop // it is only starting required instances.
 
 import (
-	golog "log"
+	log "log"
 
 	"github.com/kelseyhightower/envconfig"
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
@@ -34,23 +34,23 @@ type Config struct {
 func main() {
 	opts := options.New()
 	if err := opts.Parse(); err != nil {
-		golog.Fatalf("Failed to parse options, error: %v", err)
+		log.Fatalf("Failed to parse options, error: %v", err)
 	}
 
 	// parse the config for main:
 	cfg := new(Config)
 	if err := envconfig.Process("", cfg); err != nil {
-		golog.Fatalf("Failed to read configuration, error: %v", err)
+		log.Fatalf("Failed to read configuration, error: %v", err)
 	}
 
 	// init the logger
 	logger, err := emlogger.New(cfg.AppLogFormat, cfg.AppLogLevel)
 	if err != nil {
-		golog.Fatalf("Failed to initialize logger, error: %v", err)
+		log.Fatalf("Failed to initialize logger, error: %v", err)
 	}
 	defer func() {
 		if err := logger.WithContext().Sync(); err != nil {
-			golog.Printf("Failed to flush logger, error: %v", err)
+			log.Printf("Failed to flush logger, error: %v", err)
 		}
 	}()
 	setupLogger := logger.WithContext().With("backend", cfg.Backend)

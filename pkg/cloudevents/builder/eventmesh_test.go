@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	golog "log"
+	log "log"
 	"testing"
 
 	cev2 "github.com/cloudevents/sdk-go/v2"
@@ -26,7 +26,7 @@ func Test_EventMesh_Build(t *testing.T) {
 	// init the logger
 	logger, err := emlogger.New("json", "debug")
 	if err != nil {
-		golog.Fatalf("Failed to initialize logger, error: %v", err)
+		log.Fatalf("Failed to initialize logger, error: %v", err)
 	}
 
 	testCases := []struct {
