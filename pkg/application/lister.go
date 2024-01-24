@@ -6,7 +6,7 @@ import (
 	"time"
 
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
-	applicationv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
+	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
 	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -33,7 +33,7 @@ func NewLister(ctx context.Context, client dynamic.Interface) *Lister {
 	return &Lister{lister: lister}
 }
 
-func (l Lister) Get(name string) (*applicationv1alpha1.Application, error) {
+func (l Lister) Get(name string) (*kymaappconnv1alpha1.Application, error) {
 	object, err := l.lister.Get(name)
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (l Lister) Get(name string) (*applicationv1alpha1.Application, error) {
 		return nil, errors.New("failed to convert runtime object to unstructured")
 	}
 
-	a := &applicationv1alpha1.Application{}
+	a := &kymaappconnv1alpha1.Application{}
 	if err := runtime.DefaultUnstructuredConverter.FromUnstructured(u.Object, a); err != nil {
 		return nil, err
 	}
@@ -54,8 +54,8 @@ func (l Lister) Get(name string) (*applicationv1alpha1.Application, error) {
 
 func GroupVersionResource() schema.GroupVersionResource {
 	return schema.GroupVersionResource{
-		Group:    applicationv1alpha1.SchemeGroupVersion.Group,
-		Version:  applicationv1alpha1.SchemeGroupVersion.Version,
+		Group:    kymaappconnv1alpha1.SchemeGroupVersion.Group,
+		Version:  kymaappconnv1alpha1.SchemeGroupVersion.Version,
 		Resource: "applications",
 	}
 }

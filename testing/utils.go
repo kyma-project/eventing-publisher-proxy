@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	emeventingalpha1v1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
+	emeventingv1alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
 )
 
 // binary cloudevent headers.
@@ -20,7 +20,7 @@ const (
 	CeSpecVersionHeader = "ce-specversion"
 )
 
-type SubscriptionOpt func(*emeventingalpha1v1.Subscription)
+type SubscriptionOpt func(*emeventingv1alpha1.Subscription)
 
 // GeneratePortOrDie generates a random 5 digit port or fail.
 func GeneratePortOrDie() int {
