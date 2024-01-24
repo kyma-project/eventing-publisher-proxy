@@ -16,9 +16,9 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 
-	cev2 "github.com/cloudevents/sdk-go/v2"
+	ce "github.com/cloudevents/sdk-go/v2"
 	"github.com/cloudevents/sdk-go/v2/client"
-	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/stretchr/testify/assert"
 
@@ -40,7 +40,7 @@ func Test_extractCloudEventFromRequest(t *testing.T) {
 		request *http.Request
 	}
 	type wants struct {
-		event              *ceeventv2.Event
+		event              *ceevent.Event
 		errorAssertionFunc assert.ErrorAssertionFunc
 	}
 	tests := []struct {
@@ -389,7 +389,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 	type args struct {
 		ctx    context.Context
 		host   string
-		event  *ceeventv2.Event
+		event  *ceevent.Event
 		header http.Header
 	}
 	type wants struct {
@@ -507,7 +507,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 			args: args{
 				ctx:   context.Background(),
 				host:  "foo",
-				event: &ceeventv2.Event{},
+				event: &ceevent.Event{},
 			},
 			wants: wants{
 				result:           nil,
@@ -586,12 +586,12 @@ func TestHandler_sendEventAndRecordMetrics_TracingAndDefaults(t *testing.T) {
 	assert.Equal(t, expectedExtensions, stub.ReceivedEvent.Context.GetExtensions())
 }
 
-func CreateCloudEvent(t *testing.T) *ceeventv2.Event {
+func CreateCloudEvent(t *testing.T) *ceevent.Event {
 	builder := epptestingutils.NewCloudEventBuilder(
 		epptestingutils.WithCloudEventType(epptestingutils.CloudEventTypeWithPrefix),
 	)
 	payload, _ := builder.BuildStructured()
-	newEvent := cev2.NewEvent()
+	newEvent := ce.NewEvent()
 	err := json.Unmarshal([]byte(payload), &newEvent)
 	assert.NoError(t, err)
 	newEvent.SetType(epptestingutils.CloudEventTypeWithPrefix)
@@ -669,11 +669,11 @@ func CreateInvalidBinaryRequestV1Alpha1(t *testing.T) *http.Request {
 type GenericSenderStub struct {
 	SleepDuration time.Duration
 	Err           sender.PublishError
-	ReceivedEvent *ceeventv2.Event
+	ReceivedEvent *ceevent.Event
 	BackendURL    string
 }
 
-func (g *GenericSenderStub) Send(_ context.Context, event *ceeventv2.Event) sender.PublishError {
+func (g *GenericSenderStub) Send(_ context.Context, event *ceevent.Event) sender.PublishError {
 	g.ReceivedEvent = event
 	time.Sleep(g.SleepDuration)
 	return g.Err

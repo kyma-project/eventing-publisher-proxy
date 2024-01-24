@@ -7,7 +7,7 @@ import (
 	log "log"
 	"testing"
 
-	cev2 "github.com/cloudevents/sdk-go/v2"
+	ce "github.com/cloudevents/sdk-go/v2"
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
@@ -98,7 +98,7 @@ func Test_EventMesh_Build(t *testing.T) {
 			// build cloud event
 			builder := epptestingutils.NewCloudEventBuilder()
 			payload, _ := builder.BuildStructured()
-			newEvent := cev2.NewEvent()
+			newEvent := ce.NewEvent()
 			err = json.Unmarshal([]byte(payload), &newEvent)
 			require.NoError(t, err)
 			newEvent.SetType(tc.givenType)

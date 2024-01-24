@@ -17,7 +17,7 @@ import (
 
 	"github.com/cloudevents/sdk-go/v2/event"
 
-	cev2 "github.com/cloudevents/sdk-go/v2"
+	ce "github.com/cloudevents/sdk-go/v2"
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/stretchr/testify/assert"
 
@@ -151,7 +151,7 @@ func createCloudEvent(t *testing.T) *event.Event {
 		epptestingutils.WithCloudEventType(jsType),
 	)
 	payload, _ := builder.BuildStructured()
-	newEvent := cev2.NewEvent()
+	newEvent := ce.NewEvent()
 	newEvent.SetType(jsType)
 	err := json.Unmarshal([]byte(payload), &newEvent)
 	assert.NoError(t, err)

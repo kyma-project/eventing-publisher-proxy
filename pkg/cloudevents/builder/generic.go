@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
 	"github.com/kyma-project/eventing-manager/pkg/logger"
@@ -35,7 +35,7 @@ func (gb *GenericBuilder) isApplicationListerEnabled() bool {
 	return gb.applicationLister != nil
 }
 
-func (gb *GenericBuilder) Build(event ceeventv2.Event) (*ceeventv2.Event, error) {
+func (gb *GenericBuilder) Build(event ceevent.Event) (*ceevent.Event, error) {
 	// format logger
 	namedLogger := gb.namedLogger(event.Source(), event.Type())
 

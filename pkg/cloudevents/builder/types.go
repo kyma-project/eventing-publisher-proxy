@@ -1,7 +1,7 @@
 package builder
 
 import (
-	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
 	"github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
@@ -12,7 +12,7 @@ const (
 )
 
 type CloudEventBuilder interface {
-	Build(event ceeventv2.Event) (*ceeventv2.Event, error)
+	Build(event ceevent.Event) (*ceevent.Event, error)
 }
 
 type GenericBuilder struct {

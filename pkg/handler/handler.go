@@ -17,9 +17,9 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/cloudevents/sdk-go/v2/binding"
-	ceclientv2 "github.com/cloudevents/sdk-go/v2/client"
-	ceeventv2 "github.com/cloudevents/sdk-go/v2/event"
-	cehttpv2 "github.com/cloudevents/sdk-go/v2/protocol/http"
+	ceclient "github.com/cloudevents/sdk-go/v2/client"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
+	cehttp "github.com/cloudevents/sdk-go/v2/protocol/http"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
@@ -45,7 +45,7 @@ type Handler struct {
 	Sender        sender.GenericSender
 	HealthChecker health.Checker
 	// Defaulter sets default values to incoming events
-	Defaulter ceclientv2.EventDefaulter
+	Defaulter ceclient.EventDefaulter
 	// LegacyTransformer handles transformations needed to handle legacy events
 	LegacyTransformer legacy.RequestToCETransformer
 	// RequestTimeout timeout for outgoing requests
@@ -126,7 +126,7 @@ func (h *Handler) maxBytes(f http.HandlerFunc) http.HandlerFunc {
 // It writes to the user request if any error occurs.
 // Otherwise, returns the result.
 func (h *Handler) handleSendEventAndRecordMetricsLegacy(
-	writer http.ResponseWriter, request *http.Request, event *ceeventv2.Event) error {
+	writer http.ResponseWriter, request *http.Request, event *ceevent.Event) error {
 	err := h.sendEventAndRecordMetrics(request.Context(), event, h.Sender.URL(), request.Header)
 	if err != nil {
 		h.namedLogger().Error(err)
@@ -145,7 +145,7 @@ func (h *Handler) handleSendEventAndRecordMetricsLegacy(
 // It writes to the user request if any error occurs.
 // Otherwise, return the published event.
 func (h *Handler) handlePublishLegacyEvent(w http.ResponseWriter, r *http.Request,
-	data *api.PublishRequestData) (*ceeventv2.Event, error) {
+	data *api.PublishRequestData) (*ceevent.Event, error) {
 	ceEvent, err := h.LegacyTransformer.TransformPublishRequestToCloudEvent(data)
 	if err != nil {
 		legacy.WriteJSONResponse(w, legacy.ErrorResponse(http.StatusInternalServerError, err))
@@ -172,7 +172,7 @@ func (h *Handler) handlePublishLegacyEvent(w http.ResponseWriter, r *http.Reques
 // It writes to the user request if any error occurs.
 // Otherwise, return the published event.
 func (h *Handler) handlePublishLegacyEventV1alpha1(w http.ResponseWriter, r *http.Request,
-	data *api.PublishRequestData) (*ceeventv2.Event, error) {
+	data *api.PublishRequestData) (*ceevent.Event, error) {
 	event, _ := h.LegacyTransformer.WriteLegacyRequestsToCE(w, data)
 	if event == nil {
 		h.namedLogger().Error("Failed to transform legacy event to CloudEvent, event is nil")
@@ -284,8 +284,8 @@ func (h *Handler) publishCloudEvents(w http.ResponseWriter, r *http.Request) {
 }
 
 // extractCloudEventFromRequest converts an incoming CloudEvent request to an Event.
-func extractCloudEventFromRequest(r *http.Request) (*ceeventv2.Event, error) {
-	message := cehttpv2.NewMessageFromHttpRequest(r)
+func extractCloudEventFromRequest(r *http.Request) (*ceevent.Event, error) {
+	message := cehttp.NewMessageFromHttpRequest(r)
 	defer func() { _ = message.Finish(nil) }()
 
 	event, err := binding.ToEvent(context.Background(), message)
@@ -301,7 +301,7 @@ func extractCloudEventFromRequest(r *http.Request) (*ceeventv2.Event, error) {
 }
 
 // sendEventAndRecordMetrics dispatches an Event and records metrics based on dispatch success.
-func (h *Handler) sendEventAndRecordMetrics(ctx context.Context, event *ceeventv2.Event,
+func (h *Handler) sendEventAndRecordMetrics(ctx context.Context, event *ceevent.Event,
 	host string, header http.Header) error {
 	ctx, cancel := context.WithTimeout(ctx, h.RequestTimeout)
 	defer cancel()
@@ -349,7 +349,7 @@ func writeResponse(writer http.ResponseWriter, statusCode int, respBody []byte) 
 }
 
 // applyDefaults applies the default values (if any) to the given Cloud Event.
-func (h *Handler) applyDefaults(ctx context.Context, event *ceeventv2.Event) {
+func (h *Handler) applyDefaults(ctx context.Context, event *ceevent.Event) {
 	if h.Defaulter != nil {
 		newEvent := h.Defaulter(ctx, *event)
 		*event = newEvent

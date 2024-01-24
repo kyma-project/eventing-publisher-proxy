@@ -93,7 +93,7 @@ linters-settings:
     ## kubernetes APIs get the prefix `k`. As an example check `kcorev1`
     ## Eventing Manager APIs get the prefix `em`. As an example check `emeventingalpha1v1`
     ## Eventing Publisher Proxy APIs get the prefix `epp`. As an example check `eppapi`
-    ## Cloud Events APIs get the prefix `ce`. As an example check `cev2`
+    ## Cloud Events APIs get the prefix `ce`. As an example check `ce`
     ## Eventing Auth Manager APIs get the prefix `eam`.
     ## Kyma Metrics Collector APIs get the prefix `kmc`.
     ## NATS Manager APIs get the prefix `nm`.
@@ -115,6 +115,8 @@ linters-settings:
         alias: epptestingutils
       - pkg: github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api
         alias: eppapi
+      - pkg: github.com/kyma-project/eventing-publisher-proxy/pkg/nats
+        alias: eppnats
       - pkg : github.com/kyma-project/eventing-manager/pkg/logger
         alias: emlogger
       - pkg: github.com/kyma-project/eventing-manager/api/eventing/v1alpha1
@@ -122,17 +124,16 @@ linters-settings:
       - pkg: github.com/kyma-project/eventing-manager/api/eventing/v1alpha2
         alias: emeventingalpha2v1
       - pkg : github.com/cloudevents/sdk-go/v2
-        alias: cev2
+        alias: ce
       - pkg : github.com/cloudevents/sdk-go/v2/protocol/http
-        alias: cehttpv2
+        alias: cehttp
       - pkg : github.com/cloudevents/sdk-go/v2/event
-        alias: ceeventv2
+        alias: ceevent
       - pkg : github.com/cloudevents/sdk-go/v2/client
-        alias: ceclientv2
+        alias: ceclient
       - pkg : github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1
         alias: applicationv1alpha1
-      - pkg: github.com/kyma-project/eventing-publisher-proxy/pkg/nats
-        alias: eppnats
+      
 
 
   ireturn:
