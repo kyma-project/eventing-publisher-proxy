@@ -60,7 +60,7 @@ jobs:
       - name: Deploy Eventing Manager
         run: |
           kubectl apply -f https://github.com/kyma-project/eventing-manager/releases/latest/download/eventing-manager.yaml
-          kubectl apply -f https://github.com/kyma-project/eventing-manager/releases/latest/download/eventing_default_cr.yaml
+          kubectl apply -f https://raw.githubusercontent.com/kyma-project/eventing-manager/main/config/samples/default_nats.yaml
           echo "Using Eventing Manager image:"
           kubectl get -n kyma-system deployment eventing-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
