@@ -3,7 +3,7 @@ module github.com/kyma-project/eventing-publisher-proxy
 go 1.21
 
 require (
-	github.com/cloudevents/sdk-go/v2 v2.14.0
+	github.com/cloudevents/sdk-go/v2 v2.15.0
 	github.com/google/uuid v1.5.0
 	github.com/gorilla/mux v1.8.1
 	github.com/kelseyhightower/envconfig v1.4.0
@@ -11,7 +11,7 @@ require (
 	github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20231213062924-40b7754f6246
 	github.com/nats-io/nats-server/v2 v2.10.9
 	github.com/nats-io/nats.go v1.32.0
-	github.com/onsi/gomega v1.30.0
+	github.com/onsi/gomega v1.31.1
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.18.0
 	github.com/stretchr/testify v1.8.4
@@ -19,9 +19,9 @@ require (
 	go.uber.org/zap v1.26.0
 	golang.org/x/oauth2 v0.16.0
 	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028
-	k8s.io/api v0.29.0
-	k8s.io/apimachinery v0.29.0
-	k8s.io/client-go v0.29.0
+	k8s.io/api v0.29.1
+	k8s.io/apimachinery v0.29.1
+	k8s.io/client-go v0.29.1
 	sigs.k8s.io/controller-runtime v0.17.0
 )
 
