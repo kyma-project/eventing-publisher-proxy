@@ -68,8 +68,8 @@ lint-report-issue-category: ## Get lint issues categories
 lint-report-get-category: ## Get lint issues by category
 	cat ./lint-report.json | jq --arg CATEGORY $$CATEGORY '.Issues[] | select(.FromLinter==$$CATEGORY)'
 
-.PHONY: lint-repost-count-issue
-lint-repost-count-issue: ## Count lint issues
+.PHONY: lint-report-count-issue
+lint-report-count-issue: ## Count lint issues
 	make lint-report-clean
 	make lint-report
 	cat ./lint-report.json | jq '.Issues | length'
