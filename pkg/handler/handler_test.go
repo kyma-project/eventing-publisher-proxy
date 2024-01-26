@@ -18,7 +18,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/jetstream"
 
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
-	eclogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
@@ -32,7 +32,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/metricstest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func TestHandler_publishCloudEvents(t *testing.T) {
@@ -185,7 +185,7 @@ func TestHandler_publishCloudEvents(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// given
-			logger, err := eclogger.New("text", "debug")
+			logger, err := emlogger.New("text", "debug")
 			assert.NoError(t, err)
 
 			app := applicationtest.NewApplication("appName1", nil)
@@ -200,7 +200,7 @@ func TestHandler_publishCloudEvents(t *testing.T) {
 				eventTypeCleaner:   tt.fields.eventTypeCleaner,
 				ceBuilder:          ceBuilder,
 				Options:            &options.Options{},
-				OldEventTypePrefix: testingutils.OldEventTypePrefix,
+				OldEventTypePrefix: epptestingutils.OldEventTypePrefix,
 			}
 			writer := httptest.NewRecorder()
 
@@ -301,7 +301,7 @@ func TestHandler_publishLegacyEventsAsCE(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// given
-			logger, err := eclogger.New("text", "debug")
+			logger, err := emlogger.New("text", "debug")
 			require.NoError(t, err)
 
 			ceBuilder := builder.NewGenericBuilder("prefix", cleaner.NewJetStreamCleaner(logger), appLister, logger)

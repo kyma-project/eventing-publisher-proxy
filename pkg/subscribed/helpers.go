@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	eventingv1alpha2 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
-	v1 "k8s.io/api/core/v1"
+	emeventingv2alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
+	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -13,31 +13,31 @@ import (
 	"k8s.io/client-go/dynamic/dynamicinformer"
 	"k8s.io/client-go/rest"
 
-	eventingv1alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
+	emeventingv1alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
 )
 
 func SubscriptionGVR() schema.GroupVersionResource {
 	return schema.GroupVersionResource{
-		Version:  eventingv1alpha2.GroupVersion.Version,
-		Group:    eventingv1alpha2.GroupVersion.Group,
+		Version:  emeventingv2alpha1.GroupVersion.Version,
+		Group:    emeventingv2alpha1.GroupVersion.Group,
 		Resource: "subscriptions",
 	}
 }
 
 func SubscriptionV1alpha1GVR() schema.GroupVersionResource {
 	return schema.GroupVersionResource{
-		Version:  eventingv1alpha1.GroupVersion.Version,
-		Group:    eventingv1alpha1.GroupVersion.Group,
+		Version:  emeventingv1alpha1.GroupVersion.Version,
+		Group:    emeventingv1alpha1.GroupVersion.Group,
 		Resource: "subscriptions",
 	}
 }
 
 // ConvertRuntimeObjToSubscriptionV1alpha1 converts a runtime.Object to a v1alpha1 version of Subscription object
 // by converting to unstructured in between.
-func ConvertRuntimeObjToSubscriptionV1alpha1(sObj runtime.Object) (*eventingv1alpha1.Subscription, error) {
-	sub := &eventingv1alpha1.Subscription{}
+func ConvertRuntimeObjToSubscriptionV1alpha1(sObj runtime.Object) (*emeventingv1alpha1.Subscription, error) {
+	sub := &emeventingv1alpha1.Subscription{}
 	if subUnstructured, ok := sObj.(*unstructured.Unstructured); ok {
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(subUnstructured.Object, sub)
 		if err != nil {
@@ -49,8 +49,8 @@ func ConvertRuntimeObjToSubscriptionV1alpha1(sObj runtime.Object) (*eventingv1al
 
 // ConvertRuntimeObjToSubscription converts a runtime.Object to a Subscription object
 // by converting to unstructured in between.
-func ConvertRuntimeObjToSubscription(sObj runtime.Object) (*eventingv1alpha2.Subscription, error) {
-	sub := &eventingv1alpha2.Subscription{}
+func ConvertRuntimeObjToSubscription(sObj runtime.Object) (*emeventingv2alpha1.Subscription, error) {
+	sub := &emeventingv2alpha1.Subscription{}
 	if subUnstructured, ok := sObj.(*unstructured.Unstructured); ok {
 		err := runtime.DefaultUnstructuredConverter.FromUnstructured(subUnstructured.Object, sub)
 		if err != nil {
@@ -65,7 +65,7 @@ func GenerateSubscriptionInfFactory(k8sConfig *rest.Config) dynamicinformer.Dyna
 	subDynamicClient := dynamic.NewForConfigOrDie(k8sConfig)
 	dFilteredSharedInfFactory := dynamicinformer.NewFilteredDynamicSharedInformerFactory(subDynamicClient,
 		informers.DefaultResyncPeriod,
-		v1.NamespaceAll,
+		kcorev1.NamespaceAll,
 		nil,
 	)
 	dFilteredSharedInfFactory.ForResource(SubscriptionGVR())
@@ -97,12 +97,12 @@ func AddUniqueEventsToResult(eventsSubSet []Event, uniqEvents map[Event]bool) ma
 // FilterEventTypeVersions returns a slice of Events:
 // if the event source matches the appName for typeMatching standard
 // if the <eventTypePrefix>.<appName> is present in the eventType for typeMatching exact.
-func FilterEventTypeVersions(eventTypePrefix, appName string, subscription *eventingv1alpha2.Subscription) []Event {
+func FilterEventTypeVersions(eventTypePrefix, appName string, subscription *emeventingv2alpha1.Subscription) []Event {
 	events := make([]Event, 0)
 	prefixAndAppName := fmt.Sprintf("%s.%s.", eventTypePrefix, appName)
 
 	for _, eventType := range subscription.Spec.Types {
-		if subscription.Spec.TypeMatching == eventingv1alpha2.TypeMatchingExact {
+		if subscription.Spec.TypeMatching == emeventingv2alpha1.TypeMatchingExact {
 			// in case of type matching exact, we have app name as a part of event type
 			if strings.HasPrefix(eventType, prefixAndAppName) {
 				eventTypeVersion := strings.ReplaceAll(eventType, prefixAndAppName, "")
@@ -136,7 +136,7 @@ func buildEvent(eventTypeAndVersion string) Event {
 // E.g. sap.kyma.custom.varkes.order.created.v0
 // 2. if the eventSource matches BEBNamespace name.
 func FilterEventTypeVersionsV1alpha1(eventTypePrefix, bebNs, appName string,
-	filters *eventingv1alpha1.BEBFilters) []Event {
+	filters *emeventingv1alpha1.BEBFilters) []Event {
 	events := make([]Event, 0)
 	if filters == nil {
 		return events

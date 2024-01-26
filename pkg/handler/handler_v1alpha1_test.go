@@ -16,10 +16,10 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 
-	cloudevents "github.com/cloudevents/sdk-go/v2"
+	ce "github.com/cloudevents/sdk-go/v2"
 	"github.com/cloudevents/sdk-go/v2/client"
-	cev2event "github.com/cloudevents/sdk-go/v2/event"
-	eclogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
@@ -32,7 +32,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/metricstest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 func Test_extractCloudEventFromRequest(t *testing.T) {
@@ -40,7 +40,7 @@ func Test_extractCloudEventFromRequest(t *testing.T) {
 		request *http.Request
 	}
 	type wants struct {
-		event              *cev2event.Event
+		event              *ceevent.Event
 		errorAssertionFunc assert.ErrorAssertionFunc
 	}
 	tests := []struct {
@@ -54,7 +54,7 @@ func Test_extractCloudEventFromRequest(t *testing.T) {
 			args: args{
 				request: CreateValidStructuredRequestV1Alpha1(t),
 			},
-			wantType: fmt.Sprintf("sap.kyma.custom.%s", testingutils.CloudEventType),
+			wantType: fmt.Sprintf("sap.kyma.custom.%s", epptestingutils.CloudEventType),
 			wants: wants{
 				event:              CreateCloudEvent(t),
 				errorAssertionFunc: assert.NoError,
@@ -85,7 +85,7 @@ func Test_extractCloudEventFromRequest(t *testing.T) {
 			args: args{
 				request: CreateValidBinaryRequestV1Alpha1(t),
 			},
-			wantType: fmt.Sprintf("sap.kyma.custom.%s", testingutils.CloudEventType),
+			wantType: fmt.Sprintf("sap.kyma.custom.%s", epptestingutils.CloudEventType),
 			wants: wants{
 				event:              CreateCloudEvent(t),
 				errorAssertionFunc: assert.NoError,
@@ -298,7 +298,7 @@ func TestHandler_publishCloudEvents_v1alpha1(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// given
-			logger, err := eclogger.New("text", "debug")
+			logger, err := emlogger.New("text", "debug")
 			assert.NoError(t, err)
 
 			h := &Handler{
@@ -389,7 +389,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 	type args struct {
 		ctx    context.Context
 		host   string
-		event  *cev2event.Event
+		event  *ceevent.Event
 		header http.Header
 	}
 	type wants struct {
@@ -428,7 +428,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 
 	ceEvent := CreateCloudEvent(t)
 	ceEventWithOriginalEventType := ceEvent.Clone()
-	ceEventWithOriginalEventType.SetExtension(builder.OriginalTypeHeaderName, testingutils.CloudEventNameAndVersion)
+	ceEventWithOriginalEventType.SetExtension(builder.OriginalTypeHeaderName, epptestingutils.CloudEventNameAndVersion)
 
 	tests := []struct {
 		name   string
@@ -507,7 +507,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 			args: args{
 				ctx:   context.Background(),
 				host:  "foo",
-				event: &cev2event.Event{},
+				event: &ceevent.Event{},
 			},
 			wants: wants{
 				result:           nil,
@@ -523,7 +523,7 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// given
-			logger, _ := eclogger.New("text", "debug")
+			logger, _ := emlogger.New("text", "debug")
 			h := &Handler{
 				Sender:    tt.fields.Sender,
 				Defaulter: tt.fields.Defaulter,
@@ -557,7 +557,7 @@ func TestHandler_sendEventAndRecordMetrics_TracingAndDefaults(t *testing.T) {
 	latency := new(mocks.BucketsProvider)
 	latency.On(bucketsFunc).Return(nil)
 	latency.Test(t)
-	logger, _ := eclogger.New("text", "debug")
+	logger, _ := emlogger.New("text", "debug")
 	h := &Handler{
 		Sender:    stub,
 		Defaulter: nil,
@@ -586,15 +586,15 @@ func TestHandler_sendEventAndRecordMetrics_TracingAndDefaults(t *testing.T) {
 	assert.Equal(t, expectedExtensions, stub.ReceivedEvent.Context.GetExtensions())
 }
 
-func CreateCloudEvent(t *testing.T) *cev2event.Event {
-	builder := testingutils.NewCloudEventBuilder(
-		testingutils.WithCloudEventType(testingutils.CloudEventTypeWithPrefix),
+func CreateCloudEvent(t *testing.T) *ceevent.Event {
+	builder := epptestingutils.NewCloudEventBuilder(
+		epptestingutils.WithCloudEventType(epptestingutils.CloudEventTypeWithPrefix),
 	)
 	payload, _ := builder.BuildStructured()
-	newEvent := cloudevents.NewEvent()
+	newEvent := ce.NewEvent()
 	err := json.Unmarshal([]byte(payload), &newEvent)
 	assert.NoError(t, err)
-	newEvent.SetType(testingutils.CloudEventTypeWithPrefix)
+	newEvent.SetType(epptestingutils.CloudEventTypeWithPrefix)
 	err = newEvent.SetData("", map[string]any{"foo": "bar"})
 	assert.NoError(t, err)
 
@@ -669,11 +669,11 @@ func CreateInvalidBinaryRequestV1Alpha1(t *testing.T) *http.Request {
 type GenericSenderStub struct {
 	SleepDuration time.Duration
 	Err           sender.PublishError
-	ReceivedEvent *cev2event.Event
+	ReceivedEvent *ceevent.Event
 	BackendURL    string
 }
 
-func (g *GenericSenderStub) Send(_ context.Context, event *cev2event.Event) sender.PublishError {
+func (g *GenericSenderStub) Send(_ context.Context, event *ceevent.Event) sender.PublishError {
 	g.ReceivedEvent = event
 	time.Sleep(g.SleepDuration)
 	return g.Err

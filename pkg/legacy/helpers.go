@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
@@ -59,7 +59,7 @@ func WriteJSONResponse(w http.ResponseWriter, resp *api.PublishEventResponses) {
 	}
 
 	// init the contexted logger
-	logger, _ := kymalogger.New("json", "error")
+	logger, _ := emlogger.New("json", "error")
 	namedLogger := logger.WithContext().Named(legacyEventsName)
 
 	namedLogger.Error("Received an empty response")

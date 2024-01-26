@@ -5,14 +5,14 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	applicationv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
+	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
 
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 )
 
 func TestCleanName(t *testing.T) {
 	testCases := []struct {
-		givenApplication *applicationv1alpha1.Application
+		givenApplication *kymaappconnv1alpha1.Application
 		wantName         string
 	}{
 		// application type label is missing, then use the application name
@@ -80,7 +80,7 @@ func Test_GetTypeOrName(t *testing.T) {
 
 	testCases := []struct {
 		name             string
-		givenApplication *applicationv1alpha1.Application
+		givenApplication *kymaappconnv1alpha1.Application
 		wantName         string
 	}{
 		// application type label is missing, then use the application name

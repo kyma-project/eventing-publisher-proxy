@@ -14,7 +14,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
-	pkgnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
+	eppnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/receiver"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/jetstream"
@@ -72,11 +72,11 @@ func (c *Commander) Start() error {
 	messageReceiver := receiver.NewHTTPMessageReceiver(c.envCfg.Port)
 
 	// connect to nats
-	connection, err := pkgnats.Connect(c.envCfg.URL,
-		pkgnats.WithRetryOnFailedConnect(c.envCfg.RetryOnFailedConnect),
-		pkgnats.WithMaxReconnects(c.envCfg.MaxReconnects),
-		pkgnats.WithReconnectWait(c.envCfg.ReconnectWait),
-		pkgnats.WithName("Kyma Publisher"),
+	connection, err := eppnats.Connect(c.envCfg.URL,
+		eppnats.WithRetryOnFailedConnect(c.envCfg.RetryOnFailedConnect),
+		eppnats.WithMaxReconnects(c.envCfg.MaxReconnects),
+		eppnats.WithReconnectWait(c.envCfg.ReconnectWait),
+		eppnats.WithName("Kyma Publisher"),
 	)
 	if err != nil {
 		return xerrors.Errorf("failed to connect to backend server for %s : %v", natsCommanderName, err)

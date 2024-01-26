@@ -4,17 +4,16 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	golog "log"
+	log "log"
 	"testing"
 
-	cloudevents "github.com/cloudevents/sdk-go/v2"
-
+	ce "github.com/cloudevents/sdk-go/v2"
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
-	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
-	testingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 	"github.com/stretchr/testify/require"
 )
 
@@ -25,9 +24,9 @@ func Test_EventMesh_Build(t *testing.T) {
 	const eventMeshPrefix = "one.two.three"
 
 	// init the logger
-	logger, err := kymalogger.New("json", "debug")
+	logger, err := emlogger.New("json", "debug")
 	if err != nil {
-		golog.Fatalf("Failed to initialize logger, error: %v", err)
+		log.Fatalf("Failed to initialize logger, error: %v", err)
 	}
 
 	testCases := []struct {
@@ -97,9 +96,9 @@ func Test_EventMesh_Build(t *testing.T) {
 
 			// given
 			// build cloud event
-			builder := testingutils.NewCloudEventBuilder()
+			builder := epptestingutils.NewCloudEventBuilder()
 			payload, _ := builder.BuildStructured()
-			newEvent := cloudevents.NewEvent()
+			newEvent := ce.NewEvent()
 			err = json.Unmarshal([]byte(payload), &newEvent)
 			require.NoError(t, err)
 			newEvent.SetType(tc.givenType)

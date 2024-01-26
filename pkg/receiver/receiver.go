@@ -9,7 +9,7 @@ import (
 
 	"go.opencensus.io/plugin/ochttp"
 
-	kymalogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const (
@@ -35,7 +35,7 @@ func NewHTTPMessageReceiver(port int) *HTTPMessageReceiver {
 }
 
 // StartListen starts the HTTP message receiver and blocks until it receives a shutdown signal.
-func (r *HTTPMessageReceiver) StartListen(ctx context.Context, handler http.Handler, logger *kymalogger.Logger) error {
+func (r *HTTPMessageReceiver) StartListen(ctx context.Context, handler http.Handler, logger *emlogger.Logger) error {
 	var err error
 	if r.listener, err = net.Listen("tcp", fmt.Sprintf("%v:%d", r.Host, r.Port)); err != nil {
 		return err
