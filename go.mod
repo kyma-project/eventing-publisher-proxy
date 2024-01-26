@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/cloudevents/sdk-go/v2 v2.15.0
-	github.com/google/uuid v1.5.0
+	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/kyma-project/eventing-manager v0.0.0-20231213144127-a77a4fabb2e0
