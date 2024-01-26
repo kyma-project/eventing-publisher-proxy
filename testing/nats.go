@@ -7,7 +7,7 @@ import (
 
 	"github.com/kyma-project/eventing-manager/pkg/logger"
 
-	pkgnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
+	eppnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
 
 	"github.com/nats-io/nats-server/v2/server"
 	"github.com/nats-io/nats-server/v2/test"
@@ -30,9 +30,9 @@ func StartNATSServer() *server.Server {
 }
 
 func ConnectToNATSServer(url string) (*nats.Conn, error) {
-	return pkgnats.Connect(url,
-		pkgnats.WithRetryOnFailedConnect(true),
-		pkgnats.WithMaxReconnects(maxReconnects),
-		pkgnats.WithReconnectWait(time.Second),
+	return eppnats.Connect(url,
+		eppnats.WithRetryOnFailedConnect(true),
+		eppnats.WithMaxReconnects(maxReconnects),
+		eppnats.WithReconnectWait(time.Second),
 	)
 }

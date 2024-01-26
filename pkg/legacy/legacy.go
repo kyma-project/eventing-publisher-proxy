@@ -8,13 +8,13 @@ import (
 	"strings"
 	"time"
 
-	cev2 "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
-	apiv1 "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
+	eppapi "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 )
 
 var (
@@ -28,10 +28,10 @@ const (
 )
 
 type RequestToCETransformer interface {
-	ExtractPublishRequestData(*http.Request) (*apiv1.PublishRequestData, *apiv1.PublishEventResponses, error)
-	TransformPublishRequestToCloudEvent(*apiv1.PublishRequestData) (*cev2.Event, error)
-	WriteLegacyRequestsToCE(http.ResponseWriter, *apiv1.PublishRequestData) (*cev2.Event, string)
-	WriteCEResponseAsLegacyResponse(http.ResponseWriter, int, *cev2.Event, string)
+	ExtractPublishRequestData(*http.Request) (*eppapi.PublishRequestData, *eppapi.PublishEventResponses, error)
+	TransformPublishRequestToCloudEvent(*eppapi.PublishRequestData) (*ceevent.Event, error)
+	WriteLegacyRequestsToCE(http.ResponseWriter, *eppapi.PublishRequestData) (*ceevent.Event, string)
+	WriteCEResponseAsLegacyResponse(http.ResponseWriter, int, *ceevent.Event, string)
 }
 
 type Transformer struct {
@@ -53,7 +53,7 @@ func (t *Transformer) isApplicationListerEnabled() bool {
 }
 
 // CheckParameters validates the parameters in the request and sends error responses if found invalid.
-func (t *Transformer) checkParameters(parameters *apiv1.PublishEventParametersV1) *apiv1.PublishEventResponses {
+func (t *Transformer) checkParameters(parameters *eppapi.PublishEventParametersV1) *eppapi.PublishEventResponses {
 	if parameters == nil {
 		return ErrorResponseBadRequest(ErrorMessageBadPayload)
 	}
@@ -82,22 +82,22 @@ func (t *Transformer) checkParameters(parameters *apiv1.PublishEventParametersV1
 		return ErrorResponseMissingFieldData()
 	}
 	// OK
-	return &apiv1.PublishEventResponses{}
+	return &eppapi.PublishEventResponses{}
 }
 
 // ExtractPublishRequestData extracts the data for publishing event from the given legacy event request.
-func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*apiv1.PublishRequestData,
-	*apiv1.PublishEventResponses, error) {
+func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*eppapi.PublishRequestData,
+	*eppapi.PublishEventResponses, error) {
 	// parse request body to PublishRequestV1
 	if request.Body == nil || request.ContentLength == 0 {
 		resp := ErrorResponseBadRequest(ErrorMessageBadPayload)
 		return nil, resp, errors.New(resp.Error.Message)
 	}
 
-	parameters := &apiv1.PublishEventParametersV1{}
+	parameters := &eppapi.PublishEventParametersV1{}
 	decoder := json.NewDecoder(request.Body)
 	if err := decoder.Decode(&parameters.PublishrequestV1); err != nil {
-		var resp *apiv1.PublishEventResponses
+		var resp *eppapi.PublishEventResponses
 		if err.Error() == requestBodyTooLargeErrorMessage {
 			resp = ErrorResponseRequestBodyTooLarge(err.Error())
 		} else {
@@ -113,7 +113,7 @@ func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*apiv1.P
 	}
 
 	appName := ParseApplicationNameFromPath(request.URL.Path)
-	publishRequestData := &apiv1.PublishRequestData{
+	publishRequestData := &eppapi.PublishRequestData{
 		PublishEventParameters: parameters,
 		ApplicationName:        appName,
 		URLPath:                request.URL.Path,
@@ -126,7 +126,7 @@ func (t *Transformer) ExtractPublishRequestData(request *http.Request) (*apiv1.P
 // WriteLegacyRequestsToCE transforms the legacy event to cloudevent from the given request.
 // It also returns the original event-type without cleanup as the second return type.
 func (t *Transformer) WriteLegacyRequestsToCE(writer http.ResponseWriter,
-	publishData *apiv1.PublishRequestData) (*cev2.Event, string) {
+	publishData *eppapi.PublishRequestData) (*ceevent.Event, string) {
 	uncleanedAppName := publishData.ApplicationName
 
 	// clean the application name form non-alphanumeric characters
@@ -156,11 +156,11 @@ func (t *Transformer) WriteLegacyRequestsToCE(writer http.ResponseWriter,
 }
 
 func (t *Transformer) WriteCEResponseAsLegacyResponse(writer http.ResponseWriter, statusCode int,
-	event *cev2.Event, msg string) {
-	response := &apiv1.PublishEventResponses{}
+	event *ceevent.Event, msg string) {
+	response := &eppapi.PublishEventResponses{}
 	// Fail
 	if !is2XXStatusCode(statusCode) {
-		response.Error = &apiv1.Error{
+		response.Error = &eppapi.Error{
 			Status:  statusCode,
 			Message: msg,
 		}
@@ -169,18 +169,18 @@ func (t *Transformer) WriteCEResponseAsLegacyResponse(writer http.ResponseWriter
 	}
 
 	// Success
-	response.Ok = &apiv1.PublishResponse{EventID: event.ID()}
+	response.Ok = &eppapi.PublishResponse{EventID: event.ID()}
 	WriteJSONResponse(writer, response)
 }
 
 // TransformPublishRequestToCloudEvent converts the given publish request to a CloudEvent with raw values.
-func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *apiv1.PublishRequestData) (*cev2.Event,
+func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *eppapi.PublishRequestData) (*ceevent.Event,
 	error) {
 	source := publishRequestData.ApplicationName
 	publishRequest := publishRequestData.PublishEventParameters
 
 	// instantiate a new cloudEvent object
-	event := cev2.New(cev2.CloudEventsVersionV1)
+	event := ceevent.New(ceevent.CloudEventsVersionV1)
 	eventName := publishRequest.PublishrequestV1.EventType
 	eventTypeVersion := publishRequest.PublishrequestV1.EventTypeVersion
 
@@ -215,12 +215,12 @@ func (t *Transformer) TransformPublishRequestToCloudEvent(publishRequestData *ap
 
 // convertPublishRequestToCloudEvent converts the given publish request to a CloudEvent.
 func (t *Transformer) convertPublishRequestToCloudEvent(appName string,
-	publishRequest *apiv1.PublishEventParametersV1) (*cev2.Event, error) {
+	publishRequest *eppapi.PublishEventParametersV1) (*ceevent.Event, error) {
 	if !application.IsCleanName(appName) {
 		return nil, errors.New("application name should be cleaned from none-alphanumeric characters")
 	}
 
-	event := cev2.New(cev2.CloudEventsVersionV1)
+	event := ceevent.New(ceevent.CloudEventsVersionV1)
 
 	evTime, err := time.Parse(time.RFC3339, publishRequest.PublishrequestV1.EventTime)
 	if err != nil {

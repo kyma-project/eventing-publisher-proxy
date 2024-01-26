@@ -16,7 +16,7 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/oauth"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
-	testing2 "github.com/kyma-project/eventing-publisher-proxy/testing"
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 )
 
 const (
@@ -97,7 +97,7 @@ func TestSender_Send_Error(t *testing.T) {
 	type args struct {
 		// timeout is one easy way to trigger an error on sending
 		timeout time.Duration
-		builder *testing2.CloudEventBuilder
+		builder *epptestingutils.CloudEventBuilder
 	}
 	var tests = []struct {
 		name    string
@@ -113,7 +113,7 @@ func TestSender_Send_Error(t *testing.T) {
 			},
 			args: args{
 				timeout: 1 * time.Millisecond,
-				builder: testing2.NewCloudEventBuilder(),
+				builder: epptestingutils.NewCloudEventBuilder(),
 			},
 			want:    nil,
 			wantErr: true,
@@ -146,7 +146,7 @@ func TestSender_Send(t *testing.T) {
 	}
 	type args struct {
 		ctx     context.Context
-		builder *testing2.CloudEventBuilder
+		builder *epptestingutils.CloudEventBuilder
 	}
 	var tests = []struct {
 		name    string
@@ -162,7 +162,7 @@ func TestSender_Send(t *testing.T) {
 			},
 			args: args{
 				ctx:     context.Background(),
-				builder: testing2.NewCloudEventBuilder(),
+				builder: epptestingutils.NewCloudEventBuilder(),
 			},
 			wantErr: common.BackendPublishError{
 				HTTPCode: 400,
@@ -175,7 +175,7 @@ func TestSender_Send(t *testing.T) {
 			},
 			args: args{
 				ctx:     context.Background(),
-				builder: testing2.NewCloudEventBuilder(),
+				builder: epptestingutils.NewCloudEventBuilder(),
 			},
 			wantErr: nil,
 		},

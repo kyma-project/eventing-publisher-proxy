@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	cev2 "github.com/cloudevents/sdk-go/v2/event"
+	ceevent "github.com/cloudevents/sdk-go/v2/event"
 	"github.com/cloudevents/sdk-go/v2/extensions"
 )
 
@@ -23,7 +23,7 @@ const (
 	b3FlagsCEExtensionsKey        = "b3flags"
 )
 
-func AddTracingContextToCEExtensions(reqHeaders http.Header, event *cev2.Event) {
+func AddTracingContextToCEExtensions(reqHeaders http.Header, event *ceevent.Event) {
 	traceParent := reqHeaders.Get(traceParentKey)
 	if len(traceParent) > 0 {
 		st := extensions.DistributedTracingExtension{

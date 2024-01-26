@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"strings"
 
-	applicationv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
+	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
 )
 
 const (
@@ -19,7 +19,7 @@ var (
 
 // GetCleanTypeOrName cleans the application name form none-alphanumeric characters and returns it
 // if the application type label exists, it will be cleaned and returned instead of the application name.
-func GetCleanTypeOrName(application *applicationv1alpha1.Application) string {
+func GetCleanTypeOrName(application *kymaappconnv1alpha1.Application) string {
 	if application == nil {
 		return ""
 	}
@@ -35,7 +35,7 @@ func GetCleanTypeOrName(application *applicationv1alpha1.Application) string {
 
 // GetTypeOrName returns the application name.
 // if the application type label exists, it will be returned instead of the application name.
-func GetTypeOrName(application *applicationv1alpha1.Application) string {
+func GetTypeOrName(application *kymaappconnv1alpha1.Application) string {
 	if application == nil {
 		return ""
 	}
