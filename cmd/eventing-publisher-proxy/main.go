@@ -25,10 +25,10 @@ type Config struct {
 	Backend string `envconfig:"BACKEND" required:"true"`
 
 	// AppLogFormat defines the log format.
-	AppLogFormat string `envconfig:"APP_LOG_FORMAT" default:"json"`
+	AppLogFormat string `default:"json" envconfig:"APP_LOG_FORMAT"`
 
 	// AppLogLevel defines the log level.
-	AppLogLevel string `envconfig:"APP_LOG_LEVEL" default:"info"`
+	AppLogLevel string `default:"info" envconfig:"APP_LOG_LEVEL"`
 }
 
 func main() {
