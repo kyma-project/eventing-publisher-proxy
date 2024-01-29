@@ -10,11 +10,10 @@ import (
 
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
 	"github.com/google/uuid"
-	"github.com/pkg/errors"
-
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	eppapi "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
+	"github.com/pkg/errors"
 )
 
 var (

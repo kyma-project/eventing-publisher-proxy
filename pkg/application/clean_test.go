@@ -3,11 +3,9 @@ package application
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
-	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
+	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
+	"github.com/stretchr/testify/require"
 )
 
 func TestCleanName(t *testing.T) {

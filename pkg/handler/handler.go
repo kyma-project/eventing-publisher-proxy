@@ -7,29 +7,26 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
-
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
-
-	"github.com/gorilla/mux"
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-	"go.uber.org/zap"
-
 	"github.com/cloudevents/sdk-go/v2/binding"
 	ceclient "github.com/cloudevents/sdk-go/v2/client"
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
 	cehttp "github.com/cloudevents/sdk-go/v2/protocol/http"
-
+	"github.com/gorilla/mux"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/receiver"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/subscribed"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/tracing"
+	"go.uber.org/zap"
+
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 // EventingHandler is responsible for receiving HTTP requests and dispatching them to the Backend.

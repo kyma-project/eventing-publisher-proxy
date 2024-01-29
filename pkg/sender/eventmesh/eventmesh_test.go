@@ -8,15 +8,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/oauth"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const (

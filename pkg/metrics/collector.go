@@ -6,10 +6,9 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/histogram"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/histogram"
 )
 
 const (

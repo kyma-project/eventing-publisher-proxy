@@ -9,10 +9,6 @@ import (
 	"time"
 
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
@@ -20,6 +16,8 @@ import (
 	eppapi "github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/legacytest"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 const (

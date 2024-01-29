@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	cehttp "github.com/cloudevents/sdk-go/v2/protocol/http"
-
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/eventmesh"
 )

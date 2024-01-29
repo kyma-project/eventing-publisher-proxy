@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 // a mocked http.Handler.

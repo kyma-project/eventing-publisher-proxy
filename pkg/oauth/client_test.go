@@ -7,11 +7,10 @@ import (
 	"testing"
 	"time"
 
-	"go.opencensus.io/plugin/ochttp"
-	"golang.org/x/oauth2"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	"go.opencensus.io/plugin/ochttp"
+	"golang.org/x/oauth2"
 )
 
 func TestNewClient(t *testing.T) {
