@@ -16,4 +16,4 @@ jobs:
     uses: kyma-project/eventing-tools/.github/workflows/lint-go-reusable.yml@main
     with:
         go-version: '1.21'
-        lint-config-uri: https://raw.githubusercontent.com/kyma-project/eventing-tools/ca5d5cc431d9fb5cd12e7ef4c6c82331f203c630/config/lint/.golangci.yaml
+        lint-config-uri: https://raw.githubusercontent.com/kyma-project/eventing-tools/29f2429cd8d86804e64a5d943c00e8ca6f5c5693/config/lint/.golangci.yaml
