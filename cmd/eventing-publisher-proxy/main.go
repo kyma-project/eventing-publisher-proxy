@@ -87,7 +87,7 @@ func main() {
 
 	// Start the commander.
 	if err := c.Start(); err != nil {
-		setupLogger.Fatalw("Failed to to start publisher", "error", err)
+		setupLogger.Fatalw("Failed to start publisher", "error", err)
 	}
 
 	setupLogger.Info("Shutdown the Event Publisher")
