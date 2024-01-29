@@ -8,13 +8,14 @@ import (
 	"testing"
 
 	ce "github.com/cloudevents/sdk-go/v2"
-	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
-	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
 	"github.com/stretchr/testify/require"
+
+	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 func Test_EventMesh_Build(t *testing.T) {

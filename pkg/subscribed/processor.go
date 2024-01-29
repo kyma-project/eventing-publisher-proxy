@@ -3,13 +3,12 @@ package subscribed
 import (
 	"net/http"
 
-	"github.com/kyma-project/eventing-manager/pkg/logger"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
 	"go.uber.org/zap"
-
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/tools/cache"
 
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const processorName = "processor"

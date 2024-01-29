@@ -4,15 +4,15 @@ import (
 	log "log"
 
 	"github.com/kelseyhightower/envconfig"
-	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
-	"github.com/prometheus/client_golang/prometheus"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander/eventmesh"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander/nats"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/latency"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
+	"github.com/prometheus/client_golang/prometheus"
+
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const (

@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
-
 	"github.com/onsi/gomega"
 )
 

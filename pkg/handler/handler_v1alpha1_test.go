@@ -13,18 +13,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
-
 	ce "github.com/cloudevents/sdk-go/v2"
 	"github.com/cloudevents/sdk-go/v2/client"
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
-	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype/eventtypetest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
@@ -32,7 +27,11 @@ import (
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/metricstest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	"github.com/stretchr/testify/assert"
+
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 func Test_extractCloudEventFromRequest(t *testing.T) {

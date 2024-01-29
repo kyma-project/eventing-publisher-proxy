@@ -7,9 +7,8 @@ import (
 	"testing"
 
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
+	"github.com/stretchr/testify/assert"
 )
 
 const (

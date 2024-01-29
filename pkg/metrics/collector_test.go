@@ -8,11 +8,10 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/prometheus/client_golang/prometheus/testutil"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/histogram/mocks"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/latency"
+	"github.com/prometheus/client_golang/prometheus/testutil"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewCollector(t *testing.T) {

@@ -3,9 +3,8 @@ package jetstream
 import (
 	"net/http"
 
-	"github.com/nats-io/nats.go"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
+	"github.com/nats-io/nats.go"
 )
 
 // ReadinessCheck returns an instance of http.HandlerFunc that checks the readiness of the given NATS Handler.

@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-	"go.uber.org/zap"
-
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
+	"go.uber.org/zap"
+
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const responseName = "response"
