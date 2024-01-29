@@ -12,22 +12,22 @@ const JetStreamSubjectPrefix = "kyma"
 
 // NATSConfig represents the environment config for the Event Publisher to NATS.
 type NATSConfig struct {
-	Port                  int           `envconfig:"INGRESS_PORT" default:"8080"`
+	Port                  int           `default:"8080"       envconfig:"INGRESS_PORT"`
 	URL                   string        `envconfig:"NATS_URL" required:"true"`
-	RetryOnFailedConnect  bool          `envconfig:"RETRY_ON_FAILED_CONNECT" default:"true"`
-	MaxReconnects         int           `envconfig:"MAX_RECONNECTS" default:"-1"` // Negative means keep try reconnecting.
-	ReconnectWait         time.Duration `envconfig:"RECONNECT_WAIT" default:"5s"`
-	RequestTimeout        time.Duration `envconfig:"REQUEST_TIMEOUT" default:"5s"`
-	ApplicationCRDEnabled bool          `envconfig:"APPLICATION_CRD_ENABLED" default:"true"`
+	RetryOnFailedConnect  bool          `default:"true"       envconfig:"RETRY_ON_FAILED_CONNECT"`
+	MaxReconnects         int           `default:"-1"         envconfig:"MAX_RECONNECTS"` // Negative means keep try reconnecting.
+	ReconnectWait         time.Duration `default:"5s"         envconfig:"RECONNECT_WAIT"`
+	RequestTimeout        time.Duration `default:"5s"         envconfig:"REQUEST_TIMEOUT"`
+	ApplicationCRDEnabled bool          `default:"true"       envconfig:"APPLICATION_CRD_ENABLED"`
 
 	// Legacy Namespace is used as the event source for legacy events
-	LegacyNamespace string `envconfig:"LEGACY_NAMESPACE" default:"kyma"`
+	LegacyNamespace string `default:"kyma" envconfig:"LEGACY_NAMESPACE"`
 	// EventTypePrefix is the prefix of each event as per the eventing specification
 	// It follows the eventType format: <eventTypePrefix>.<appName>.<event-name>.<version>
-	EventTypePrefix string `envconfig:"EVENT_TYPE_PREFIX" default:"kyma"`
+	EventTypePrefix string `default:"kyma" envconfig:"EVENT_TYPE_PREFIX"`
 
 	// JetStream-specific configs
-	JSStreamName string `envconfig:"JS_STREAM_NAME" default:"kyma"`
+	JSStreamName string `default:"kyma" envconfig:"JS_STREAM_NAME"`
 }
 
 // ToConfig converts to a default EventMeshConfig.
