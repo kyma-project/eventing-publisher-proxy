@@ -99,7 +99,7 @@ func TestSender_Send_Error(t *testing.T) {
 		timeout time.Duration
 		builder *epptestingutils.CloudEventBuilder
 	}
-	var tests = []struct {
+	tests := []struct {
 		name    string
 		fields  fields
 		args    args
@@ -140,6 +140,7 @@ func TestSender_Send_Error(t *testing.T) {
 		})
 	}
 }
+
 func TestSender_Send(t *testing.T) {
 	type fields struct {
 		Target string
@@ -148,7 +149,7 @@ func TestSender_Send(t *testing.T) {
 		ctx     context.Context
 		builder *epptestingutils.CloudEventBuilder
 	}
-	var tests = []struct {
+	tests := []struct {
 		name    string
 		fields  fields
 		args    args

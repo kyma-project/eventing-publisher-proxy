@@ -37,7 +37,7 @@ To run the E2E tests, refer to [Testing](docs/contributor/01-00-testing.md).
    ```sh
    make imports
    make fmt
-   make lint
+   make lint-fix
    ```
 
 ### Build Container Images
