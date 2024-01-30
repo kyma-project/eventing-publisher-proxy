@@ -7,22 +7,17 @@ import (
 	"testing"
 	"time"
 
-	natsgo "github.com/nats-io/nats.go"
-
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-
+	ce "github.com/cloudevents/sdk-go/v2"
+	"github.com/cloudevents/sdk-go/v2/event"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
-
+	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	"github.com/nats-io/nats-server/v2/server"
+	natsgo "github.com/nats-io/nats.go"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/cloudevents/sdk-go/v2/event"
-
-	ce "github.com/cloudevents/sdk-go/v2"
-	"github.com/nats-io/nats-server/v2/server"
-	"github.com/stretchr/testify/assert"
-
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
-	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 func TestJetStreamMessageSender(t *testing.T) {

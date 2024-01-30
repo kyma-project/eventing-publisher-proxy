@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/dynamic/dynamicinformer"
+
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const (

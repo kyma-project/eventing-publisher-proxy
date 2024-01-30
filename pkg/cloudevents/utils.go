@@ -4,10 +4,9 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/pkg/errors"
-
 	"github.com/cloudevents/sdk-go/v2/binding"
 	cehttp "github.com/cloudevents/sdk-go/v2/protocol/http"
+	"github.com/pkg/errors"
 )
 
 // WriteRequestWithHeaders writes a CloudEvent HTTP request with the given message and adds the given headers to it.

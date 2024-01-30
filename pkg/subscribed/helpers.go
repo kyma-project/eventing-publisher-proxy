@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	emeventingv2alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
 	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -14,8 +14,7 @@ import (
 	"k8s.io/client-go/rest"
 
 	emeventingv1alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
-
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
+	emeventingv2alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
 )
 
 func SubscriptionGVR() schema.GroupVersionResource {

@@ -7,16 +7,15 @@ import (
 
 	"github.com/cloudevents/sdk-go/v2/binding"
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
-
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-	"go.uber.org/zap"
-
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/eventmesh"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/handler/health"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
+	"go.uber.org/zap"
+
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 var _ sender.GenericSender = &Sender{}

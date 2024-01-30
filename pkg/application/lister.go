@@ -5,7 +5,7 @@ import (
 	"errors"
 	"time"
 
-	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
 	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
 	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
@@ -15,7 +15,7 @@ import (
 	"k8s.io/client-go/dynamic/dynamicinformer"
 	"k8s.io/client-go/tools/cache"
 
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/informers"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 type Lister struct {

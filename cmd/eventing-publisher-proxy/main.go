@@ -4,15 +4,15 @@ import (
 	log "log"
 
 	"github.com/kelseyhightower/envconfig"
-	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
-	"github.com/prometheus/client_golang/prometheus"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander/eventmesh"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/commander/nats"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/latency"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
+	"github.com/prometheus/client_golang/prometheus"
+
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const (
@@ -25,10 +25,10 @@ type Config struct {
 	Backend string `envconfig:"BACKEND" required:"true"`
 
 	// AppLogFormat defines the log format.
-	AppLogFormat string `envconfig:"APP_LOG_FORMAT" default:"json"`
+	AppLogFormat string `default:"json" envconfig:"APP_LOG_FORMAT"`
 
 	// AppLogLevel defines the log level.
-	AppLogLevel string `envconfig:"APP_LOG_LEVEL" default:"info"`
+	AppLogLevel string `default:"info" envconfig:"APP_LOG_LEVEL"`
 }
 
 func main() {

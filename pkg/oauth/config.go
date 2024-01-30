@@ -1,9 +1,8 @@
 package oauth
 
 import (
-	"golang.org/x/oauth2/clientcredentials"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
+	"golang.org/x/oauth2/clientcredentials"
 )
 
 // Config returns a new oauth2 client credentials config instance.

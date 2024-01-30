@@ -4,12 +4,10 @@ import (
 	"testing"
 	"time"
 
-	natsgo "github.com/nats-io/nats.go"
-
-	"github.com/stretchr/testify/assert"
-
 	eppnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	natsgo "github.com/nats-io/nats.go"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestConnect(t *testing.T) {
