@@ -4,11 +4,10 @@ import (
 	"context"
 	"net/http"
 
-	"go.opencensus.io/plugin/ochttp"
-	"golang.org/x/oauth2"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/env"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/tracing/propagation/tracecontextb3"
+	"go.opencensus.io/plugin/ochttp"
+	"golang.org/x/oauth2"
 )
 
 // NewClient returns a new HTTP client which have nested transports for handling oauth2 security,

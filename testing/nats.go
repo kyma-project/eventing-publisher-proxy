@@ -3,14 +3,12 @@ package testing
 import (
 	"time"
 
+	eppnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
+	"github.com/nats-io/nats-server/v2/server"
+	"github.com/nats-io/nats-server/v2/test"
 	"github.com/nats-io/nats.go"
 
 	"github.com/kyma-project/eventing-manager/pkg/logger"
-
-	eppnats "github.com/kyma-project/eventing-publisher-proxy/pkg/nats"
-
-	"github.com/nats-io/nats-server/v2/server"
-	"github.com/nats-io/nats-server/v2/test"
 )
 
 const (

@@ -4,13 +4,11 @@ import (
 	"context"
 	"log"
 
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
+	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
 	kcorev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kdynamicfake "k8s.io/client-go/dynamic/fake"
-
-	kymaappconnv1alpha1 "github.com/kyma-project/kyma/components/central-application-gateway/pkg/apis/applicationconnector/v1alpha1"
-
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 )
 
 func NewApplicationListerOrDie(ctx context.Context, app *kymaappconnv1alpha1.Application) *application.Lister {

@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
-
 	"github.com/kyma-project/eventing-publisher-proxy/internal"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
+
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 const (

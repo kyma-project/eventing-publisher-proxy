@@ -4,13 +4,12 @@ import (
 	"context"
 	"testing"
 
-	"github.com/kyma-project/eventing-manager/pkg/logger"
-
-	"github.com/stretchr/testify/require"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
+	"github.com/stretchr/testify/require"
+
+	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 //nolint:lll // we need long lines here as the event types can get very long

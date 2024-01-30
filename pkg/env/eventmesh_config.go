@@ -11,20 +11,20 @@ var _ fmt.Stringer = &EventMeshConfig{}
 
 // EventMeshConfig represents the environment config for the Event Publisher to EventMesh.
 type EventMeshConfig struct {
-	Port                int           `envconfig:"INGRESS_PORT" default:"8080"`
-	ClientID            string        `envconfig:"CLIENT_ID" required:"true"`
-	ClientSecret        string        `envconfig:"CLIENT_SECRET" required:"true"`
-	TokenEndpoint       string        `envconfig:"TOKEN_ENDPOINT" required:"true"`
+	Port                int           `default:"8080"              envconfig:"INGRESS_PORT"`
+	ClientID            string        `envconfig:"CLIENT_ID"       required:"true"`
+	ClientSecret        string        `envconfig:"CLIENT_SECRET"   required:"true"`
+	TokenEndpoint       string        `envconfig:"TOKEN_ENDPOINT"  required:"true"`
 	EventMeshPublishURL string        `envconfig:"EMS_PUBLISH_URL" required:"true"`
-	MaxIdleConns        int           `envconfig:"MAX_IDLE_CONNS" default:"100"`
-	MaxIdleConnsPerHost int           `envconfig:"MAX_IDLE_CONNS_PER_HOST" default:"2"`
-	RequestTimeout      time.Duration `envconfig:"REQUEST_TIMEOUT" default:"5s"`
+	MaxIdleConns        int           `default:"100"               envconfig:"MAX_IDLE_CONNS"`
+	MaxIdleConnsPerHost int           `default:"2"                 envconfig:"MAX_IDLE_CONNS_PER_HOST"`
+	RequestTimeout      time.Duration `default:"5s"                envconfig:"REQUEST_TIMEOUT"`
 	// EventMeshNamespace is the name of the namespace in EventMesh which is used as the event source for legacy events.
 	EventMeshNamespace string `envconfig:"BEB_NAMESPACE" required:"true"`
 	// EventTypePrefix is the prefix of each event as per the eventing specification.
 	// It follows the eventType format: <eventTypePrefix>.<appName>.<event-name>.<version>
-	EventTypePrefix       string `envconfig:"EVENT_TYPE_PREFIX" default:""`
-	ApplicationCRDEnabled bool   `envconfig:"APPLICATION_CRD_ENABLED" default:"true"`
+	EventTypePrefix       string `default:""     envconfig:"EVENT_TYPE_PREFIX"`
+	ApplicationCRDEnabled bool   `default:"true" envconfig:"APPLICATION_CRD_ENABLED"`
 }
 
 // ConfigureTransport receives an HTTP transport and configure its max idle connection properties.

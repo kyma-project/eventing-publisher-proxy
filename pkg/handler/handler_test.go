@@ -9,30 +9,27 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/require"
-
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/legacytest"
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
-	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/jetstream"
-
-	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
-	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/applicationtest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application/fake"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/builder"
-
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/cloudevents/eventtype/eventtypetest"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/api"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/legacy/legacytest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/histogram/mocks"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/metrics/metricstest"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/options"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/common"
+	"github.com/kyma-project/eventing-publisher-proxy/pkg/sender/jetstream"
 	epptestingutils "github.com/kyma-project/eventing-publisher-proxy/testing"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
+	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
 func TestHandler_publishCloudEvents(t *testing.T) {
