@@ -29,16 +29,24 @@ const (
 )
 
 // compile time check.
-var _ sender.GenericSender = &Sender{}
-var _ health.Checker = &Sender{}
+var (
+	_ sender.GenericSender = &Sender{}
+	_ health.Checker       = &Sender{}
+)
 
 var (
-	ErrNotConnected = common.BackendPublishError{HTTPCode: http.StatusBadGateway,
-		Info: "no connection to NATS JetStream server"}
-	ErrCannotSendToStream = common.BackendPublishError{HTTPCode: http.StatusGatewayTimeout,
-		Info: "cannot send to stream"}
-	ErrNoSpaceLeftOnDevice = common.BackendPublishError{HTTPCode: http.StatusInsufficientStorage,
-		Info: "insufficient resources on target stream"}
+	ErrNotConnected = common.BackendPublishError{
+		HTTPCode: http.StatusBadGateway,
+		Info:     "no connection to NATS JetStream server",
+	}
+	ErrCannotSendToStream = common.BackendPublishError{
+		HTTPCode: http.StatusGatewayTimeout,
+		Info:     "cannot send to stream",
+	}
+	ErrNoSpaceLeftOnDevice = common.BackendPublishError{
+		HTTPCode: http.StatusInsufficientStorage,
+		Info:     "insufficient resources on target stream",
+	}
 )
 
 // Sender is responsible for sending messages over HTTP.
@@ -56,7 +64,8 @@ func (s *Sender) URL() string {
 
 // NewSender returns a new NewSender instance with the given NATS connection.
 func NewSender(ctx context.Context, connection *nats.Conn, envCfg *env.NATSConfig, opts *options.Options,
-	logger *logger.Logger) *Sender {
+	logger *logger.Logger,
+) *Sender {
 	return &Sender{ctx: ctx, connection: connection, envCfg: envCfg, opts: opts, logger: logger}
 }
 

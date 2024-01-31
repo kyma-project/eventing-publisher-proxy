@@ -18,7 +18,7 @@ func NewClient(ctx context.Context, cfg *env.EventMeshConfig) *http.Client {
 	client := config.Client(ctx)
 
 	// configure connection transport
-	var base = http.DefaultTransport.(*http.Transport).Clone()
+	base := http.DefaultTransport.(*http.Transport).Clone()
 	cfg.ConfigureTransport(base)
 	client.Transport.(*oauth2.Transport).Base = base
 

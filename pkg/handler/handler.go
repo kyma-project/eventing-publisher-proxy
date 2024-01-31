@@ -69,7 +69,8 @@ func New(receiver *receiver.HTTPMessageReceiver, sender sender.GenericSender, he
 	requestTimeout time.Duration, legacyTransformer legacy.RequestToCETransformer, opts *options.Options,
 	subscribedProcessor *subscribed.Processor, logger *logger.Logger, collector metrics.PublishingMetricsCollector,
 	eventTypeCleaner eventtype.Cleaner, ceBuilder builder.CloudEventBuilder, oldEventTypePrefix string,
-	activeBackend env.ActiveBackend) *Handler {
+	activeBackend env.ActiveBackend,
+) *Handler {
 	return &Handler{
 		Name:                "",
 		Receiver:            receiver,
@@ -123,7 +124,8 @@ func (h *Handler) maxBytes(f http.HandlerFunc) http.HandlerFunc {
 // It writes to the user request if any error occurs.
 // Otherwise, returns the result.
 func (h *Handler) handleSendEventAndRecordMetricsLegacy(
-	writer http.ResponseWriter, request *http.Request, event *ceevent.Event) error {
+	writer http.ResponseWriter, request *http.Request, event *ceevent.Event,
+) error {
 	err := h.sendEventAndRecordMetrics(request.Context(), event, h.Sender.URL(), request.Header)
 	if err != nil {
 		h.namedLogger().Error(err)
@@ -142,7 +144,8 @@ func (h *Handler) handleSendEventAndRecordMetricsLegacy(
 // It writes to the user request if any error occurs.
 // Otherwise, return the published event.
 func (h *Handler) handlePublishLegacyEvent(w http.ResponseWriter, r *http.Request,
-	data *api.PublishRequestData) (*ceevent.Event, error) {
+	data *api.PublishRequestData,
+) (*ceevent.Event, error) {
 	ceEvent, err := h.LegacyTransformer.TransformPublishRequestToCloudEvent(data)
 	if err != nil {
 		legacy.WriteJSONResponse(w, legacy.ErrorResponse(http.StatusInternalServerError, err))
@@ -169,7 +172,8 @@ func (h *Handler) handlePublishLegacyEvent(w http.ResponseWriter, r *http.Reques
 // It writes to the user request if any error occurs.
 // Otherwise, return the published event.
 func (h *Handler) handlePublishLegacyEventV1alpha1(w http.ResponseWriter, r *http.Request,
-	data *api.PublishRequestData) (*ceevent.Event, error) {
+	data *api.PublishRequestData,
+) (*ceevent.Event, error) {
 	event, _ := h.LegacyTransformer.WriteLegacyRequestsToCE(w, data)
 	if event == nil {
 		h.namedLogger().Error("Failed to transform legacy event to CloudEvent, event is nil")
@@ -299,7 +303,8 @@ func extractCloudEventFromRequest(r *http.Request) (*ceevent.Event, error) {
 
 // sendEventAndRecordMetrics dispatches an Event and records metrics based on dispatch success.
 func (h *Handler) sendEventAndRecordMetrics(ctx context.Context, event *ceevent.Event,
-	host string, header http.Header) error {
+	host string, header http.Header,
+) error {
 	ctx, cancel := context.WithTimeout(ctx, h.RequestTimeout)
 	defer cancel()
 	h.applyDefaults(ctx, event)

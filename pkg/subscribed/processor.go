@@ -35,7 +35,6 @@ func (p Processor) extractEventsFromSubscriptions(
 	appName := legacy.ParseApplicationNameFromPath(request.URL.Path)
 	for _, sObj := range subsList {
 		sub, err := ConvertRuntimeObjToSubscription(sObj)
-
 		if err != nil {
 			p.namedLogger().Errorw("Failed to convert a runtime obj to a Subscription", "error", err)
 			continue
