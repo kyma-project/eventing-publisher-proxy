@@ -34,6 +34,8 @@ import (
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
+var ErrUnableToClean = fmt.Errorf("unable to clean") // Static error.
+
 func Test_extractCloudEventFromRequest(t *testing.T) {
 	type args struct {
 		request *http.Request
@@ -253,7 +255,7 @@ func TestHandler_publishCloudEvents_v1alpha1(t *testing.T) {
 				collector: metrics.NewCollector(latency),
 				eventTypeCleaner: &eventtypetest.CleanerStub{
 					CleanType: "",
-					Error:     fmt.Errorf("I cannot clean"),
+					Error:     ErrUnableToClean,
 				},
 			},
 			args: args{

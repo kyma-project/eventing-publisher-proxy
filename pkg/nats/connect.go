@@ -6,6 +6,8 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
+var ErrNATSConnectionNotConnected = fmt.Errorf("NATS connection not connected") // Static error.
+
 type Opt = nats.Option
 
 //nolint:gochecknoglobals // cloning functions as variables.
@@ -27,7 +29,7 @@ func Connect(url string, opts ...Opt) (*nats.Conn, error) {
 	}
 
 	if status := connection.Status(); status != nats.CONNECTED {
-		return nil, fmt.Errorf("NATS connection not connected with status:%v", status)
+		return nil, fmt.Errorf("%w with status:%v", ErrNATSConnectionNotConnected, status)
 	}
 
 	return connection, err

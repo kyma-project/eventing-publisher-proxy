@@ -18,6 +18,8 @@ import (
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
+var ErrFailedToConvertObjectToUnstructured = errors.New("failed to convert runtime object to unstructured") // Static error.
+
 type Lister struct {
 	lister cache.GenericLister
 }
@@ -41,7 +43,7 @@ func (l Lister) Get(name string) (*kymaappconnv1alpha1.Application, error) {
 
 	u, ok := object.(*unstructured.Unstructured)
 	if !ok {
-		return nil, errors.New("failed to convert runtime object to unstructured")
+		return nil, ErrFailedToConvertObjectToUnstructured
 	}
 
 	a := &kymaappconnv1alpha1.Application{}
