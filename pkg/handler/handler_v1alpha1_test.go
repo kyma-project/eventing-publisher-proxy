@@ -262,7 +262,7 @@ func TestHandler_publishCloudEvents_v1alpha1(t *testing.T) {
 				request: CreateValidBinaryRequestV1Alpha1(t),
 			},
 			wantStatus: 400,
-			wantBody:   []byte("I cannot clean"),
+			wantBody:   []byte("unable to clean"),
 			wantTEF:    "", // client error will not be recorded as EPP internal error. So no metric will be updated.
 		},
 		{
