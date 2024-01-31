@@ -57,6 +57,7 @@ func (s *Server) Stop() {
 		s.namedLogger().Warnw("Failed to shutdown metrics server", "error", err)
 	}
 }
+
 func (s *Server) namedLogger() *zap.SugaredLogger {
 	return s.logger.WithContext().Named(metricsServerLoggerName)
 }

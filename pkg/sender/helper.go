@@ -6,8 +6,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 )
 
-type PublishingMetricsCollectorStub struct {
-}
+type PublishingMetricsCollectorStub struct{}
 
 func (p PublishingMetricsCollectorStub) Describe(chan<- *prometheus.Desc) {
 }

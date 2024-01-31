@@ -12,10 +12,8 @@ const (
 	TypeLabel = "application-type"
 )
 
-var (
-	// invalidApplicationNameSegment used to match and replace none-alphanumeric characters in the application name.
-	invalidApplicationNameSegment = regexp.MustCompile(`\W|_`)
-)
+// invalidApplicationNameSegment used to match and replace none-alphanumeric characters in the application name.
+var invalidApplicationNameSegment = regexp.MustCompile(`\W|_`)
 
 // GetCleanTypeOrName cleans the application name form none-alphanumeric characters and returns it
 // if the application type label exists, it will be cleaned and returned instead of the application name.

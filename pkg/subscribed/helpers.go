@@ -135,7 +135,8 @@ func buildEvent(eventTypeAndVersion string) Event {
 // E.g. sap.kyma.custom.varkes.order.created.v0
 // 2. if the eventSource matches BEBNamespace name.
 func FilterEventTypeVersionsV1alpha1(eventTypePrefix, bebNs, appName string,
-	filters *emeventingv1alpha1.BEBFilters) []Event {
+	filters *emeventingv1alpha1.BEBFilters,
+) []Event {
 	events := make([]Event, 0)
 	if filters == nil {
 		return events

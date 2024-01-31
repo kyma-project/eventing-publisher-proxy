@@ -15,7 +15,8 @@ func WriteRequestWithHeaders(
 	message binding.Message,
 	req *http.Request,
 	headers http.Header,
-	transformers ...binding.Transformer) error {
+	transformers ...binding.Transformer,
+) error {
 	err := cehttp.WriteRequest(ctx, message, req, transformers...)
 	if err != nil {
 		return errors.Wrap(err, "failed to write Request")

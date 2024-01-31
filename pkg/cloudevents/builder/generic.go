@@ -21,7 +21,8 @@ const (
 )
 
 func NewGenericBuilder(typePrefix string, cleaner cleaner.Cleaner, applicationLister *application.Lister,
-	logger *logger.Logger) CloudEventBuilder {
+	logger *logger.Logger,
+) CloudEventBuilder {
 	return &GenericBuilder{
 		typePrefix:        typePrefix,
 		applicationLister: applicationLister,
@@ -80,7 +81,7 @@ func (gb *GenericBuilder) getFinalSubject(source, eventType string) string {
 
 // GetAppNameOrSource returns the application name if exists, otherwise returns source name.
 func (gb *GenericBuilder) GetAppNameOrSource(source string, namedLogger *zap.SugaredLogger) string {
-	var appName = source
+	appName := source
 	if gb.isApplicationListerEnabled() {
 		if appObj, err := gb.applicationLister.Get(source); err == nil && appObj != nil {
 			appName = application.GetTypeOrName(appObj)

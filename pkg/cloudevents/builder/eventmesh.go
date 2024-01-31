@@ -12,7 +12,8 @@ import (
 var _ CloudEventBuilder = &EventMeshBuilder{}
 
 func NewEventMeshBuilder(prefix string, eventMeshNamespace string, cleaner cleaner.Cleaner,
-	applicationLister *application.Lister, logger *logger.Logger) CloudEventBuilder {
+	applicationLister *application.Lister, logger *logger.Logger,
+) CloudEventBuilder {
 	genericBuilder := GenericBuilder{
 		typePrefix:        prefix,
 		applicationLister: applicationLister,
