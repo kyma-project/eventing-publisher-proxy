@@ -26,7 +26,7 @@ import (
 	"github.com/kyma-project/eventing-manager/pkg/backend/cleaner"
 	"github.com/kyma-project/eventing-manager/pkg/logger"
 
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp" // TODO: remove as this is only required in a dev setup
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp" // IMPORTANT: remove as this is only required in a dev setup
 )
 
 const (
