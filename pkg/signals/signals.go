@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+var ErrReceivedTerminationSignal = errors.New("received a termination signal")
+
 //nolint:gochecknoglobals // defining channels
 var (
 	// onlyOneSignalHandler to make sure that only one signal handler is registered.
@@ -70,7 +72,7 @@ func (scc *signalContext) Err() error {
 	select {
 	case _, ok := <-scc.Done():
 		if !ok {
-			return errors.New("received a termination signal")
+			return ErrReceivedTerminationSignal
 		}
 	default:
 	}
