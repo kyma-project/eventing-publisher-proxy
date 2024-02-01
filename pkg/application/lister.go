@@ -18,7 +18,7 @@ import (
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
-var ErrFailedToConvertObjectToUnstructured = errors.New("failed to convert runtime object to unstructured") // Static error.
+var ErrFailedToConvertObjectToUnstructured = errors.New("failed to convert runtime object to unstructured")
 
 type Lister struct {
 	lister cache.GenericLister

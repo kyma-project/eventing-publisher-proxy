@@ -12,7 +12,7 @@ import (
 	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
-var ErrEventTypeCannotHaveEmptySegments = fmt.Errorf("event type cannot have empty segments after cleaning") // Static error.
+var ErrEventTypeCannotHaveEmptySegments = fmt.Errorf("event type cannot have empty segments after cleaning")
 
 // Perform a compile-time check.
 var _ CloudEventBuilder = &GenericBuilder{}
@@ -59,7 +59,7 @@ func (gb *GenericBuilder) Build(event ceevent.Event) (*ceevent.Event, error) {
 	// validate if the segments are not empty
 	segments := strings.Split(finalEventType, ".")
 	if DoesEmptySegmentsExist(segments) {
-		return nil, fmt.Errorf("ErrEventTypeCannotHaveEmptySegments %w: %s", ErrEventTypeCannotHaveEmptySegments, finalEventType)
+		return nil, fmt.Errorf("%w: %s", ErrEventTypeCannotHaveEmptySegments, finalEventType)
 	}
 	namedLogger.Debugf("using event type: %s", finalEventType)
 

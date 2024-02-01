@@ -34,7 +34,7 @@ import (
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
-var ErrUnableToClean = fmt.Errorf("unable to clean") // Static error.
+var ErrUnableToClean = fmt.Errorf("unable to clean")
 
 func Test_extractCloudEventFromRequest(t *testing.T) {
 	type args struct {

@@ -6,7 +6,7 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-var ErrNATSConnectionNotConnected = fmt.Errorf("NATS connection not connected") // Static error.
+var ErrNATSConnectionNotConnected = fmt.Errorf("NATS connection not connected")
 
 type Opt = nats.Option
 

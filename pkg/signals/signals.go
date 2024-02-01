@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-var ErrReceivedTerminationSignal = errors.New("received a termination signal") // Static error
+var ErrReceivedTerminationSignal = errors.New("received a termination signal")
 
 //nolint:gochecknoglobals // defining channels
 var (
