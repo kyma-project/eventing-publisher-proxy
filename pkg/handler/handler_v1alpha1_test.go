@@ -588,6 +588,7 @@ func TestHandler_sendEventAndRecordMetrics_TracingAndDefaults(t *testing.T) {
 }
 
 func CreateCloudEvent(t *testing.T) *ceevent.Event {
+	t.Helper()
 	builder := epptestingutils.NewCloudEventBuilder(
 		epptestingutils.WithCloudEventType(epptestingutils.CloudEventTypeWithPrefix),
 	)

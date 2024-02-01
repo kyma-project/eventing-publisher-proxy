@@ -352,16 +352,16 @@ func NewEventMeshFilters(opts ...EventMeshFilterOption) *emeventingv1alpha1.BEBF
 }
 
 func WithOneEventMeshFilter(filters *emeventingv1alpha1.BEBFilters) {
-	evSource := "/default/foo.kyma/kt1"
-	evType := "foo.prefix.custom.foovarkes.order.created.v1"
+	const evSource = "/default/foo.kyma/kt1"
+	const evType = "foo.prefix.custom.foovarkes.order.created.v1"
 	filters.Filters = []*emeventingv1alpha1.EventMeshFilter{
 		NewEventMeshFilter(evSource, evType),
 	}
 }
 
 func WithMultipleEventMeshFiltersFromSameSource(filters *emeventingv1alpha1.BEBFilters) {
-	evSource := "/default/foo.kyma/kt1"
-	evType := "foo.prefix.custom.foovarkes.order.created.v1"
+	const evSource = "/default/foo.kyma/kt1"
+	const evType = "foo.prefix.custom.foovarkes.order.created.v1"
 	filters.Filters = []*emeventingv1alpha1.EventMeshFilter{
 		NewEventMeshFilter(evSource, evType),
 		NewEventMeshFilter(evSource, evType),
@@ -374,7 +374,7 @@ func WithMultipleEventMeshFiltersFromDiffSource(filters *emeventingv1alpha1.BEBF
 	evSource2 := "/default/foo.different/kt1"
 	evSource3 := "/default/foo.different2/kt1"
 	evSource4 := ""
-	evType := "foo.prefix.custom.foovarkes.order.created.v1"
+	const evType = "foo.prefix.custom.foovarkes.order.created.v1"
 	filters.Filters = []*emeventingv1alpha1.EventMeshFilter{
 		NewEventMeshFilter(evSource1, evType),
 		NewEventMeshFilter(evSource2, evType),

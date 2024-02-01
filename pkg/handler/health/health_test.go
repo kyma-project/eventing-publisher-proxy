@@ -98,6 +98,7 @@ func TestChecker(t *testing.T) {
 }
 
 func assertResponseLivenessStatusCode(t *testing.T, endpoint string, checker *ConfigurableChecker, statusCode int) {
+	t.Helper()
 	writer := httptest.NewRecorder()
 	request := httptest.NewRequest(http.MethodGet, endpoint, nil)
 
@@ -107,6 +108,7 @@ func assertResponseLivenessStatusCode(t *testing.T, endpoint string, checker *Co
 }
 
 func assertResponseReadinessStatusCode(t *testing.T, endpoint string, checker *ConfigurableChecker, statusCode int) {
+	t.Helper()
 	writer := httptest.NewRecorder()
 	request := httptest.NewRequest(http.MethodGet, endpoint, nil)
 

@@ -42,6 +42,7 @@ func ValidLegacyRequest(version, appname, eventType string) (*http.Request, erro
 }
 
 func InvalidLegacyRequestOrDie(t *testing.T, version, appname, eventType string) *http.Request {
+	t.Helper()
 	r, err := InvalidLegacyRequest(version, appname, eventType)
 	assert.NoError(t, err)
 	return r
