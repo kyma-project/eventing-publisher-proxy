@@ -108,6 +108,7 @@ type TestEnvironment struct {
 
 // setupTestEnvironment sets up the resources and mocks required for testing.
 func setupTestEnvironment(t *testing.T) *TestEnvironment {
+	t.Helper()
 	natsServer := epptestingutils.StartNATSServer()
 	require.NotNil(t, natsServer)
 
@@ -141,6 +142,7 @@ func setupTestEnvironment(t *testing.T) *TestEnvironment {
 
 // createCloudEvent build a cloud event.
 func createCloudEvent(t *testing.T) *event.Event {
+	t.Helper()
 	jsType := fmt.Sprintf("%s.%s", epptestingutils.StreamName, epptestingutils.CloudEventTypeWithPrefix)
 	builder := epptestingutils.NewCloudEventBuilder(
 		epptestingutils.WithCloudEventType(jsType),
@@ -177,6 +179,7 @@ func getConsumerConfig() *natsgo.ConsumerConfig {
 
 // addStream creates a stream for the test events.
 func addStream(t *testing.T, connection *natsgo.Conn, config *natsgo.StreamConfig) {
+	t.Helper()
 	js, err := connection.JetStream()
 	assert.NoError(t, err)
 	info, err := js.AddStream(config)
@@ -185,6 +188,7 @@ func addStream(t *testing.T, connection *natsgo.Conn, config *natsgo.StreamConfi
 }
 
 func addConsumer(t *testing.T, connection *natsgo.Conn, sc *natsgo.StreamConfig, config *natsgo.ConsumerConfig) {
+	t.Helper()
 	js, err := connection.JetStream()
 	assert.NoError(t, err)
 	info, err := js.AddConsumer(sc.Name, config)

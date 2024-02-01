@@ -48,6 +48,7 @@ func WithValidator(validator Validator) MockServerOption {
 }
 
 func (m *MockServer) Start(t *testing.T, tokenEndpoint, eventsEndpoint, eventsWithHTTP400 string) {
+	t.Helper()
 	m.server = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		time.Sleep(m.responseTime)
 

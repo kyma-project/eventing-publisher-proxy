@@ -129,6 +129,7 @@ func (b *CloudEventBuilder) BuildStructured() (string, http.Header) {
 }
 
 func (b *CloudEventBuilder) Build(t *testing.T) *ceevent.Event {
+	t.Helper()
 	e := ceevent.New(b.specVersion)
 	assert.NoError(t, e.Context.SetID(b.id))
 	assert.NoError(t, e.Context.SetType(b.eventType))
