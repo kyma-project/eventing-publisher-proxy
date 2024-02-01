@@ -43,6 +43,7 @@ func TestStartListener(t *testing.T) {
 	defer close(start)
 	wg.Add(1)
 	go func(t *testing.T) {
+		t.Helper()
 		defer wg.Done()
 		start <- true
 		t.Log("starting receiver in goroutine")

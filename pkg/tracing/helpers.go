@@ -1,7 +1,6 @@
 package tracing
 
 import (
-	"fmt"
 	"net/http"
 
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
@@ -27,7 +26,7 @@ func AddTracingContextToCEExtensions(reqHeaders http.Header, event *ceevent.Even
 	traceParent := reqHeaders.Get(traceParentKey)
 	if len(traceParent) > 0 {
 		st := extensions.DistributedTracingExtension{
-			TraceParent: fmt.Sprintf("%v", traceParent),
+			TraceParent: traceParent,
 		}
 		st.AddTracingAttributes(event)
 	}

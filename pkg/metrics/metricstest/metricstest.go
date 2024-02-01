@@ -14,15 +14,18 @@ import (
 
 // EnsureMetricLatency ensures metric eventing_epp_backend_duration_seconds exists.
 func EnsureMetricLatency(t *testing.T, collector metrics.PublishingMetricsCollector, count int) {
+	t.Helper()
 	ensureMetricCount(t, collector, metrics.BackendLatencyKey, count)
 }
 
 // EnsureMetricEventTypePublished ensures metric eventing_epp_event_type_published_total exists.
 func EnsureMetricEventTypePublished(t *testing.T, collector metrics.PublishingMetricsCollector, count int) {
+	t.Helper()
 	ensureMetricCount(t, collector, metrics.EventTypePublishedMetricKey, count)
 }
 
 func ensureMetricCount(t *testing.T, collector metrics.PublishingMetricsCollector, metric string, expectedCount int) {
+	t.Helper()
 	if count := testutil.CollectAndCount(collector, metric); count != expectedCount {
 		t.Fatalf("invalid count for metric:%s, want:%d, got:%d", metric, expectedCount, count)
 	}
@@ -34,6 +37,7 @@ func ensureMetricCount(t *testing.T, collector metrics.PublishingMetricsCollecto
 func EnsureMetricMatchesTextExpositionFormat(t *testing.T, collector metrics.PublishingMetricsCollector,
 	tef string, metricNames ...string,
 ) {
+	t.Helper()
 	if err := testutil.CollectAndCompare(collector, strings.NewReader(tef), metricNames...); err != nil {
 		t.Fatalf("%v", err)
 	}

@@ -1,8 +1,8 @@
 package metrics
 
 import (
-	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
@@ -143,7 +143,7 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 
 // RecordLatency records a backendLatencyHelp metric.
 func (c *Collector) RecordBackendLatency(duration time.Duration, statusCode int, destSvc string) {
-	c.backendLatency.WithLabelValues(fmt.Sprint(statusCode), destSvc).Observe(float64(duration.Milliseconds()))
+	c.backendLatency.WithLabelValues(strconv.Itoa(statusCode), destSvc).Observe(float64(duration.Milliseconds()))
 }
 
 // SetHealthStatus updates the health metric.
@@ -157,7 +157,7 @@ func (c *Collector) SetHealthStatus(healthy bool) {
 
 // RecordEventType records an eventType metric.
 func (c *Collector) RecordEventType(eventType, eventSource string, statusCode int) {
-	c.eventType.WithLabelValues(eventType, eventSource, fmt.Sprint(statusCode)).Inc()
+	c.eventType.WithLabelValues(eventType, eventSource, strconv.Itoa(statusCode)).Inc()
 }
 
 // MetricsMiddleware returns a http.Handler that can be used as middleware in gorilla.mux to track
