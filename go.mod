@@ -9,7 +9,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/kyma-project/eventing-manager v0.0.0-20231213144127-a77a4fabb2e0
 	github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20231213062924-40b7754f6246
-	github.com/nats-io/nats-server/v2 v2.10.9
+	github.com/nats-io/nats-server/v2 v2.10.10
 	github.com/nats-io/nats.go v1.32.0
 	github.com/onsi/gomega v1.31.1
 	github.com/pkg/errors v0.9.1
@@ -47,7 +47,7 @@ require (
 	github.com/imdario/mergo v0.3.16 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
-	github.com/klauspost/compress v1.17.4 // indirect
+	github.com/klauspost/compress v1.17.5 // indirect
 	github.com/kyma-project/kyma/common/logging v0.0.0-20231113125307-562a57ab5198 // indirect
 	github.com/kyma-project/nats-manager v1.0.3-0.20231124103356-1904d89ab2b2 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
