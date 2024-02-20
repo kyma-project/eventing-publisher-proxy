@@ -109,8 +109,8 @@ github.com/kyma-project/eventing-manager v0.0.0-20240220085634-b9495296bf16 h1:F
 github.com/kyma-project/eventing-manager v0.0.0-20240220085634-b9495296bf16/go.mod h1:LoMEAC5Ho7+o0omdw859KjBPz3UkFbeCo3Qjzmskckk=
 github.com/kyma-project/kyma/common/logging v0.0.0-20231220133808-e2c22b79a28b h1:mYJvj9IKQyQMwHsyO+7tXd/PYLk4WZKnlbxnmTiDHqQ=
 github.com/kyma-project/kyma/common/logging v0.0.0-20231220133808-e2c22b79a28b/go.mod h1:JGb5RBi8Uz+RZ/jf54+qA+RqY6uPQBJ8pO1w3KSwm1Q=
-github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20231213062924-40b7754f6246 h1:cQQgnQHLvbroOMHC5fBc80hhaO/HtveSCjhgykjIMbo=
-github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20231213062924-40b7754f6246/go.mod h1:r30ZDuRuvMZIzrarEpjEeQWrND/M5X/XA1iOuMrQfmg=
+github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20240220080435-4f86765c34c5 h1:jcqabcLF8oX+ygnRRTBGw58xDhDpXR5faNqK+THLzZQ=
+github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20240220080435-4f86765c34c5/go.mod h1:r30ZDuRuvMZIzrarEpjEeQWrND/M5X/XA1iOuMrQfmg=
 github.com/kyma-project/nats-manager v1.0.3-0.20231219150808-13159cfea47c h1:LTWJ2YZBh0DVkFl4eKqR0ZSzlGRHVkiLt6hOxTNV3nc=
 github.com/kyma-project/nats-manager v1.0.3-0.20231219150808-13159cfea47c/go.mod h1:1vHtViq9rGpz1rWY2RKkBWzDWeEFStZJSqBCMtpuOOI=
 github.com/mailru/easyjson v0.7.7 h1:UGYAvKxe3sBsEDzO8ZeWOSlIQfWFlxbzLZe7hwFURr0=

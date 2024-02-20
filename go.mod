@@ -8,7 +8,7 @@ require (
 	github.com/gorilla/mux v1.8.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/kyma-project/eventing-manager v0.0.0-20240220085634-b9495296bf16
-	github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20231213062924-40b7754f6246
+	github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20240220080435-4f86765c34c5
 	github.com/nats-io/nats-server/v2 v2.10.11
 	github.com/nats-io/nats.go v1.33.1
 	github.com/onsi/gomega v1.31.1
