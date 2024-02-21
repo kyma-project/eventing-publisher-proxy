@@ -28,12 +28,12 @@ jobs:
           repository: kyma-project/eventing-manager
           path: eventing-manager
 
-      - name: Cache binaries
-        id: cache-binaries
-        uses: actions/cache@v4
+      - name: Setup Go via go.mod
+        uses: actions/setup-go@v5
         with:
-          path: bin
-          key: ${{ runner.os }}-bin
+          go-version-file: main/go.mod
+
+      - run: go version
 
       - name: Install k3d tools
         run: |
