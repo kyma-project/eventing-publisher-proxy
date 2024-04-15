@@ -34,7 +34,7 @@ import (
 	emlogger "github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
-var ErrUnableToClean = fmt.Errorf("unable to clean")
+var ErrUnableToClean = errors.New("unable to clean")
 
 func Test_extractCloudEventFromRequest(t *testing.T) {
 	type args struct {
@@ -55,7 +55,7 @@ func Test_extractCloudEventFromRequest(t *testing.T) {
 			args: args{
 				request: CreateValidStructuredRequestV1Alpha1(t),
 			},
-			wantType: fmt.Sprintf("sap.kyma.custom.%s", epptestingutils.CloudEventType),
+			wantType: "sap.kyma.custom." + epptestingutils.CloudEventType,
 			wants: wants{
 				event:              CreateCloudEvent(t),
 				errorAssertionFunc: assert.NoError,
@@ -86,7 +86,7 @@ func Test_extractCloudEventFromRequest(t *testing.T) {
 			args: args{
 				request: CreateValidBinaryRequestV1Alpha1(t),
 			},
-			wantType: fmt.Sprintf("sap.kyma.custom.%s", epptestingutils.CloudEventType),
+			wantType: "sap.kyma.custom." + epptestingutils.CloudEventType,
 			wants: wants{
 				event:              CreateCloudEvent(t),
 				errorAssertionFunc: assert.NoError,

@@ -185,7 +185,7 @@ func FilterEventTypeVersionsV1alpha1(eventTypePrefix, bebNs, appName string,
 
 func preparePrefix(eventTypePrefix string, appName string) string {
 	if len(strings.TrimSpace(eventTypePrefix)) == 0 {
-		return strings.ToLower(fmt.Sprintf("%s.", appName))
+		return strings.ToLower(appName + ".")
 	}
 	return strings.ToLower(fmt.Sprintf("%s.%s.", eventTypePrefix, appName))
 }

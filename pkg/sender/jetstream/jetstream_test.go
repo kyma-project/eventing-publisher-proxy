@@ -160,7 +160,7 @@ func createCloudEvent(t *testing.T) *event.Event {
 func getStreamConfig(maxBytes int64) *natsgo.StreamConfig {
 	return &natsgo.StreamConfig{
 		Name:      epptestingutils.StreamName,
-		Subjects:  []string{fmt.Sprintf("%s.>", env.JetStreamSubjectPrefix)},
+		Subjects:  []string{env.JetStreamSubjectPrefix + ".>"},
 		Storage:   natsgo.MemoryStorage,
 		Retention: natsgo.InterestPolicy,
 		Discard:   natsgo.DiscardNew,
