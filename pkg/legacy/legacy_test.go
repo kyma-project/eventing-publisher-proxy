@@ -2,7 +2,6 @@ package legacy
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -252,7 +251,7 @@ func TestRemoveNonAlphanumeric(t *testing.T) {
 	}
 	for _, tc := range testCases {
 		tc := tc
-		t.Run(fmt.Sprintf("%s eventType", tc.name), func(t *testing.T) {
+		t.Run(tc.name+" eventType", func(t *testing.T) {
 			t.Parallel()
 
 			gotEventType := removeNonAlphanumeric(tc.givenEventType)
