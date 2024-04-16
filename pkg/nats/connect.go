@@ -1,12 +1,13 @@
 package nats
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/nats-io/nats.go"
 )
 
-var ErrNATSConnectionNotConnected = fmt.Errorf("NATS connection not connected")
+var ErrNATSConnectionNotConnected = errors.New("NATS connection not connected")
 
 type Opt = nats.Option
 

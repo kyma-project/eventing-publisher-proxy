@@ -3,7 +3,6 @@ package builder
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	log "log"
 	"testing"
 
@@ -45,7 +44,7 @@ func Test_EventMesh_Build(t *testing.T) {
 			givenSource:          "source1",
 			givenType:            "order.created.v1",
 			givenApplicationName: "appName1",
-			wantType:             fmt.Sprintf("%s.source1.order.created.v1", eventMeshPrefix),
+			wantType:             eventMeshPrefix + ".source1.order.created.v1",
 			wantSource:           sampleEventMeshNamespace,
 		},
 		{
@@ -53,7 +52,7 @@ func Test_EventMesh_Build(t *testing.T) {
 			givenSource:          "source1",
 			givenType:            "o-rder.creat ed.v1",
 			givenApplicationName: "appName1",
-			wantType:             fmt.Sprintf("%s.source1.order.created.v1", eventMeshPrefix),
+			wantType:             eventMeshPrefix + ".source1.order.created.v1",
 			wantSource:           sampleEventMeshNamespace,
 		},
 		{
@@ -61,7 +60,7 @@ func Test_EventMesh_Build(t *testing.T) {
 			givenSource:          "source1",
 			givenType:            "haha.hehe.hmm.order.created.v1",
 			givenApplicationName: "appName1",
-			wantType:             fmt.Sprintf("%s.source1.hahahehehmmorder.created.v1", eventMeshPrefix),
+			wantType:             eventMeshPrefix + ".source1.hahahehehmmorder.created.v1",
 			wantSource:           sampleEventMeshNamespace,
 		},
 		{
@@ -69,7 +68,7 @@ func Test_EventMesh_Build(t *testing.T) {
 			givenSource:          "appName1",
 			givenType:            "order.created.v1",
 			givenApplicationName: "appName1",
-			wantType:             fmt.Sprintf("%s.appName1.order.created.v1", eventMeshPrefix),
+			wantType:             eventMeshPrefix + ".appName1.order.created.v1",
 			wantSource:           sampleEventMeshNamespace,
 		},
 		{
@@ -78,7 +77,7 @@ func Test_EventMesh_Build(t *testing.T) {
 			givenType:              "order.created.v1",
 			givenApplicationName:   "appName1",
 			givenApplicationLabels: map[string]string{application.TypeLabel: "t..e--s__t!!a@@p##p%%t^^y&&p**e"},
-			wantType:               fmt.Sprintf("%s.testapptype.order.created.v1", eventMeshPrefix),
+			wantType:               eventMeshPrefix + ".testapptype.order.created.v1",
 			wantSource:             sampleEventMeshNamespace,
 		},
 		{

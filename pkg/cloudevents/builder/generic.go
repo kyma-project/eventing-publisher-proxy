@@ -1,6 +1,7 @@
 package builder
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -12,7 +13,7 @@ import (
 	"github.com/kyma-project/eventing-manager/pkg/logger"
 )
 
-var ErrEventTypeCannotHaveEmptySegments = fmt.Errorf("event type cannot have empty segments after cleaning")
+var ErrEventTypeCannotHaveEmptySegments = errors.New("event type cannot have empty segments after cleaning")
 
 // Perform a compile-time check.
 var _ CloudEventBuilder = &GenericBuilder{}
