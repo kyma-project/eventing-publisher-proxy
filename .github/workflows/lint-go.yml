@@ -10,6 +10,9 @@ on:
       - '**.md'
       - 'sec-scanners-config.yaml'
 
+env:
+  GO111MODULE: "on"
+
 jobs:
   code-linter:
     name: "Run golangci-lint"
