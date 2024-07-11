@@ -10,7 +10,7 @@ require (
 	github.com/kyma-project/eventing-manager v0.0.0-20240220085634-b9495296bf16
 	github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20240220080435-4f86765c34c5
 	github.com/nats-io/nats-server/v2 v2.10.11
-	github.com/nats-io/nats.go v1.33.1
+	github.com/nats-io/nats.go v1.36.0
 	github.com/onsi/gomega v1.31.1
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.18.0
