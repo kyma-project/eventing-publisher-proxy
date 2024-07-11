@@ -53,15 +53,15 @@ golangci_lint:
 		GOBIN=$(LOCALBIN) go install github.com/golangci/golangci-lint/cmd/golangci-lint@$(GOLANG_CI_LINT_VERSION)
 
 lint: golangci_lint
-	$(LOCALBIN)/golangci-lint run
+	$(LOCALBIN)/golangci-lint run --timeout=15m
 
 .PHONY: lint-compact
 lint-compact: golangci_lint ## Check lint issues using `golangci-lint` in compact result format
-	$(LOCALBIN)/golangci-lint run --print-issued-lines=false
+	$(LOCALBIN)/golangci-lint run --print-issued-lines=false --timeout=15m
 
 .PHONY: lint-fix
 lint-fix: golangci_lint
-	$(LOCALBIN)/golangci-lint run --fix
+	$(LOCALBIN)/golangci-lint run --fix --timeout=15m
 
 .PHONY: lint-report
 lint-report: golangci_lint
