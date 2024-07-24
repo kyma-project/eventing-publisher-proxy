@@ -97,7 +97,7 @@ func TestGetToken(t *testing.T) {
 			client := NewClient(context.Background(), cfg)
 			defer client.CloseIdleConnections()
 
-			for range test.requestsCount {
+			for i := 0; i < test.requestsCount; i++ {
 				req, err := http.NewRequest(http.MethodPost, emsCEURL, nil)
 				if err != nil {
 					t.Errorf("Failed to create HTTP request with error: %v", err)
