@@ -13,7 +13,6 @@ import (
 	"k8s.io/client-go/dynamic/dynamicinformer"
 	"k8s.io/client-go/rest"
 
-	emeventingv1alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
 	emeventingv2alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
 )
 
@@ -23,27 +22,6 @@ func SubscriptionGVR() schema.GroupVersionResource {
 		Group:    emeventingv2alpha1.GroupVersion.Group,
 		Resource: "subscriptions",
 	}
-}
-
-func SubscriptionV1alpha1GVR() schema.GroupVersionResource {
-	return schema.GroupVersionResource{
-		Version:  emeventingv1alpha1.GroupVersion.Version,
-		Group:    emeventingv1alpha1.GroupVersion.Group,
-		Resource: "subscriptions",
-	}
-}
-
-// ConvertRuntimeObjToSubscriptionV1alpha1 converts a runtime.Object to a v1alpha1 version of Subscription object
-// by converting to unstructured in between.
-func ConvertRuntimeObjToSubscriptionV1alpha1(sObj runtime.Object) (*emeventingv1alpha1.Subscription, error) {
-	sub := &emeventingv1alpha1.Subscription{}
-	if subUnstructured, ok := sObj.(*unstructured.Unstructured); ok {
-		err := runtime.DefaultUnstructuredConverter.FromUnstructured(subUnstructured.Object, sub)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return sub, nil
 }
 
 // ConvertRuntimeObjToSubscription converts a runtime.Object to a Subscription object
@@ -128,64 +106,4 @@ func buildEvent(eventTypeAndVersion string) Event {
 		Name:    eventName,
 		Version: eventVersion,
 	}
-}
-
-// FilterEventTypeVersionsV1alpha1 returns a slice of Events for v1alpha1 version of Subscription resource:
-// 1. if the eventType matches the format: <eventTypePrefix><appName>.<event-name>.<version>
-// E.g. sap.kyma.custom.varkes.order.created.v0
-// 2. if the eventSource matches BEBNamespace name.
-func FilterEventTypeVersionsV1alpha1(eventTypePrefix, bebNs, appName string,
-	filters *emeventingv1alpha1.BEBFilters,
-) []Event {
-	events := make([]Event, 0)
-	if filters == nil {
-		return events
-	}
-	for _, filter := range filters.Filters {
-		if filter == nil {
-			continue
-		}
-
-		prefix := preparePrefix(eventTypePrefix, appName)
-
-		if filter.EventSource == nil || filter.EventType == nil {
-			continue
-		}
-
-		// IMPORTANT revisit the filtration logic as part of https://github.com/kyma-project/kyma/issues/10761
-
-		// filter by event-source if exists
-		if len(strings.TrimSpace(filter.EventSource.Value)) > 0 && !strings.EqualFold(filter.EventSource.Value, bebNs) {
-			continue
-		}
-
-		if !strings.HasPrefix(filter.EventType.Value, prefix) {
-			continue
-		}
-
-		// remove the prefix
-		eventTypeVersion := strings.TrimPrefix(filter.EventType.Value, prefix)
-
-		eventTypeVersionArr := strings.Split(eventTypeVersion, ".")
-
-		// join all segments except the last to form the eventType
-		eventType := strings.Join(eventTypeVersionArr[:len(eventTypeVersionArr)-1], ".")
-
-		// the last segment is the version
-		version := eventTypeVersionArr[len(eventTypeVersionArr)-1]
-
-		event := Event{
-			Name:    eventType,
-			Version: version,
-		}
-		events = append(events, event)
-	}
-	return events
-}
-
-func preparePrefix(eventTypePrefix string, appName string) string {
-	if len(strings.TrimSpace(eventTypePrefix)) == 0 {
-		return strings.ToLower(appName + ".")
-	}
-	return strings.ToLower(fmt.Sprintf("%s.%s.", eventTypePrefix, appName))
 }
