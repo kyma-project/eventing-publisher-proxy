@@ -4,7 +4,6 @@ import (
 	"reflect"
 	"testing"
 
-	emeventingv1alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha1"
 	emeventingv2alpha1 "github.com/kyma-project/eventing-manager/api/eventing/v1alpha2"
 )
 
@@ -151,86 +150,6 @@ func TestBuildEventType(t *testing.T) {
 	}
 }
 
-func TestFilterEventTypeVersionsV1alpha1(t *testing.T) {
-	t.Parallel()
-	testCases := []struct {
-		name            string
-		appName         string
-		eventTypePrefix string
-		bebNs           string
-		filters         *emeventingv1alpha1.BEBFilters
-		expectedEvents  []Event
-	}{
-		{
-			name:            "should return no events when nil filters are provided",
-			appName:         "fooapp",
-			eventTypePrefix: "foo.prefix",
-			bebNs:           "foo.bebns",
-			filters:         nil,
-			expectedEvents:  make([]Event, 0),
-		}, {
-			name:            "should return a slice of events when filters are provided",
-			appName:         "foovarkes",
-			eventTypePrefix: "foo.prefix.custom",
-			bebNs:           "/default/foo.kyma/kt1",
-			filters:         NewEventMeshFilters(WithOneEventMeshFilter),
-			expectedEvents: []Event{
-				NewEvent("order.created", "v1"),
-			},
-		}, {
-			name:            "should return multiple events in a slice when multiple filters are provided",
-			appName:         "foovarkes",
-			eventTypePrefix: "foo.prefix.custom",
-			bebNs:           "/default/foo.kyma/kt1",
-			filters:         NewEventMeshFilters(WithMultipleEventMeshFiltersFromSameSource),
-			expectedEvents: []Event{
-				NewEvent("order.created", "v1"),
-				NewEvent("order.created", "v1"),
-				NewEvent("order.created", "v1"),
-			},
-		}, {
-			name:            "should return no events when filters sources(bebNamespace) don't match",
-			appName:         "foovarkes",
-			eventTypePrefix: "foo.prefix.custom",
-			bebNs:           "foo-dont-match",
-			filters:         NewEventMeshFilters(WithMultipleEventMeshFiltersFromSameSource),
-			expectedEvents:  []Event{},
-		}, {
-			name:            "should return 2 events(out of multiple) which matches two sources (bebNamespace and empty)",
-			appName:         "foovarkes",
-			eventTypePrefix: "foo.prefix.custom",
-			bebNs:           "foo-match",
-			filters:         NewEventMeshFilters(WithMultipleEventMeshFiltersFromDiffSource),
-			expectedEvents: []Event{
-				NewEvent("order.created", "v1"),
-				NewEvent("order.created", "v1"),
-			},
-		}, {
-			name:            "should return 2 out 3 events in a slice when filters with different eventTypePrefix are provided",
-			appName:         "foovarkes",
-			eventTypePrefix: "foo.prefix.custom",
-			bebNs:           "/default/foo.kyma/kt1",
-			filters:         NewEventMeshFilters(WithMultipleEventMeshFiltersFromDiffEventTypePrefix),
-			expectedEvents: []Event{
-				NewEvent("order.created", "v1"),
-				NewEvent("order.created", "v1"),
-			},
-		},
-	}
-
-	for _, tc := range testCases {
-		tc := tc
-		t.Run(tc.name, func(t *testing.T) {
-			t.Parallel()
-
-			gotEvents := FilterEventTypeVersionsV1alpha1(tc.eventTypePrefix, tc.bebNs, tc.appName, tc.filters)
-			if !reflect.DeepEqual(tc.expectedEvents, gotEvents) {
-				t.Errorf("Received incorrect events, Wanted: %v, Got: %v", tc.expectedEvents, gotEvents)
-			}
-		})
-	}
-}
-
 func TestConvertEventsMapToSlice(t *testing.T) {
 	t.Parallel()
 	testCases := []struct {
@@ -337,73 +256,6 @@ func TestAddUniqueEventsToResult(t *testing.T) {
 				t.Errorf("incorrect unique events, wanted: %v, got: %v", tc.wantedUniqEvents, gotUniqEvents)
 			}
 		})
-	}
-}
-
-type EventMeshFilterOption func(filter *emeventingv1alpha1.BEBFilters)
-
-func NewEventMeshFilters(opts ...EventMeshFilterOption) *emeventingv1alpha1.BEBFilters {
-	newFilters := &emeventingv1alpha1.BEBFilters{}
-	for _, opt := range opts {
-		opt(newFilters)
-	}
-
-	return newFilters
-}
-
-func WithOneEventMeshFilter(filters *emeventingv1alpha1.BEBFilters) {
-	const evSource = "/default/foo.kyma/kt1"
-	const evType = "foo.prefix.custom.foovarkes.order.created.v1"
-	filters.Filters = []*emeventingv1alpha1.EventMeshFilter{
-		NewEventMeshFilter(evSource, evType),
-	}
-}
-
-func WithMultipleEventMeshFiltersFromSameSource(filters *emeventingv1alpha1.BEBFilters) {
-	const evSource = "/default/foo.kyma/kt1"
-	const evType = "foo.prefix.custom.foovarkes.order.created.v1"
-	filters.Filters = []*emeventingv1alpha1.EventMeshFilter{
-		NewEventMeshFilter(evSource, evType),
-		NewEventMeshFilter(evSource, evType),
-		NewEventMeshFilter(evSource, evType),
-	}
-}
-
-func WithMultipleEventMeshFiltersFromDiffSource(filters *emeventingv1alpha1.BEBFilters) {
-	evSource1 := "foo-match"
-	evSource2 := "/default/foo.different/kt1"
-	evSource3 := "/default/foo.different2/kt1"
-	evSource4 := ""
-	const evType = "foo.prefix.custom.foovarkes.order.created.v1"
-	filters.Filters = []*emeventingv1alpha1.EventMeshFilter{
-		NewEventMeshFilter(evSource1, evType),
-		NewEventMeshFilter(evSource2, evType),
-		NewEventMeshFilter(evSource3, evType),
-		NewEventMeshFilter(evSource4, evType),
-	}
-}
-
-func WithMultipleEventMeshFiltersFromDiffEventTypePrefix(filters *emeventingv1alpha1.BEBFilters) {
-	evSource := "/default/foo.kyma/kt1"
-	evType1 := "foo.prefix.custom.foovarkes.order.created.v1"
-	evType2 := "foo.prefixdifferent.custom.foovarkes.order.created.v1"
-	filters.Filters = []*emeventingv1alpha1.EventMeshFilter{
-		NewEventMeshFilter(evSource, evType1),
-		NewEventMeshFilter(evSource, evType2),
-		NewEventMeshFilter(evSource, evType1),
-	}
-}
-
-func NewEventMeshFilter(evSource, evType string) *emeventingv1alpha1.EventMeshFilter {
-	return &emeventingv1alpha1.EventMeshFilter{
-		EventSource: &emeventingv1alpha1.Filter{
-			Property: "source",
-			Value:    evSource,
-		},
-		EventType: &emeventingv1alpha1.Filter{
-			Property: "type",
-			Value:    evType,
-		},
 	}
 }
 
