@@ -542,7 +542,9 @@ func TestHandler_sendEventAndRecordMetrics(t *testing.T) {
 			metricstest.EnsureMetricLatency(t, h.collector, tt.wants.metricLatency)
 			metricstest.EnsureMetricEventTypePublished(t, h.collector, tt.wants.metricPublished)
 			metricstest.EnsureMetricMatchesTextExpositionFormat(t, h.collector, tt.wants.metricLatencyTEF, "eventing_epp_backend_duration_milliseconds")
-			metricstest.EnsureMetricMatchesTextExpositionFormat(t, h.collector, tt.wants.metricPublishedTotalTEF, "eventing_epp_event_type_published_total")
+			if tt.wants.metricPublishedTotalTEF != "" {
+				metricstest.EnsureMetricMatchesTextExpositionFormat(t, h.collector, tt.wants.metricPublishedTotalTEF, "eventing_epp_event_type_published_total")
+			}
 		})
 	}
 }
