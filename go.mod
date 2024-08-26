@@ -13,7 +13,7 @@ require (
 	github.com/nats-io/nats.go v1.36.0
 	github.com/onsi/gomega v1.34.1
 	github.com/pkg/errors v0.9.1
-	github.com/prometheus/client_golang v1.20.0
+	github.com/prometheus/client_golang v1.20.2
 	github.com/stretchr/testify v1.9.0
 	go.opencensus.io v0.24.0
 	go.uber.org/zap v1.27.0
