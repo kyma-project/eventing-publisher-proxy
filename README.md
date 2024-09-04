@@ -131,3 +131,15 @@ curl -v -X GET \
 | ----------------------- | ------------- |------------------------------------------------------------------------------------------- |
 | max-request-size        | 65536         | The maximum size of the request.                                                           |
 | metrics-addr            | :9090         | The address the metric endpoint binds to.                                                  |
+
+## Contributing
+
+See the [Contributing Rules](CONTRIBUTING.md).
+
+## Code of Conduct
+
+See the [Code of Conduct](CODE_OF_CONDUCT.md) document.
+
+## Licensing
+
+See the [license](./LICENSE) file.
