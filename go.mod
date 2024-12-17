@@ -11,7 +11,7 @@ require (
 	github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20240626075036-d374ec55c335
 	github.com/nats-io/nats-server/v2 v2.10.22
 	github.com/nats-io/nats.go v1.37.0
-	github.com/onsi/gomega v1.36.0
+	github.com/onsi/gomega v1.36.1
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.20.5
 	github.com/stretchr/testify v1.10.0
