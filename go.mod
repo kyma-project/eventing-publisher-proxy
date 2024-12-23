@@ -10,7 +10,7 @@ require (
 	github.com/kyma-project/eventing-manager v0.0.0-20240724082002-308bb0cf2a0c
 	github.com/kyma-project/kyma/components/central-application-gateway v0.0.0-20240626075036-d374ec55c335
 	github.com/nats-io/nats-server/v2 v2.10.22
-	github.com/nats-io/nats.go v1.37.0
+	github.com/nats-io/nats.go v1.38.0
 	github.com/onsi/gomega v1.36.1
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.20.5
@@ -54,7 +54,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/nats-io/jwt/v2 v2.5.8 // indirect
-	github.com/nats-io/nkeys v0.4.7 // indirect
+	github.com/nats-io/nkeys v0.4.9 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
