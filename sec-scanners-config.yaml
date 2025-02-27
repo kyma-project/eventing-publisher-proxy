@@ -1,10 +1,15 @@
 module-name: eventing-publisher-proxy
+kind: kyma
 rc-tag: 1.1.1
-protecode:
+bdba:
   - europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy:1.1.1
-whitesource:
+mend:
   language: golang-mod
-  subprojects: false
+  exclude:
+    - "**/test/**"
+    - "**/*_test.go"
+checkmarx-one:
+  preset: go-default
   exclude:
     - "**/test/**"
     - "**/*_test.go"
