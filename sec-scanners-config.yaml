@@ -1,6 +1,7 @@
 module-name: eventing-publisher-proxy
 kind: kyma
-rc-tag: 1.1.1
+# The rc-tag (release candidate tag) marks the tag of the image that needs to be scanned before it can be released.
+# Remove the rc-tag field after a successful release.
 bdba:
   - europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy:1.1.1
 mend:
