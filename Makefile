@@ -23,7 +23,7 @@ DIRS_TO_CHECK = go list ./... | grep -v "$(VERIFY_IGNORE)"
 # DIRS_TO_IGNORE is a command used to determine which directories should not be verified
 DIRS_TO_IGNORE = go list ./... | grep "$(VERIFY_IGNORE)"
 
-GOLANG_CI_LINT_VERSION ?= v1.57
+GOLANG_CI_LINT_VERSION ?= v2.1.6
 ##@ General
 
 # The help target prints out all targets with their descriptions organized
@@ -50,7 +50,7 @@ $(LOCALBIN):
 
 golangci_lint:
 	test -s $(LOCALBIN)/golangci-lint && $(LOCALBIN)/golangci-lint version | grep -q $(GOLANG_CI_LINT_VERSION) || \
-		GOBIN=$(LOCALBIN) go install github.com/golangci/golangci-lint/cmd/golangci-lint@$(GOLANG_CI_LINT_VERSION)
+		GOBIN=$(LOCALBIN) go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANG_CI_LINT_VERSION)
 
 lint: golangci_lint
 	$(LOCALBIN)/golangci-lint run --timeout=15m
