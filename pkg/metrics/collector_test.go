@@ -93,8 +93,7 @@ func ignoreErr(err error, metric string) error {
 		}
 		if strings.HasPrefix(strings.TrimSpace(line), "+") ||
 			strings.HasPrefix(strings.TrimSpace(line), "-") {
-			if !(strings.HasPrefix(strings.TrimSpace(line), "+"+metric) ||
-				strings.HasPrefix(strings.TrimSpace(line), "-"+metric)) {
+			if !strings.HasPrefix(strings.TrimSpace(line), "+"+metric) && !strings.HasPrefix(strings.TrimSpace(line), "-"+metric) {
 				return err
 			}
 		}
