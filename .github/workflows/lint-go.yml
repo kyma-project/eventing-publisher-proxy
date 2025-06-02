@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
       - "release-*"
-    paths-ignore: # TODO `paths-ignore` does not work with `pull_request`, only with `push`. 
+    paths-ignore:
       - 'docs/**'
       - '**.md'
       - 'sec-scanners-config.yaml'
