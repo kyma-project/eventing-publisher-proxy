@@ -1,6 +1,6 @@
 module github.com/kyma-project/eventing-publisher-proxy
 
-go 1.24.0
+go 1.24.4
 
 require (
 	github.com/cloudevents/sdk-go/v2 v2.16.0
