@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout EPP repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: main
 
       - name: Checkout EM repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: kyma-project/eventing-manager
           path: eventing-manager
@@ -65,7 +65,7 @@ jobs:
           kubectl get -n kyma-system deployment eventing-manager -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
 
       - name: Wait for build job - Checkout eventing-tools
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: 'kyma-project/eventing-tools'
           path: 'kyma-project/eventing-tools'
