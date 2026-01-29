@@ -4,7 +4,13 @@ run-name: Create Release ${{ github.ref_name }}
 env:
   IMAGE_REPO: europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: "Release version (e.g. v1.2.3)"
+        required: true
+        type: string
 
 jobs:
   verify-release:
@@ -29,11 +35,10 @@ jobs:
             exit 1
           fi
 
-      - name: Get the next release version
+      - name: Use release version from workflow input
         id: release-version
         run: |
-          RELEASE_VERSION=$(./scripts/get_next_release_version.sh "$current_branch")
-          echo "release_version=$RELEASE_VERSION" >> $GITHUB_OUTPUT
+          echo "release_version=${{ inputs.release_version }}" >> $GITHUB_OUTPUT
 
       - name: Check if tags in sec_scanners_config.yaml match the release version
         env:
@@ -53,7 +58,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GIT_BOT_TOKEN }} # creating git tag using bot token because GITHUB_TOKEN would not trigger build workflow (https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow).
+          token: ${{ secrets.GIT_BOT_TOKEN }}
 
       - name: Create changelog
         env:
@@ -62,7 +67,7 @@ jobs:
 
       - name: Add lightweight tag to trigger release EPP build job
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_BOT_TOKEN }} # creating git tag using bot token because GITHUB_TOKEN would not trigger build workflow (https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow).
+          GITHUB_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}
         run: |
           git tag $RELEASE_VERSION
           git push origin $RELEASE_VERSION
@@ -77,23 +82,22 @@ jobs:
 
   wait-for-build-job:
     name: Wait for prow jobs
-    needs: [ verify-release, create-draft ]
+    needs: [verify-release, create-draft]
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout eventing-tools
         uses: actions/checkout@v4
         with:
-          repository: 'kyma-project/eventing-tools'
-          path: 'kyma-project/eventing-tools'
+          repository: kyma-project/eventing-tools
+          path: kyma-project/eventing-tools
           ref: main
-          sparse-checkout: 'scripts/wait-for-commit-check'
+          sparse-checkout: scripts/wait-for-commit-check
 
       - name: Setup python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.10"
+          cache: pip
 
       - name: Install requirements
         run: |
