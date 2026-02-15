@@ -29,7 +29,7 @@ jobs:
           path: eventing-manager
 
       - name: Setup Go via go.mod
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: main/go.mod
 
