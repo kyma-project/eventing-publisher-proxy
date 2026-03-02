@@ -116,7 +116,7 @@ clean: ## Clean the vendor directory
 
 test: ## Run tests
 	mkdir -p /tmp/artifacts
-	go test -coverprofile=/tmp/artifacts/cover.out ./...
+	GOTOOLCHAIN=go1.26.0+auto go test -coverprofile=/tmp/artifacts/cover.out ./...
 	@echo -n "Total coverage: "
 	@go tool cover -func=/tmp/artifacts/cover.out | grep total | awk '{print $$3}'
 
