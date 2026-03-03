@@ -23,7 +23,7 @@ DIRS_TO_CHECK = go list ./... | grep -v "$(VERIFY_IGNORE)"
 # DIRS_TO_IGNORE is a command used to determine which directories should not be verified
 DIRS_TO_IGNORE = go list ./... | grep "$(VERIFY_IGNORE)"
 
-GOLANG_CI_LINT_VERSION ?= v2.1.6
+GOLANG_CI_LINT_VERSION ?= v2.9.0
 ##@ General
 
 # The help target prints out all targets with their descriptions organized
@@ -116,7 +116,7 @@ clean: ## Clean the vendor directory
 
 test: ## Run tests
 	mkdir -p /tmp/artifacts
-	go test -coverprofile=/tmp/artifacts/cover.out ./...
+	GOTOOLCHAIN=go1.26.0+auto go test -coverprofile=/tmp/artifacts/cover.out ./...
 	@echo -n "Total coverage: "
 	@go tool cover -func=/tmp/artifacts/cover.out | grep total | awk '{print $$3}'
 
@@ -124,7 +124,7 @@ test: ## Run tests
 
 .PHONY: build
 build: go-gen fmt vet ## Build publisher binary.
-	go build -o bin/publisher cmd/eventing-publisher-proxy/main.go
+	GOTOOLCHAIN=go1.26.0+auto go build -o bin/publisher cmd/eventing-publisher-proxy/main.go
 
 .PHONY: run
 run: go-gen fmt vet ## Run publisher from your host.
