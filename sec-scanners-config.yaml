@@ -1,6 +1,6 @@
 module-name: eventing-publisher-proxy
 kind: kyma
-rc-tag: 1.2.1
+rc-tag: 1.2.2
 bdba:
   - europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy:1.2.1
 mend:
