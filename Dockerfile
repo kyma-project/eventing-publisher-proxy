@@ -1,4 +1,4 @@
-FROM europe-docker.pkg.dev/kyma-project/prod/external/library/golang:1.26.2-alpine3.23 AS builder
+FROM europe-docker.pkg.dev/kyma-project/prod/builders/golang/gobuild:1.26.3.0-alpine3.23 AS builder
 
 ARG DOCK_PKG_DIR=/go/src/github.com/kyma-project/eventing-publisher-proxy
 
