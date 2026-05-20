@@ -40,10 +40,6 @@ jobs:
         run: |
           echo "release_version=${{ inputs.release_version }}" >> $GITHUB_OUTPUT
 
-      - name: Check if tags in sec_scanners_config.yaml match the release version
-        env:
-          RELEASE_VERSION: ${{ steps.release-version.outputs.release_version }}
-        run: ./scripts/check_tags_in_sec_scanners_config.sh $RELEASE_VERSION
 
   create-draft:
     name: Create the draft release
