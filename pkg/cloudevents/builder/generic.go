@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	ceevent "github.com/cloudevents/sdk-go/v2/event"
+	"github.com/kyma-project/eventing-publisher-proxy/internal/sanitize"
 	"github.com/kyma-project/eventing-publisher-proxy/pkg/application"
 	"go.uber.org/zap"
 
@@ -39,8 +40,8 @@ func (gb *GenericBuilder) isApplicationListerEnabled() bool {
 }
 
 func (gb *GenericBuilder) Build(event ceevent.Event) (*ceevent.Event, error) {
-	// format logger
-	namedLogger := gb.namedLogger(event.Source(), event.Type())
+	// format logger — sanitize user-controlled values before logging (CWE-117)
+	namedLogger := gb.namedLogger(sanitize.LogValue(event.Source()), sanitize.LogValue(event.Type()))
 
 	// clean the source
 	cleanSource, err := gb.cleaner.CleanSource(gb.GetAppNameOrSource(event.Source(), namedLogger))
@@ -62,7 +63,7 @@ func (gb *GenericBuilder) Build(event ceevent.Event) (*ceevent.Event, error) {
 	if DoesEmptySegmentsExist(segments) {
 		return nil, fmt.Errorf("%w: %s", ErrEventTypeCannotHaveEmptySegments, finalEventType)
 	}
-	namedLogger.Debugf("using event type: %s", finalEventType)
+	namedLogger.Debugf("using event type: %s", sanitize.LogValue(finalEventType))
 
 	ceEvent := event.Clone()
 	// set original type header
@@ -88,10 +89,10 @@ func (gb *GenericBuilder) GetAppNameOrSource(source string, namedLogger *zap.Sug
 	if gb.isApplicationListerEnabled() {
 		if appObj, err := gb.applicationLister.Get(source); err == nil && appObj != nil {
 			appName = application.GetTypeOrName(appObj)
-			namedLogger.With("application", source).Debug("Using application name: %s as source.",
+			namedLogger.With("application", sanitize.LogValue(source)).Debug("Using application name: %s as source.",
 				appName)
 		} else {
-			namedLogger.With("application", source).Debug("Cannot find application.")
+			namedLogger.With("application", sanitize.LogValue(source)).Debug("Cannot find application.")
 		}
 	}
 
