@@ -1,0 +1,4 @@
+name: kyma-project.io/module/eventing-publisher-proxy
+team: kyma/phoenix
+images:
+  - europe-docker.pkg.dev/kyma-project/prod/eventing-publisher-proxy:main
