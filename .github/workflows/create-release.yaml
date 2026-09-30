@@ -45,16 +45,25 @@ jobs:
     name: Create the draft release
     needs: verify-release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     env:
       RELEASE_VERSION: ${{ needs.verify-release.outputs.release_version }}
     outputs:
       release_id: ${{ steps.create-draft.outputs.release_id }}
     steps:
+      - name: Generate GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.EPP_RELEASE_APP_ID }}
+          private-key: ${{ secrets.EPP_RELEASE_APP_PRIVATE_KEY }}
+
       - name: Checkout EPP repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GIT_BOT_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Create changelog
         env:
@@ -63,7 +72,7 @@ jobs:
 
       - name: Add lightweight tag to trigger release EPP build job
         env:
-          GITHUB_TOKEN: ${{ secrets.GIT_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           git tag $RELEASE_VERSION
           git push origin $RELEASE_VERSION
