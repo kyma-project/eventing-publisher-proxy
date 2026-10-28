@@ -20,7 +20,7 @@ jobs:
       release_version: ${{ steps.release-version.outputs.release_version }}
     steps:
       - name: Checkout EPP repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -60,7 +60,7 @@ jobs:
           private-key: ${{ secrets.EPP_RELEASE_APP_PRIVATE_KEY }}
 
       - name: Checkout EPP repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout eventing-tools
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: 'kyma-project/eventing-tools'
           path: 'kyma-project/eventing-tools'
@@ -126,7 +126,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
