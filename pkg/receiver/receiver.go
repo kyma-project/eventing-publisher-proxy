@@ -65,7 +65,9 @@ func (r *HTTPMessageReceiver) StartListen(ctx context.Context, handler http.Hand
 		ctx, cancel := context.WithTimeout(context.Background(), defaultShutdownTimeout)
 		defer cancel()
 		err := r.server.Shutdown(ctx)
-		<-errChan // Wait for server goroutine to exit
+		if serveErr := <-errChan; serveErr != nil { // wait for server goroutine to exit
+			logger.WithContext().Error(serveErr)
+		}
 		return err
 	case err := <-errChan:
 		return err
